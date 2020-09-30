@@ -1,8 +1,5 @@
 import click
 
-from .functions import workspaceFromJSON
-
-
 @click.group()
 @click.option('--debug/--no-debug', help="Enable debug mode",default=False)
 @click.pass_context
@@ -15,7 +12,7 @@ def cli(ctx, debug):
 @click.option('--output-file','-o', help="Name of output JSON likelihood file")
 @click.pass_context
 def convert(ctx, input_file, output_file):
-    fullLH = workspaceFromJSON(input_file)
+    # fullLH = workspaceFromJSON(input_file)
 
     click.echo('Debug is %s' % (ctx.obj['DEBUG'] and 'on' or 'off'))
 
