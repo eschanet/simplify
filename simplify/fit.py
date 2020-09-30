@@ -71,7 +71,28 @@ def _fit_model_pyhf(model: pyhf.pdf.Model, data: List[float]) -> FitResults:
     fit_result = FitResults(bestfit, uncertainty, labels, corr_mat, best_twice_nll)
     return fit_result
 
+
 @overload
+def fit(spec: Tuple[pyhf.pdf.Model, List[float]], asimov: bool = False) -> FitResults:
+    """Performs a  maximum likelihood fit, reports and returns the results.
+    The asimov flag allows to fit the Asimov dataset instead of observed
+    data.
+
+    Parameters
+    ----------
+    spec : Tuple[pyhf.pdf.Model, List[float]]
+        Tuple containing model to fit and data to fit model to.
+    asimov : bool
+        boolean that determines if the fit is done to asimov data or not. Defaults to fals.
+
+    Returns
+    -------
+    FitResults
+        Object containing fit results.
+    """
+    pass
+
+
 def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
     """Performs a  maximum likelihood fit, reports and returns the results.
     The asimov flag allows to fit the Asimov dataset instead of observed
@@ -89,35 +110,15 @@ def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
     FitResults
         Object containing fit results.
     """
+
     log.info("performing maximum likelihood fit")
 
-    model, data = model_utils.model_and_data(spec, asimov=asimov)
-
-    fit_result = _fit_model_pyhf(model, data)
-
-    print_results(fit_result)
-    log.debug(f"-2 log(L) = {fit_result.best_twice_nll:.6f} at the best-fit point")
-
-    return fit_result
-
-@overload
-def fit((model,data): Tuple[pyhf.pdf.Model, List[float]]:, asimov: bool = False) -> FitResults:
-    """Performs a  maximum likelihood fit, reports and returns the results.
-    The asimov flag allows to fit the Asimov dataset instead of observed
-    data.
-
-    Parameters
-    ----------
-    (model,data) : Tuple[pyhf.pdf.Model, List[float]]
-        Tuple containing model to fit and data to fit model to.
-    asimov : bool
-        boolean that determines if the fit is done to asimov data or not. Defaults to fals.
-
-    Returns
-    -------
-    FitResults
-        Object containing fit results.
-    """
+    if isinstance(spec, dict):
+        model, data = model_utils.model_and_data(spec, asimov=asimov)
+    elif isinstance(spec, tuple):
+        (model, data) = spec
+    else:
+        raise ValueError('You must pass either int or str')
 
     fit_result = _fit_model_pyhf(model, data)
 
