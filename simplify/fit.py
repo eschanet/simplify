@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, NamedTuple, Optional, Tuple
+from typing import Any, Dict, List, NamedTuple, Optional, Tuple, overload
 
 import iminuit
 import numpy as np
@@ -13,9 +13,7 @@ log = logger.getChild(__name__)
 
 
 class FitResults(NamedTuple):
-    """
-    Collects fit results in a single object.
-    """
+    """Collects fit results in a single object."""
 
     bestfit: np.ndarray
     uncertainty: np.ndarray
@@ -27,8 +25,12 @@ class FitResults(NamedTuple):
 def print_results(
     fit_result: FitResults,
 ) -> None:
-    """
-    Prints best-fit parameter results and uncertainties.
+    """Prints best-fit parameter results and uncertainties.
+
+    Parameters
+    ----------
+    fit_result : FitResults
+        Results of the fit to be printed.
     """
     max_label_length = max([len(label) for label in fit_result.labels])
     for i, label in enumerate(fit_result.labels):
@@ -39,8 +41,20 @@ def print_results(
 
 
 def _fit_model_pyhf(model: pyhf.pdf.Model, data: List[float]) -> FitResults:
-    """
-    Uses pyhf.infer API to perform a maximum likelihood fit.
+    """Uses pyhf.infer API to perform a maximum likelihood fit.
+
+    Parameters
+    ----------
+    model : pyhf.pdf.Model
+        Model to be used in the fit.
+    data : List[float]
+        Data to fit the model to.
+
+    Returns
+    -------
+    FitResults
+        Results of the fit.
+
     """
     pyhf.set_backend("numpy", pyhf.optimize.minuit_optimizer(verbose=True))
 
@@ -57,16 +71,53 @@ def _fit_model_pyhf(model: pyhf.pdf.Model, data: List[float]) -> FitResults:
     fit_result = FitResults(bestfit, uncertainty, labels, corr_mat, best_twice_nll)
     return fit_result
 
-
+@overload
 def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
-    """
-    Performs a  maximum likelihood fit, reports and returns the results.
+    """Performs a  maximum likelihood fit, reports and returns the results.
     The asimov flag allows to fit the Asimov dataset instead of observed
     data.
+
+    Parameters
+    ----------
+    spec : Dict[str, Any]
+        JSON spec readable by `pyhf`.
+    asimov : bool
+        boolean that determines if the fit is done to asimov data or not. Defaults to fals.
+
+    Returns
+    -------
+    FitResults
+        Object containing fit results.
     """
     log.info("performing maximum likelihood fit")
 
     model, data = model_utils.model_and_data(spec, asimov=asimov)
+
+    fit_result = _fit_model_pyhf(model, data)
+
+    print_results(fit_result)
+    log.debug(f"-2 log(L) = {fit_result.best_twice_nll:.6f} at the best-fit point")
+
+    return fit_result
+
+@overload
+def fit((model,data): Tuple[pyhf.pdf.Model, List[float]]:, asimov: bool = False) -> FitResults:
+    """Performs a  maximum likelihood fit, reports and returns the results.
+    The asimov flag allows to fit the Asimov dataset instead of observed
+    data.
+
+    Parameters
+    ----------
+    (model,data) : Tuple[pyhf.pdf.Model, List[float]]
+        Tuple containing model to fit and data to fit model to.
+    asimov : bool
+        boolean that determines if the fit is done to asimov data or not. Defaults to fals.
+
+    Returns
+    -------
+    FitResults
+        Object containing fit results.
+    """
 
     fit_result = _fit_model_pyhf(model, data)
 
