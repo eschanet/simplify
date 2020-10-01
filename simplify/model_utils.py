@@ -1,9 +1,11 @@
 import pyhf
 import numpy as np
 
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Optional
 
 import awkward1 as ak
+
+from . import fitter
 
 import logging
 from . import logger

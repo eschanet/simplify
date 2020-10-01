@@ -25,7 +25,7 @@ cfg = simplify.configuration.load("test/EwkOneLeptonTwoBjets2018/config.yml")
 model, data = simplify.model_utils.model_and_data(spec)
 
 # %%
-fit_result = simplify.fit.fit((model,data))
+fit_result = simplify.fitter.fit((model,data))
 
 # %%
 # Correlation matrix
@@ -40,3 +40,6 @@ stdevs = simplify.model_utils.calculate_stdev(model,fit_result.bestfit,fit_resul
 
 # %%
 plt = simplify.plot.data_MC(cfg,"test/figures/",spec,fit_result)
+
+# %%
+(yields, uncertainties) = simplify.validation.get_yields_and_uncertainties(cfg, spec,fit_result)

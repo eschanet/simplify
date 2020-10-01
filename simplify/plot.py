@@ -9,7 +9,8 @@ import pyhf
 
 from . import model_utils
 from . import configuration
-from . import fit
+from . import fitter
+from . import validation
 
 from .helpers import plotting
 
@@ -37,7 +38,7 @@ def data_MC(
     config: Dict[str, Any],
     figure_folder: Union[str, pathlib.Path],
     spec: Dict[str, Any],
-    fit_results: Optional[fit.FitResults] = None,
+    fit_results: Optional[fitter.FitResults] = None,
     log_scale: Optional[bool] = None,
 ) -> None:
     """Draws before and after fit data/MC plots from pyhf workspace.
@@ -50,44 +51,14 @@ def data_MC(
         workspace spec in pyhf format.
     figure_folder : Union[str, pathlib.Path]
         Directory where to save the figures.
-    fit_results : Optional[fit.FitResults]
+    fit_results : Optional[fitter.FitResults]
         Fit results including best-fit params and uncertainties as well as correlation matrix. Defaults to None, in which case before fit is plotted.
     log_scale : Optional[bool]
         Use log scale for y-axis. Defaults to None, in which case it automatically determines what to use.
     """
 
     model, data_combined = model_utils.model_and_data(spec, with_aux=False)
-
-    if fit_results is not None:
-        # fit results specified, draw a post-fit plot with them applied
-        prefit = False
-        param_values = fit_results.bestfit
-        param_uncertainty = fit_results.uncertainty
-        corr_mat = fit_results.corr_mat
-
-    # else:
-    #     # no fit results specified, draw a pre-fit plot
-    #     prefit = True
-    #     # use pre-fit parameter values, uncertainties, and diagonal correlation matrix
-    #     param_values = model_utils.get_asimov_parameters(model)
-    #     param_uncertainty = model_utils.get_prefit_uncertainties(model)
-    #     corr_mat = np.zeros(shape=(len(param_values), len(param_values)))
-    #     np.fill_diagonal(corr_mat, 1.0)
-
-    yields_combined = model.main_model.expected_data(
-        param_values, return_by_sample=True
-    )  # all channels concatenated
-
-    # slice the yields into an array where the first index is the channel,
-    # and the second index is the sample
-    region_split_indices = model_utils._get_channel_boundary_indices(model)
-    model_yields = np.split(yields_combined, region_split_indices, axis=1)
-    data = np.split(data_combined, region_split_indices)  # data just indexed by channel
-
-    # calculate the total standard deviation of the model prediction, index: channel
-    total_stdev_model = model_utils.calculate_stdev(
-        model, param_values, param_uncertainty, corr_mat
-    )
+    (data, model_yields, total_stdev_model) validation._get_data_yield_uncertainties(config, spec, fit)
 
     for i_chan, channel_name in enumerate(
         model.config.channels
@@ -139,7 +110,7 @@ def data_MC(
 
 
 def correlation_matrix(
-    fit_results: fit.FitResults,
+    fit_results: fitter.FitResults,
     output_path: Union[str, pathlib.Path],
     pruning_threshold: float = 0.0,
 ) -> None:
@@ -147,7 +118,7 @@ def correlation_matrix(
 
     Parameters
     ----------
-    fit_results : fit.FitResults
+    fit_results : fitter.FitResults
         Fit results with correlation matrix and param labels.
     output_path : Union[str, pathlib.Path]
         Directoy where figures are saved.
@@ -180,7 +151,7 @@ def correlation_matrix(
 
 
 def pulls(
-    fit_results: fit.FitResults,
+    fit_results: fitter.FitResults,
     output_path: Union[str, pathlib.Path],
     exclude_list: Optional[List[str]] = None,
 ) -> None:
@@ -188,7 +159,7 @@ def pulls(
 
     Parameters
     ----------
-    fit_results : fit.FitResults
+    fit_results : fitter.FitResults
         Fit results with correlation matrix and parameter labels.
     output_path : Union[str, pathlib.Path]
         Output path where figures should be saved.
