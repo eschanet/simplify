@@ -8,117 +8,134 @@ import numpy as np
 import pyhf
 
 from . import model_utils
+from . import configuration
 from . import fit
 
 from .helpers import plotting
 
 log = logging.getLogger(__name__)
 
-# def data_MC(
-#     config: Dict[str, Any],
-#     figure_folder: Union[str, pathlib.Path],
-#     spec: Dict[str, Any],
-#     fit_results: Optional[fit.FitResults] = None,
-#     log_scale: Optional[bool] = None,
-#     method: str = "matplotlib",
-# ) -> None:
-#     """Draws pre- and post-fit data/MC histograms from a ``pyhf`` workspace.
-#     Args:
-#         config (Dict[str, Any]): cabinetry configuration
-#         figure_folder (Union[str, pathlib.Path]): path to the folder to save figures in
-#         spec (Dict[str, Any]): ``pyhf`` workspace specification
-#         fit_results (Optional[fit.FitResults]): parameter configuration to use for plot,
-#             includes best-fit settings and uncertainties, as well as correlation matrix,
-#             defaults to None (then the pre-fit configuration is drawn)
-#         log_scale (Optional[bool], optional): whether to use logarithmic vertical axis,
-#             defaults to None (automatically determine whether to use linear/log scale)
-#         method (str, optional): backend to use for plotting, defaults to "matplotlib"
-#     Raises:
-#         NotImplementedError: when trying to plot with a method that is not supported
-#     """
-#     model, data_combined = model_utils.model_and_data(spec, with_aux=False)
-#
-#     if fit_results is not None:
-#         # fit results specified, draw a post-fit plot with them applied
-#         prefit = False
-#         param_values = fit_results.bestfit
-#         param_uncertainty = fit_results.uncertainty
-#         corr_mat = fit_results.corr_mat
-#
-#     else:
-#         # no fit results specified, draw a pre-fit plot
-#         prefit = True
-#         # use pre-fit parameter values, uncertainties, and diagonal correlation matrix
-#         param_values = model_utils.get_asimov_parameters(model)
-#         param_uncertainty = model_utils.get_prefit_uncertainties(model)
-#         corr_mat = np.zeros(shape=(len(param_values), len(param_values)))
-#         np.fill_diagonal(corr_mat, 1.0)
-#
-#     yields_combined = model.main_model.expected_data(
-#         param_values, return_by_sample=True
-#     )  # all channels concatenated
-#
-#     # slice the yields into an array where the first index is the channel,
-#     # and the second index is the sample
-#     region_split_indices = model_utils._get_channel_boundary_indices(model)
-#     model_yields = np.split(yields_combined, region_split_indices, axis=1)
-#     data = np.split(data_combined, region_split_indices)  # data just indexed by channel
-#
-#     # calculate the total standard deviation of the model prediction, index: channel
-#     total_stdev_model = model_utils.calculate_stdev(
-#         model, param_values, param_uncertainty, corr_mat
-#     )
-#
-#     for i_chan, channel_name in enumerate(
-#         model.config.channels
-#     ):  # process channel by channel
-#         histogram_dict_list = []  # one dict per region/channel
-#
-#         # get the region dictionary from the config for binning / variable name
-#         region_dict = configuration.get_region_dict(config, channel_name)
-#         bin_edges = template_builder._get_binning(region_dict)
-#         variable = region_dict["Variable"]
-#
-#         for i_sam, sample_name in enumerate(model.config.samples):
-#             histogram_dict_list.append(
-#                 {
-#                     "label": sample_name,
-#                     "isData": False,
-#                     "yields": model_yields[i_chan][i_sam],
-#                     "variable": variable,
-#                 }
-#             )
-#
-#         # add data sample
-#         histogram_dict_list.append(
-#             {
-#                 "label": "Data",
-#                 "isData": True,
-#                 "yields": data[i_chan],
-#                 "variable": variable,
-#             }
-#         )
-#
-#         if method == "matplotlib":
-#             from .contrib import matplotlib_visualize
-#
-#             if prefit:
-#                 figure_path = pathlib.Path(figure_folder) / _build_figure_name(
-#                     channel_name, True
-#                 )
-#             else:
-#                 figure_path = pathlib.Path(figure_folder) / _build_figure_name(
-#                     channel_name, False
-#                 )
-#             matplotlib_visualize.data_MC(
-#                 histogram_dict_list,
-#                 np.asarray(total_stdev_model[i_chan]),
-#                 bin_edges,
-#                 figure_path,
-#                 log_scale=log_scale,
-#             )
-#         else:
-#             raise NotImplementedError(f"unknown backend: {method}")
+def _build_figure_name(region_name: str, is_prefit: bool) -> str:
+    """Constructs a file name for a figure."""
+    figure_name = region_name.replace(" ", "-")
+    if is_prefit:
+        figure_name += "_" + "prefit"
+    else:
+        figure_name += "_" + "postfit"
+    figure_name += ".pdf"
+    return figure_name
+
+
+def _get_binning(region: Dict[str, Any]) -> np.ndarray:
+    """Returns the binning to be used in a region."""
+    if not region.get("Binning", False):
+        raise NotImplementedError("cannot determine binning")
+
+    return np.asarray(region["Binning"])
+
+def data_MC(
+    config: Dict[str, Any],
+    figure_folder: Union[str, pathlib.Path],
+    spec: Dict[str, Any],
+    fit_results: Optional[fit.FitResults] = None,
+    log_scale: Optional[bool] = None,
+) -> None:
+    """Draws before and after fit data/MC plots from pyhf workspace.
+
+    Parameters
+    ----------
+    config : Dict[str, Any]
+        configuration for the regions
+    spec : Dict[str, Any]
+        workspace spec in pyhf format.
+    figure_folder : Union[str, pathlib.Path]
+        Directory where to save the figures.
+    fit_results : Optional[fit.FitResults]
+        Fit results including best-fit params and uncertainties as well as correlation matrix. Defaults to None, in which case before fit is plotted.
+    log_scale : Optional[bool]
+        Use log scale for y-axis. Defaults to None, in which case it automatically determines what to use.
+    """
+
+    model, data_combined = model_utils.model_and_data(spec, with_aux=False)
+
+    if fit_results is not None:
+        # fit results specified, draw a post-fit plot with them applied
+        prefit = False
+        param_values = fit_results.bestfit
+        param_uncertainty = fit_results.uncertainty
+        corr_mat = fit_results.corr_mat
+
+    # else:
+    #     # no fit results specified, draw a pre-fit plot
+    #     prefit = True
+    #     # use pre-fit parameter values, uncertainties, and diagonal correlation matrix
+    #     param_values = model_utils.get_asimov_parameters(model)
+    #     param_uncertainty = model_utils.get_prefit_uncertainties(model)
+    #     corr_mat = np.zeros(shape=(len(param_values), len(param_values)))
+    #     np.fill_diagonal(corr_mat, 1.0)
+
+    yields_combined = model.main_model.expected_data(
+        param_values, return_by_sample=True
+    )  # all channels concatenated
+
+    # slice the yields into an array where the first index is the channel,
+    # and the second index is the sample
+    region_split_indices = model_utils._get_channel_boundary_indices(model)
+    model_yields = np.split(yields_combined, region_split_indices, axis=1)
+    data = np.split(data_combined, region_split_indices)  # data just indexed by channel
+
+    # calculate the total standard deviation of the model prediction, index: channel
+    total_stdev_model = model_utils.calculate_stdev(
+        model, param_values, param_uncertainty, corr_mat
+    )
+
+    for i_chan, channel_name in enumerate(
+        model.config.channels
+    ):  # process channel by channel
+        histogram_dict_list = []  # one dict per region/channel
+
+        # get the region dictionary from the config for binning / variable name
+        region_dict = configuration.get_region_dict(config, channel_name)
+        bin_edges = _get_binning(region_dict)
+        variable = region_dict["Variable"]
+
+        for i_sam, sample_name in enumerate(model.config.samples):
+            histogram_dict_list.append(
+                {
+                    "label": sample_name,
+                    "isData": False,
+                    "yields": model_yields[i_chan][i_sam],
+                    "variable": variable,
+                }
+            )
+
+        # add data sample
+        histogram_dict_list.append(
+            {
+                "label": "Data",
+                "isData": True,
+                "yields": data[i_chan],
+                "variable": variable,
+            }
+        )
+
+        from .helpers import plotting
+
+        if prefit:
+            figure_path = pathlib.Path(figure_folder) / _build_figure_name(
+                channel_name, True
+            )
+        else:
+            figure_path = pathlib.Path(figure_folder) / _build_figure_name(
+                channel_name, False
+            )
+        plotting.data_MC(
+            histogram_dict_list,
+            np.asarray(total_stdev_model[i_chan]),
+            bin_edges,
+            figure_path,
+            log_scale=log_scale,
+        )
 
 
 def correlation_matrix(

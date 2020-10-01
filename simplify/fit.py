@@ -17,15 +17,11 @@ class FitResults(NamedTuple):
 
     bestfit: np.ndarray
     uncertainty: np.ndarray
-    labels: List[str]
-    types: List[str]
+    labels: np.array
+    types: np.array
     corr_mat: np.ndarray
     best_twice_nll: float
 
-    def sort(self):
-        _order = np.argsort(self.labels)
-        self.labels = self.labels[_order]
-        self.types = types[_order]
 
 def print_results(
     fit_result: FitResults,
@@ -69,10 +65,18 @@ def _fit_model_pyhf(model: pyhf.pdf.Model, data: List[float]) -> FitResults:
 
     bestfit = result[:, 0]
     uncertainty = result[:, 1]
-    labels = model_utils.get_parameter_names(model)
-    types = model_utils.get_parameter_types(model)
+    labels = np.asarray(model_utils.get_parameter_names(model))
+    types = np.asarray(model_utils.get_parameter_types(model))
     corr_mat = result_obj.minuit.np_matrix(correlation=True, skip_fixed=False)
     best_twice_nll = float(result_obj.fun)
+
+    # ordering things
+    # _order = np.argsort(labels)
+    # bestfit = bestfit[_order]
+    # uncertainty = uncertainty[_order]
+    # labels = labels[_order]
+    # types = types[_order]
+    # # corr_mat = corr_mat[_order]
 
     fit_result = FitResults(bestfit, uncertainty, labels, types, corr_mat, best_twice_nll)
     return fit_result
@@ -128,7 +132,7 @@ def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
 
     fit_result = _fit_model_pyhf(model, data)
 
-    print_results(fit_result)
+    log.debug(print_results(fit_result))
     log.debug(f"-2 log(L) = {fit_result.best_twice_nll:.6f} at the best-fit point")
 
     return fit_result
