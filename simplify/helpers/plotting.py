@@ -252,8 +252,8 @@ def pulls(
     fig, ax = plt.subplots(figsize=(6, 1 + num_pars / 4), dpi=100)
     ax.errorbar(bestfit, y_positions, xerr=uncertainty, fmt="o", color="black")
 
-    ax.fill_between([-2, 2], -0.5, len(bestfit) - 0.5, color="yellow")
-    ax.fill_between([-1, 1], -0.5, len(bestfit) - 0.5, color="limegreen")
+    ax.fill_between([-2, 2], -0.5, len(bestfit) - 0.5, color="yellow", alpha=0.8)
+    ax.fill_between([-1, 1], -0.5, len(bestfit) - 0.5, color="limegreen", alpha=0.8)
     ax.vlines(0, -0.5, len(bestfit) - 0.5, linestyles="dotted", color="black")
 
     ax.set_xlim([-3, 3])

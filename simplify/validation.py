@@ -1,7 +1,7 @@
 import pyhf
 import numpy as np
 
-from typing import Any, Dict, List, Tuple, Optional
+from typing import Any, Dict, List, Tuple, Optional, NamedTuple
 
 import awkward1 as ak
 
@@ -12,6 +12,13 @@ import logging
 from . import logger
 log = logging.getLogger(__name__)
 
+class Yields(NamedTuple):
+    """Collects yields in a single object"""
+
+    regions: List[str]
+    yields: Dict[str, np.array]
+    uncertainties: Dict[str, np.ndarray]
+    data: Dict[str, np.array]
 
 
 def _get_data_yield_uncertainties(
@@ -61,41 +68,21 @@ def _get_data_yield_uncertainties(
     # Need to slice the yields into an array where first index is the channel and second index is the sample
     region_split_indices = model_utils._get_channel_boundary_indices(model)
     model_yields = np.split(yields_combined, region_split_indices, axis=1)
-    data = np.split(data_combined, region_split_indices)  # data just indexed by channel
+    data_vals = np.split(data_combined, region_split_indices)  # data just indexed by channel
 
     # calculate the total standard deviation of the model prediction, index: channel
     total_stdev_model = model_utils.calculate_stdev(
         model, param_values, param_uncertainty, corr_mat
     )
 
-    return (data, model_yields, total_stdev_model)
+    yields = {channel : model_yields[i_yields] for i_yields, channel in enumerate(model.config.channels)}
+    uncertainties = {channel : total_stdev_model[i_unc] for i_unc, channel in enumerate(model.config.channels)}
+    data = {channel : data_vals[i_data] for i_data, channel in enumerate(model.config.channels)}
+
+    return Yields(model.config.channels, yields, uncertainties, data)
 
 
-def get_data(
-    config: Dict[str, Any],
-    spec: Dict[str, Any],
-    fit_results: Optional[fitter.FitResults] = None,
-) -> List[np.ndarray]:
-    """Gets data.
-
-    Parameters
-    ----------
-    config : Dict[str, Any]
-        Config file holding the regions.
-    spec : Dict[str, Any]
-        pyhf JSON spec.
-    fit_results : Optional[fitter.FitResults]
-        Fit results holding parameters and best-fit values.
-
-    Returns
-    -------
-    List[np.ndarray]
-        Data for all channels.
-
-    """
-    return _get_data_yield_uncertainties(config, spec, fit_results)[0]
-
-def get_yields_and_uncertainties(
+def get_yields(
     config: Dict[str, Any],
     spec: Dict[str, Any],
     fit_results: Optional[fitter.FitResults] = None,
@@ -118,5 +105,4 @@ def get_yields_and_uncertainties(
 
     """
 
-    (data, yields, uncertainties) = _get_data_yield_uncertainties(config, spec, fit_results)
-    return (yields, uncertainties)
+    return _get_data_yield_uncertainties(config, spec, fit_results)

@@ -58,7 +58,12 @@ def data_MC(
     """
 
     model, data_combined = model_utils.model_and_data(spec, with_aux=False)
-    (data, model_yields, total_stdev_model) validation._get_data_yield_uncertainties(config, spec, fit)
+    yields = validation._get_data_yield_uncertainties(config, spec, fit_results)
+
+    if fit_results is not None:
+        prefit = False
+    else:
+        prefit = True
 
     for i_chan, channel_name in enumerate(
         model.config.channels
@@ -75,7 +80,7 @@ def data_MC(
                 {
                     "label": sample_name,
                     "isData": False,
-                    "yields": model_yields[i_chan][i_sam],
+                    "yields": yields.yields[channel_name][i_sam],
                     "variable": variable,
                 }
             )
@@ -85,7 +90,7 @@ def data_MC(
             {
                 "label": "Data",
                 "isData": True,
-                "yields": data[i_chan],
+                "yields": yields.data[channel_name],
                 "variable": variable,
             }
         )
@@ -102,7 +107,7 @@ def data_MC(
             )
         plotting.data_MC(
             histogram_dict_list,
-            np.asarray(total_stdev_model[i_chan]),
+            np.asarray(yields.uncertainties[channel_name]),
             bin_edges,
             figure_path,
             log_scale=log_scale,

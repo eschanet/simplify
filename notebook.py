@@ -39,16 +39,15 @@ plt = simplify.plot.pulls(fit_result,"test/figures/")
 stdevs = simplify.model_utils.calculate_stdev(model,fit_result.bestfit,fit_result.uncertainty,fit_result.corr_mat)
 
 # %%
-plt = simplify.plot.data_MC(cfg,"test/figures/",spec,fit_result)
+# plt = siplify.plot.data_MC(cfg,"test/figures/",spec,fit_result)
 
 # %%
-(yields, uncertainties) = simplify.validation.get_yields_and_uncertainties(cfg, spec, fit_result)
-data_yields = simplify.validation.get_data(cfg, spec, fit_result)
+yields = simplify.validation.get_yields(cfg, spec, fit_result)
+
+yields
 
 # %%
+newspec = simplify.simplified.get_simplified_spec(spec,yields, allowed_modifiers=["lumi"], prune_channels=[])
 
-for i_chan, channel_name in enumerate(model.config.channels):
-    # process channel by channel
 
-    print("MC: {} +- {}".format(sum(yields[i_chan]), uncertainties[i_chan]))
-    print("Data: {}".format(data_yields[i_chan]))
+newspec
