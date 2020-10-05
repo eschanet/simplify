@@ -22,7 +22,6 @@ class Yields(NamedTuple):
 
 
 def _get_data_yield_uncertainties(
-    config: Dict[str, Any],
     spec: Dict[str, Any],
     fit_results: Optional[fitter.FitResults] = None,
 ) -> Tuple[List[np.ndarray], List[np.ndarray], ak.highlevel.Array]:
@@ -30,8 +29,6 @@ def _get_data_yield_uncertainties(
 
     Parameters
     ----------
-    config : Dict[str, Any]
-        Config file holding the regions.
     spec : Dict[str, Any]
         pyhf JSON spec.
     fit_results : Optional[fitter.FitResults]
@@ -83,7 +80,6 @@ def _get_data_yield_uncertainties(
 
 
 def get_yields(
-    config: Dict[str, Any],
     spec: Dict[str, Any],
     fit_results: Optional[fitter.FitResults] = None,
 ) -> Tuple[List[np.ndarray], ak.highlevel.Array]:
@@ -91,8 +87,6 @@ def get_yields(
 
     Parameters
     ----------
-    config : Dict[str, Any]
-        Config file holding the regions.
     spec : Dict[str, Any]
         pyhf JSON spec.
     fit_results : Optional[fitter.FitResults]
@@ -105,4 +99,4 @@ def get_yields(
 
     """
 
-    return _get_data_yield_uncertainties(config, spec, fit_results)
+    return _get_data_yield_uncertainties(spec, fit_results)
