@@ -1,5 +1,6 @@
 import pyhf
 import numpy as np
+import copy
 
 from typing import Any, Dict, List, Tuple, Optional
 
@@ -27,8 +28,23 @@ def get_simplified_spec(
                 'samples': [
                     {
                         'name': 'Bkg',
-                        'data': np.zeros(yields.yields[channel]).size,
+                        # 'data': yields.yields[channel['name']],
+                        'data': yields.yields[channel['name']].sum(axis=0).flatten().tolist(),
                         "modifiers": [
+                            {
+                                "data": {
+                                    "hi_data": (yields.yields[channel['name']].sum(axis=0) + ak.to_numpy(yields.uncertainties[channel['name']])).flatten().tolist(), # flatten to make flat list. Array is 1D anyway already
+                                    "lo_data": (yields.yields[channel['name']].sum(axis=0) - ak.to_numpy(yields.uncertainties[channel['name']])).flatten().tolist(), # flatten to make flat list. Array is 1D anyway already
+                                },
+                                "name": "totalError",
+                                "type": "histosys"
+                            }
+                        ],
+                    },
+                    {
+                        'name': 'Signal',
+                        'data': np.zeros(yields.yields[channel['name']].sum(axis=0).size).tolist(),
+                        'modifiers': [
                             {
                                 "data": None,
                                 "name": "lumi",
@@ -38,24 +54,6 @@ def get_simplified_spec(
                                 "data": None,
                                 "name": "mu_Sig",
                                 "type": "normfactor"
-                            }
-                        ],
-                    },
-                    {
-                        'name': 'Signal',
-                        'data': yields.yields[channel],
-                        'modifiers': [
-                            {
-                                "data": {
-                                    "hi_data": [
-                                        yields.yields[channel] + yields.uncertainty[channel]
-                                    ],
-                                    "lo_data": [
-                                        yields.yields[channel] - yields.uncertainty[channel]
-                                    ]
-                                },
-                                "name": "totalError",
-                                "type": "histosys"
                             }
                         ],
                     }
@@ -79,7 +77,7 @@ def get_simplified_spec(
                     'poi': 'mu_Sig'
                 },
             }
-            for measurement in self['measurements']
+            for measurement in spec['measurements']
         ],
         'observations': [
             dict(
@@ -91,4 +89,4 @@ def get_simplified_spec(
         'version': spec['version'],
     }
 
-    return pyhf.workspace(newspec)
+    return newspec
