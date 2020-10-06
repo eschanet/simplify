@@ -201,4 +201,10 @@ def pulls(
     uncertainty = fit_results.uncertainty[mask]
     labels_np = labels_np[mask]
 
+    labels_np_lower = np.array([x.lower() if isinstance(x, str) else x for x in labels_np])
+    _order = np.argsort(labels_np_lower)
+    bestfit = bestfit[_order]
+    uncertainty = uncertainty[_order]
+    labels_np = labels_np[_order]
+
     plotting.pulls(bestfit, uncertainty, labels_np, figure_path)
