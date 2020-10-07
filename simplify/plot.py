@@ -34,6 +34,25 @@ def _get_binning(region: Dict[str, Any]) -> np.ndarray:
 
     return np.asarray(region["Binning"])
 
+def yieldsTable(
+    figure_folder: Union[str, pathlib.Path],
+    spec: Dict[str, Any],
+    fit_results: Optional[fitter.FitResults] = None,
+) -> None:
+    """Creates post-fit yieldstabes.
+
+    Parameters
+    ----------
+    figure_folder : Union[str, pathlib.Path]
+        Directory where to save the figures.
+    spec : Dict[str, Any]
+        workspace spec in pyhf format.
+    fit_results : Optional[fitter.FitResults]
+        Fit results including best-fit params and uncertainties as well as correlation matrix. Defaults to None, in which case before fit is plotted.
+    """
+    pass
+
+
 def data_MC(
     config: Dict[str, Any],
     figure_folder: Union[str, pathlib.Path],
@@ -188,12 +207,14 @@ def pulls(
     # exclude staterror parameters from pull plot (they are centered at 1)
     exclude_list += [label for label in labels_np if label[0:10] == "staterror_"]
 
-    # exclude unconstrained factors from pull plot
+    # exclude unconstrained params from pull plot
     exclude_list += [
         label
         for i_np, label in enumerate(labels_np)
         if fit_results.types[i_np] == "unconstrained"
     ]
+
+    #reinclude NF back into pull plot, because why not?
 
     # filter out parameters
     mask = [True if label not in exclude_list else False for label in labels_np]
