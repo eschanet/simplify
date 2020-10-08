@@ -214,18 +214,36 @@ def pulls(
         if fit_results.types[i_np] == "unconstrained"
     ]
 
-    #reinclude NF back into pull plot, because why not?
+    #reinclude NF back into pull plot, because this is what is usually being done
+    include_list = [
+        label
+        for i_np, label in enumerate(labels_np)
+        if (fit_results.types[i_np] == "unconstrained") or (label[0:10] == "staterror_")
+    ]
 
     # filter out parameters
     mask = [True if label not in exclude_list else False for label in labels_np]
     bestfit = fit_results.bestfit[mask]
     uncertainty = fit_results.uncertainty[mask]
-    labels_np = labels_np[mask]
+    labels = labels_np[mask]
 
-    labels_np_lower = np.array([x.lower() if isinstance(x, str) else x for x in labels_np])
-    _order = np.argsort(labels_np_lower)
+    #reinclude params from reinclude list
+    mask = [True if label in include_list else False for label in labels_np]
+    unconstrained_bestfit = fit_results.bestfit[mask]
+    unconstrained_uncertainty = fit_results.uncertainty[mask]
+    unconstrained_labels = labels_np[mask]
+
+    #ordering stuff
+    labels_lower = np.array([x.lower() if isinstance(x, str) else x for x in labels])
+    _order = np.argsort(labels_lower)
     bestfit = bestfit[_order]
     uncertainty = uncertainty[_order]
-    labels_np = labels_np[_order]
+    labels = labels[_order]
 
-    plotting.pulls(bestfit, uncertainty, labels_np, figure_path)
+    unconstrained_labels_lower = np.array([x.lower() if isinstance(x, str) else x for x in unconstrained_labels])
+    _order = np.argsort(unconstrained_labels_lower)
+    unconstrained_bestfit = unconstrained_bestfit[_order]
+    unconstrained_uncertainty = unconstrained_uncertainty[_order]
+    unconstrained_labels = unconstrained_labels[_order]
+
+    plotting.pulls(bestfit, uncertainty, labels, unconstrained_bestfit, unconstrained_uncertainty, unconstrained_labels, figure_path)

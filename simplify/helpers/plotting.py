@@ -234,36 +234,59 @@ def correlation_matrix(
 
 
 def pulls(
-    bestfit: np.ndarray,
-    uncertainty: np.ndarray,
-    labels: Union[List[str], np.ndarray],
+    bestfit_constrained: np.ndarray,
+    uncertainty_constrained: np.ndarray,
+    labels_constrained: Union[List[str], np.ndarray],
+    bestfit_unconstrained: np.ndarray,
+    uncertainty_unconstrained: np.ndarray,
+    labels_unconstrained: Union[List[str], np.ndarray],
     figure_path: pathlib.Path,
 ) -> None:
-    """Draws a pull plot.
+    """Draws a pull plot."""
+    num_pars_constrained = len(bestfit_constrained)
+    num_pars_unconstrained = len(bestfit_unconstrained)
+    num_pars = num_pars_constrained + num_pars_unconstrained
 
-    Args:
-        bestfit (np.ndarray): [description]
-        uncertainty (np.ndarray): parameter uncertainties
-        labels (Union[List[str], np.ndarray]): parameter names
-        figure_path (pathlib.Path): path where figure should be saved
-    """
-    num_pars = len(bestfit)
     y_positions = np.arange(num_pars)[::-1]
+    y_pos_constrained = np.arange(num_pars_constrained)[::-1]
+    y_pos_unconstrained = np.arange(y_pos_constrained[0]+1, num_pars)[::-1]
+    print(y_pos_constrained)
+    print(y_pos_unconstrained)
     fig, ax = plt.subplots(figsize=(6, 1 + num_pars / 4), dpi=100)
-    ax.errorbar(bestfit, y_positions, xerr=uncertainty, fmt="o", color="black")
 
-    ax.fill_between([-2, 2], -0.5, len(bestfit) - 0.5, color="yellow", alpha=0.8)
-    ax.fill_between([-1, 1], -0.5, len(bestfit) - 0.5, color="limegreen", alpha=0.8)
-    ax.vlines(0, -0.5, len(bestfit) - 0.5, linestyles="dotted", color="black")
+    ax2 = ax.twiny()
+
+    ax.errorbar(bestfit_constrained, y_pos_constrained, xerr=uncertainty_constrained, fmt="o", color="black")
+    ax2.errorbar(bestfit_unconstrained, y_pos_unconstrained, xerr=uncertainty_unconstrained, fmt="o", color="blue")
+
+    ax.fill_between([-2, 2], -0.5, num_pars - 0.5, color="#fff9ab")
+    ax.fill_between([-1, 1], -0.5, num_pars - 0.5, color="#a4eb9b")
+    ax.vlines(0, -0.5, num_pars - 0.5, linestyles="dotted", color="black")
+    # ax.hlines(0, -0.5, len(num_pars) - 0.5, linestyles="dotted", color="black")
 
     ax.set_xlim([-3, 3])
     ax.set_xlabel(r"$\left(\hat{\theta} - \theta_0\right) / \Delta \theta$")
     ax.set_ylim([-0.5, num_pars - 0.5])
     ax.set_yticks(y_positions)
-    ax.set_yticklabels(labels)
+    ax.set_yticklabels(np.append(labels_unconstrained,labels_constrained, axis=0))
     ax.xaxis.set_minor_locator(mpl.ticker.AutoMinorLocator())  # minor ticks
     ax.tick_params(axis="both", which="major", pad=8)
     ax.tick_params(direction="in", top=True, right=True, which="both")
+
+    ax2.set_xlim([-0.5, 2.5])
+    ax2.set_xlabel(r"$\gamma / \mu$")
+    ax2.spines['top'].set_color('blue')
+    ax2.xaxis.label.set_color('blue')
+    ax2.tick_params(axis='x', colors='blue')
+
+    # ax2.set_ylim([-0.5, num_pars - 0.5])
+    # ax2.set_yticks(y_pos_unconstrained)
+    # ax2.set_yticklabels(labels_unconstrained)
+    # ax2.xaxis.set_minor_locator(mpl.ticker.AutoMinorLocator())  # minor ticks
+    # ax2.tick_params(axis="both", which="major", pad=8)
+    # ax2.tick_params(direction="in", top=True, right=True, which="both")
+
+
     fig.tight_layout()
 
     figure_path.parent.mkdir(parents=True, exist_ok=True)
