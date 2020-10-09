@@ -5,7 +5,7 @@ from . import logger
 from . import plot
 from . import fitter
 from . import configuration
-from . import validation
+from . import yields
 from . import simplified
 
 __version__ = "0.1.0"

@@ -16,6 +16,7 @@ class Yields(NamedTuple):
     """Collects yields in a single object"""
 
     regions: List[str]
+    samples: List[str]
     yields: Dict[str, np.array]
     uncertainties: Dict[str, np.ndarray]
     data: Dict[str, np.array]
@@ -76,7 +77,7 @@ def _get_data_yield_uncertainties(
     uncertainties = {channel : total_stdev_model[i_unc] for i_unc, channel in enumerate(model.config.channels)}
     data = {channel : data_vals[i_data] for i_data, channel in enumerate(model.config.channels)}
 
-    return Yields(model.config.channels, yields, uncertainties, data)
+    return Yields(model.config.channels, model.config.samples, yields, uncertainties, data)
 
 
 def get_yields(

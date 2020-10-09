@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Tuple, Optional
 import awkward1 as ak
 
 from . import fitter
-from . import validation
+from . import yields
 
 import logging
 from . import logger
@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 def get_simplified_spec(
     spec: Dict[str, Any],
-    yields: validation.Yields,
+    ylds: yields.Yields,
     allowed_modifiers: List[str],
     prune_channels: List[str],
 ) -> pyhf.workspace:
@@ -29,12 +29,12 @@ def get_simplified_spec(
                     {
                         'name': 'Bkg',
                         # 'data': yields.yields[channel['name']],
-                        'data': yields.yields[channel['name']].sum(axis=0).flatten().tolist(),
+                        'data': ylds.yields[channel['name']].sum(axis=0).flatten().tolist(),
                         "modifiers": [
                             {
                                 "data": {
-                                    "hi_data": (yields.yields[channel['name']].sum(axis=0) + ak.to_numpy(yields.uncertainties[channel['name']])).flatten().tolist(), # flatten to make flat list. Array is 1D anyway already
-                                    "lo_data": (yields.yields[channel['name']].sum(axis=0) - ak.to_numpy(yields.uncertainties[channel['name']])).flatten().tolist(), # flatten to make flat list. Array is 1D anyway already
+                                    "hi_data": (ylds.yields[channel['name']].sum(axis=0) + ak.to_numpy(ylds.uncertainties[channel['name']])).flatten().tolist(), # flatten to make flat list. Array is 1D anyway already
+                                    "lo_data": (ylds.yields[channel['name']].sum(axis=0) - ak.to_numpy(ylds.uncertainties[channel['name']])).flatten().tolist(), # flatten to make flat list. Array is 1D anyway already
                                 },
                                 "name": "totalError",
                                 "type": "histosys"
@@ -43,7 +43,7 @@ def get_simplified_spec(
                     },
                     {
                         'name': 'Signal',
-                        'data': np.zeros(yields.yields[channel['name']].sum(axis=0).size).tolist(),
+                        'data': np.zeros(ylds.yields[channel['name']].sum(axis=0).size).tolist(),
                         'modifiers': [
                             {
                                 "data": None,

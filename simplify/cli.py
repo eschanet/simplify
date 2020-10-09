@@ -6,7 +6,7 @@ pyhf.set_backend(pyhf.tensorlib, "minuit")
 import json
 
 from . import fitter
-from . import validation
+from . import yields
 from . import model_utils
 from . import simplified
 
@@ -36,10 +36,10 @@ def convert(ctx, input_file, output_file):
     # stdevs = model_utils.calculate_stdev(model,fit_result.bestfit,fit_result.uncertainty,fit_result.corr_mat)
 
     click.echo("Getting psot-fit yields and uncertainties")
-    yields = validation.get_yields(spec, fit_result)
+    ylds = yields.get_yields(spec, fit_result)
 
     click.echo("Building simplified likelihood")
-    newspec = simplified.get_simplified_spec(spec, yields, allowed_modifiers=["lumi"], prune_channels=[])
+    newspec = simplified.get_simplified_spec(spec, ylds, allowed_modifiers=["lumi"], prune_channels=[])
 
     with open(output_file, 'w') as ofile:
         json.dump(newspec, ofile, indent=4)
