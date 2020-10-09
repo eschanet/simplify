@@ -29,7 +29,7 @@ fit_result = simplify.fitter.fit((model,data))
 
 # %%
 # Correlation matrix
-plt = simplify.plot.correlation_matrix(fit_result,"test/figures/",pruning_threshold=0.1)
+plt = simplify.plot.correlation_matrix(fit_result,"test/figures/",pruning_threshold=0.2)
 
 # %%
 # Pull plot
@@ -42,12 +42,12 @@ stdevs = simplify.model_utils.calculate_stdev(model,fit_result.bestfit,fit_resul
 # plt = siplify.plot.data_MC(cfg,"test/figures/",spec,fit_result)
 
 # %%
-yields = simplify.validation.get_yields(cfg, spec, fit_result)
+# yields = simplify.validation.get_yields(cfg, spec, fit_result)
 
-yields
+# yields
 
 # %%
-newspec = simplify.simplified.get_simplified_spec(spec,yields, allowed_modifiers=["lumi"], prune_channels=[])
+# newspec = simplify.simplified.get_simplified_spec(spec,yields, allowed_modifiers=["lumi"], prune_channels=[])
 
 
-newspec
+# newspec

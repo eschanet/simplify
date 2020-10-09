@@ -10,7 +10,7 @@ import pyhf
 from . import model_utils
 from . import configuration
 from . import fitter
-from . import validation
+from . import yields
 
 from .helpers import plotting
 
@@ -25,6 +25,16 @@ def _build_figure_name(region_name: str, is_prefit: bool) -> str:
         figure_name += "_" + "postfit"
     figure_name += ".pdf"
     return figure_name
+
+def _build_table_name(region_name: str, is_prefit: bool) -> str:
+    """Constructs a file name for a table."""
+    table_name = region_name.replace(" ", "-")
+    if is_prefit:
+        table_name += "_" + "prefit"
+    else:
+        table_name += "_" + "postfit"
+    table_name += ".tex"
+    return table_name
 
 
 def _get_binning(region: Dict[str, Any]) -> np.ndarray:
@@ -50,7 +60,26 @@ def yieldsTable(
     fit_results : Optional[fitter.FitResults]
         Fit results including best-fit params and uncertainties as well as correlation matrix. Defaults to None, in which case before fit is plotted.
     """
-    pass
+
+    model, data_combined = model_utils.model_and_data(spec, with_aux=False)
+    ylds = yields._get_data_yield_uncertainties(config, spec, fit_results)
+
+    prefit = True if fit_results is None else False
+
+    table_path = pathlib.Path(table_folder) / _build_table_name(
+        channel_name, True
+    )
+
+    for channel_name in model.config.channels:
+        plotting.yieldsTable(
+            channel_name,
+            ylds.data[channel_name].size,
+            model.config.samples,
+            ylds.data[channel_name],
+            ylds.yields[channel_name],
+            ylds.uncertainties[channel_name],
+            table_path,
+        )
 
 
 def data_MC(
@@ -77,7 +106,7 @@ def data_MC(
     """
 
     model, data_combined = model_utils.model_and_data(spec, with_aux=False)
-    yields = validation._get_data_yield_uncertainties(config, spec, fit_results)
+    ylds = yields._get_data_yield_uncertainties(config, spec, fit_results)
 
     if fit_results is not None:
         prefit = False
@@ -99,7 +128,7 @@ def data_MC(
                 {
                     "label": sample_name,
                     "isData": False,
-                    "yields": yields.yields[channel_name][i_sam],
+                    "yields": ylds.yields[channel_name][i_sam],
                     "variable": variable,
                 }
             )
@@ -109,7 +138,7 @@ def data_MC(
             {
                 "label": "Data",
                 "isData": True,
-                "yields": yields.data[channel_name],
+                "yields": ylds.data[channel_name],
                 "variable": variable,
             }
         )
@@ -126,7 +155,7 @@ def data_MC(
             )
         plotting.data_MC(
             histogram_dict_list,
-            np.asarray(yields.uncertainties[channel_name]),
+            np.asarray(ylds.uncertainties[channel_name]),
             bin_edges,
             figure_path,
             log_scale=log_scale,
