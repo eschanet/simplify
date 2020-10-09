@@ -45,8 +45,8 @@ def _get_binning(region: Dict[str, Any]) -> np.ndarray:
     return np.asarray(region["Binning"])
 
 def yieldsTable(
-    figure_folder: Union[str, pathlib.Path],
     spec: Dict[str, Any],
+    table_folder: Union[str, pathlib.Path],
     fit_results: Optional[fitter.FitResults] = None,
 ) -> None:
     """Creates post-fit yieldstabes.
@@ -62,15 +62,17 @@ def yieldsTable(
     """
 
     model, data_combined = model_utils.model_and_data(spec, with_aux=False)
-    ylds = yields._get_data_yield_uncertainties(config, spec, fit_results)
+    ylds = yields._get_data_yield_uncertainties(spec, fit_results)
 
     prefit = True if fit_results is None else False
 
-    table_path = pathlib.Path(table_folder) / _build_table_name(
-        channel_name, True
-    )
+
 
     for channel_name in model.config.channels:
+        table_path = pathlib.Path(table_folder) / _build_table_name(
+            channel_name, True
+        )
+        
         plotting.yieldsTable(
             channel_name,
             ylds.data[channel_name].size,
@@ -106,7 +108,7 @@ def data_MC(
     """
 
     model, data_combined = model_utils.model_and_data(spec, with_aux=False)
-    ylds = yields._get_data_yield_uncertainties(config, spec, fit_results)
+    ylds = yields._get_data_yield_uncertainties(spec, fit_results)
 
     if fit_results is not None:
         prefit = False

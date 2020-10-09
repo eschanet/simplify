@@ -27,6 +27,13 @@ model, data = simplify.model_utils.model_and_data(spec)
 # %%
 fit_result = simplify.fitter.fit((model,data))
 
+#%%
+yields = simplify.yields.get_yields(cfg, spec, fit_result)
+
+#%%
+# Yields table
+simplify.plot.yieldsTable(spec, "test/figures/", fit_result)
+
 # %%
 # Correlation matrix
 plt = simplify.plot.correlation_matrix(fit_result,"test/figures/",pruning_threshold=0.2)

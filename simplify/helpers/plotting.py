@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 def yieldsTable(
     region_name: str,
     nbins: int,
-    samples: List(str),
+    samples: List[str],
     data: np.array,
     yields: np.ndarray,
     uncertainties: np.ndarray,
@@ -50,30 +50,27 @@ def yieldsTable(
             column_names += " & \MyHead{1.0cm}{%s_bin%i}" % (region_name, i_bin)
 
     # get total region first, then do the bins
-    data = "Observed events & {}".format(np.sum(data))
+    data_line = "Observed events & {}".format(np.sum(data))
     total_sm = "Fitted bkg events & {}".format(np.sum(yields))
 
-    if nbins > 0:
+    if nbins > 1:
         for i_bin in range(nbins):
-            data += " & {}".format(data[i_bin]) + r'''\\
+            data_line += " & {}".format(data[i_bin])
+            total_sm += " & {}".format(np.sum(yields[:,i_bin]))
+
+    data_line += r'''\\
 '''
-            total_sm += " & {}".format(np.sum(yields[i_bin,:])) + r'''\\
-'''
-    else:
-        data += r'''\\
-'''
-        total_sm += r'''\\
+    total_sm += r'''\\
 '''
 
     main = ''
     for i_sample, sample in enumerate(samples):
-        main += "Fitted {} events & {}".format(sample, np.sum(yields[:,i_sample]))
-        if nbins > 0:
+        main += "Fitted {} events & {}".format(sample, np.sum(yields[i_sample,:]))
+        if nbins > 1:
             for i_bin in range(nbins):
-                main += " & {}".format((yields[i_bin,i_sample])) + r'''\\
-'''
-        else:
-            main += r'''\\
+                main += " & {}".format((yields[i_sample,i_bin]))
+
+        main += r'''\\
 '''
 
 
@@ -87,13 +84,11 @@ def yieldsTable(
 \midrule
 %s
 \midrule
-%%
-\midrule
-%%
+%s
 \bottomrule
 \end{tabular}
 %s
-''' % (header, columns,column_names, data, total_sm, main, footer)
+''' % (header, columns,column_names, data_line, total_sm, main, footer)
 
     figure_path.parent.mkdir(parents=True, exist_ok=True)
     with open(figure_path, 'w') as f:
