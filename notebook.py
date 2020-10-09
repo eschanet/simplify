@@ -28,8 +28,8 @@ model, data = simplify.model_utils.model_and_data(spec)
 fit_result = simplify.fitter.fit((model,data))
 
 #%%
-yields = simplify.yields.get_yields(cfg, spec, fit_result)
-
+yields = simplify.yields.get_yields(spec, fit_result)
+yields
 #%%
 # Yields table
 simplify.plot.yieldsTable(spec, "test/figures/", fit_result)

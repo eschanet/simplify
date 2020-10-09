@@ -23,16 +23,16 @@ def yieldsTable(
 
     if standalone:
         header = r'''\documentclass{standalone}
-        \usepackage{longtable}
-        \usepackage{booktabs}
-        \newcommand\MyHead[2]{%
-          \multicolumn{1}{l}{\parbox{#1}{\centering #2}}
-        }
-        \begin{document}
+\usepackage{longtable}
+\usepackage{booktabs}
+\newcommand\MyHead[2]{%
+\multicolumn{1}{l}{\parbox{#1}{\centering #2}}
+}
+\begin{document}
         '''
         footer = r'''
-        \end{document}
-        '''
+\end{document}
+'''
     else:
         header = ''
         footer = ''
@@ -51,12 +51,12 @@ def yieldsTable(
 
     # get total region first, then do the bins
     data_line = "Observed events & {}".format(np.sum(data))
-    total_sm = "Fitted bkg events & {}".format(np.sum(yields))
+    total_sm = "Fitted bkg events & {} \pm {}".format(np.sum(yields), np.sqrt(np.sum(uncertainties**2)))
 
     if nbins > 1:
         for i_bin in range(nbins):
             data_line += " & {}".format(data[i_bin])
-            total_sm += " & {}".format(np.sum(yields[:,i_bin]))
+            total_sm += " & {} \pm {}".format(np.sum(yields[:,i_bin]), uncertainties[i_bin])
 
     data_line += r'''\\
 '''
