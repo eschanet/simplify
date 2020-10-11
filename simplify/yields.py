@@ -1,7 +1,7 @@
 import pyhf
 import numpy as np
 
-from typing import Any, Dict, List, Tuple, Optional, NamedTuple
+from typing import Any, Dict, List, Tuple, Optional, NamedTuple, overload
 
 import awkward1 as ak
 
@@ -60,6 +60,27 @@ def _pdgRound(
     return (formatValue(value, expVal, nDigitsValue(expVal, expErr, nD), extraRound),
             formatValue(error,expErr, nD, extraRound))
 
+@overload
+def _get_data_yield_uncertainties(
+    spec : Tuple[pyhf.pdf.Model, List[float]],
+    fit_results: Optional[fitter.FitResults] = None,
+) -> Tuple[List[np.ndarray], List[np.ndarray], ak.highlevel.Array]:
+    """Gets data, yields and uncertainties. Prefit if no fit results are given, else postfit.
+
+    Parameters
+    ----------
+    spec : Tuple[pyhf.pdf.Model, List[float]]
+        Tuple containing model to fit and data to fit model to.
+    fit_results : Optional[fitter.FitResults]
+        Fit results holding parameters and best-fit values.
+
+    Returns
+    -------
+    Tuple[List[np.ndarray], ak.highlevel.Array]
+        Data, yields and uncertainties.
+
+    """
+    pass
 
 def _get_data_yield_uncertainties(
     spec: Dict[str, Any],
@@ -81,7 +102,12 @@ def _get_data_yield_uncertainties(
 
     """
 
-    model, data_combined = model_utils.model_and_data(spec, with_aux=False)
+    if isinstance(spec, dict):
+        model, data_combined = model_utils.model_and_data(spec, with_aux=False)
+    elif isinstance(spec, tuple):
+        (model, data_combined) = spec
+    else:
+        raise ValueError('You must pass either dict or tuple')
 
     if fit_results is not None:
         prefit = False

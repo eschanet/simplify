@@ -35,7 +35,7 @@ def convert(ctx, input_file, output_file):
     # click.echo("Computing uncertainties")
     # stdevs = model_utils.calculate_stdev(model,fit_result.bestfit,fit_result.uncertainty,fit_result.corr_mat)
 
-    click.echo("Getting psot-fit yields and uncertainties")
+    click.echo("Getting post-fit yields and uncertainties")
     ylds = yields.get_yields(spec, fit_result)
 
     click.echo("Building simplified likelihood")

@@ -128,7 +128,7 @@ def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
     elif isinstance(spec, tuple):
         (model, data) = spec
     else:
-        raise ValueError('You must pass either int or str')
+        raise ValueError('You must pass either dict or tuple')
 
     fit_result = _fit_model_pyhf(model, data)
 
