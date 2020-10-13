@@ -42,21 +42,22 @@ def yieldsTable(
 
     columns = "l"
     columns += "".join(["c"]*nbins)
+    if nbins > 1: columns += "c"
 
     region_name = region_name.replace('_','\_')
     column_names = region_name
     if nbins > 0:
         for i_bin in range(nbins):
-            column_names += " & \MyHead{1.0cm}{%s_bin%i}" % (region_name, i_bin)
+            column_names += " & \MyHead{1.0cm}{%s\_bin%i}" % (region_name, i_bin)
 
     # get total region first, then do the bins
-    data_line = "Observed events & {}".format(np.sum(data))
-    total_sm = "Fitted bkg events & {} \pm {}".format(np.sum(yields), np.sqrt(np.sum(uncertainties**2)))
+    data_line = "Observed events & ${}$".format(np.sum(data))
+    total_sm = "Fitted bkg events & ${:8.3f} \pm {:8.3f}$".format(np.sum(yields), np.sqrt(np.sum(uncertainties**2)))
 
     if nbins > 1:
         for i_bin in range(nbins):
-            data_line += " & {}".format(data[i_bin])
-            total_sm += " & {} \pm {}".format(np.sum(yields[:,i_bin]), uncertainties[i_bin])
+            data_line += " & ${}$".format(data[i_bin])
+            total_sm += " & ${:8.3f} \pm {:8.3f}$".format(np.sum(yields[:,i_bin]), uncertainties[i_bin])
 
     data_line += r'''\\
 '''
@@ -65,10 +66,10 @@ def yieldsTable(
 
     main = ''
     for i_sample, sample in enumerate(samples):
-        main += "Fitted {} events & {}".format(sample, np.sum(yields[i_sample,:]))
+        main += "Fitted {} events & ${:8.3f}$".format(sample, np.sum(yields[i_sample,:]))
         if nbins > 1:
             for i_bin in range(nbins):
-                main += " & {}".format((yields[i_sample,i_bin]))
+                main += " & ${:8.3f}$".format((yields[i_sample,i_bin]))
 
         main += r'''\\
 '''
