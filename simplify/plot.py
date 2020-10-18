@@ -61,14 +61,20 @@ def yieldsTable(
         Fit results including best-fit params and uncertainties as well as correlation matrix. Defaults to None, in which case before fit is plotted.
     """
 
-    model, data_combined = model_utils.model_and_data(spec, with_aux=False)
+    model, data_combined = model_utils.model_and_data(spec, asimov=False)
+    
     ylds = yields._get_data_yield_uncertainties(spec, fit_results)
-
     prefit = True if fit_results is None else False
 
-
-
     for channel_name in model.config.channels:
+
+        print(channel_name)
+        print(ylds.data[channel_name].size)
+        print(model.config.samples)
+        print(ylds.data[channel_name])
+        print(ylds.yields[channel_name])
+        print(ylds.uncertainties[channel_name])
+
         table_path = pathlib.Path(table_folder) / _build_table_name(
             channel_name, True
         )

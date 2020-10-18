@@ -1,7 +1,7 @@
 import pyhf
 import numpy as np
 
-from typing import Any, Dict, List, Tuple, Optional
+from typing import Any, Dict, List, Tuple, Optional, overload
 
 import awkward1 as ak
 
@@ -10,6 +10,13 @@ from . import fitter
 import logging
 from . import logger
 log = logging.getLogger(__name__)
+
+
+@overload
+def model_and_data(
+        spec: Dict[str, Any], poi_name: str = None, asimov: bool = False, with_aux: bool = True
+) -> Tuple[pyhf.pdf.Model, List[float]]:
+    ...
 
 
 def model_and_data(
@@ -27,7 +34,12 @@ def model_and_data(
             - a HistFactory-style model in ``pyhf`` format
             - the data (plus auxdata if requested) for the model
     """
-    workspace = pyhf.Workspace(spec)
+
+    if isinstance(spec, dict):
+        workspace = pyhf.Workspace(spec)
+    elif isinstance(spec, pyhf.Workspace):
+        workspace = spec
+
     model = workspace.model(
         modifier_settings = {
             "normsys": {"interpcode": "code4"},
