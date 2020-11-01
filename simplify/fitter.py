@@ -23,9 +23,7 @@ class FitResults(NamedTuple):
     best_twice_nll: float
 
 
-def print_results(
-    fit_result: FitResults,
-) -> None:
+def print_results(fit_result: FitResults, ) -> None:
     """Prints best-fit parameter results and uncertainties.
 
     Parameters
@@ -78,7 +76,9 @@ def _fit_model_pyhf(model: pyhf.pdf.Model, data: List[float]) -> FitResults:
     # types = types[_order]
     # # corr_mat = corr_mat[_order]
 
-    fit_result = FitResults(bestfit, uncertainty, labels, types, corr_mat, best_twice_nll)
+    fit_result = FitResults(
+        bestfit, uncertainty, labels, types, corr_mat, best_twice_nll
+    )
     return fit_result
 
 
@@ -107,6 +107,8 @@ def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
     fit_result = _fit_model_pyhf(model, data)
 
     # log.debug(print_results(fit_result))
-    log.debug(f"-2 log(L) = {fit_result.best_twice_nll:.6f} at the best-fit point")
+    log.debug(
+        f"-2 log(L) = {fit_result.best_twice_nll:.6f} at the best-fit point"
+    )
 
     return fit_result

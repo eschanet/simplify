@@ -30,7 +30,7 @@ def convert(ctx, input_file, output_file):
     model, data = model_utils.model_and_data(spec)
 
     click.echo("Bkg-only fit")
-    fit_result = fitter.fit((model,data))
+    fit_result = fitter.fit(spec)
 
     # click.echo("Computing uncertainties")
     # stdevs = model_utils.calculate_stdev(model,fit_result.bestfit,fit_result.uncertainty,fit_result.corr_mat)
@@ -43,7 +43,6 @@ def convert(ctx, input_file, output_file):
 
     with open(output_file, 'w') as ofile:
         json.dump(newspec, ofile, indent=4)
-    click.echo('Debug is %s' % (ctx.obj['DEBUG'] and 'on' or 'off'))
 
 @cli.command()
 @click.pass_context

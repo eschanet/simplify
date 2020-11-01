@@ -1,0 +1,2192 @@
+{
+    "channels": [
+        {
+            "name": "CRtau_MLL_lowmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        2250.946186402811
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    2302.226452045169
+                                ],
+                                "lo_data": [
+                                    2199.6659207604525
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "CRtop_MLL_lowmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        6163.74891277052
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    6242.090715727713
+                                ],
+                                "lo_data": [
+                                    6085.407109813327
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "CRVV_MLL_lowmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        720.4964660403092
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    746.8309702161861
+                                ],
+                                "lo_data": [
+                                    694.1619618644323
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "CRtau_MLL_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        594.9494444398865
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    619.9022682787273
+                                ],
+                                "lo_data": [
+                                    569.9966206010457
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "CRtop_MLL_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        4326.884111039023
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    4393.100294689669
+                                ],
+                                "lo_data": [
+                                    4260.667927388377
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "CRVV_MLL_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        676.553519508835
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    702.0373597892258
+                                ],
+                                "lo_data": [
+                                    651.0696792284443
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLc_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        0.7448138869125122
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    1.131610491522413
+                                ],
+                                "lo_data": [
+                                    0.3580172823026114
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLd_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        10.320783709765873
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    12.855423544489488
+                                ],
+                                "lo_data": [
+                                    7.786143875042258
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLe_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        11.99521954633483
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    14.225092833381952
+                                ],
+                                "lo_data": [
+                                    9.765346259287709
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLf_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        9.946390638368936
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    11.661758789577114
+                                ],
+                                "lo_data": [
+                                    8.231022487160757
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLg_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        10.357860555796105
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    12.104253017331196
+                                ],
+                                "lo_data": [
+                                    8.611468094261014
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLh_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        19.454617295555675
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    21.91510076916754
+                                ],
+                                "lo_data": [
+                                    16.99413382194381
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLa_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        3.4263248294021076
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    4.61764431956299
+                                ],
+                                "lo_data": [
+                                    2.2350053392412255
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLb_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        3.502767371258951
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    4.827343740893969
+                                ],
+                                "lo_data": [
+                                    2.178191001623933
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLc_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        3.3060507305719384
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    4.986454213322434
+                                ],
+                                "lo_data": [
+                                    1.6256472478214432
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLd_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        11.008455085377914
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    12.996763491751315
+                                ],
+                                "lo_data": [
+                                    9.020146679004514
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLe_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        17.62105213490713
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    20.357613257159844
+                                ],
+                                "lo_data": [
+                                    14.884491012654419
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLf_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        8.095666815956587
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    9.548711587069057
+                                ],
+                                "lo_data": [
+                                    6.642622044844117
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLg_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        9.883985912330497
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    11.444296815001085
+                                ],
+                                "lo_data": [
+                                    8.323675009659908
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLh_hghmet_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        19.71107678313389
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    21.99580992351113
+                                ],
+                                "lo_data": [
+                                    17.426343642756652
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLc_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        0.09297331316511544
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    0.2945591357529032
+                                ],
+                                "lo_data": [
+                                    -0.10861250942267232
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLd_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        5.097860797130451
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    6.743693356228353
+                                ],
+                                "lo_data": [
+                                    3.4520282380325495
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLe_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        7.30228292515342
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    9.173487040467734
+                                ],
+                                "lo_data": [
+                                    5.4310788098391045
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLf_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        2.267739852462985
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    3.2087554838093775
+                                ],
+                                "lo_data": [
+                                    1.3267242211165922
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLa_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        14.590367709736311
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    17.513981444878922
+                                ],
+                                "lo_data": [
+                                    11.6667539745937
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLb_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        6.910619717463379
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    8.977172494532686
+                                ],
+                                "lo_data": [
+                                    4.844066940394072
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLc_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        6.228856863412582
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    8.1472813270447
+                                ],
+                                "lo_data": [
+                                    4.310432399780463
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLd_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        33.626769780224166
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    38.09824044651287
+                                ],
+                                "lo_data": [
+                                    29.155299113935463
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLe_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        51.53692830790219
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    57.15721126652683
+                                ],
+                                "lo_data": [
+                                    45.916645349277545
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLf_lowmet_deltaM_low_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        18.497135814203705
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    21.721218944468287
+                                ],
+                                "lo_data": [
+                                    15.273052683939124
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLc_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        5.280985432362814
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    6.724398516919207
+                                ],
+                                "lo_data": [
+                                    3.837572347806421
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLd_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        8.663642352383677
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    10.506282739598975
+                                ],
+                                "lo_data": [
+                                    6.82100196516838
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLe_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        16.804170912925382
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    19.32584374131169
+                                ],
+                                "lo_data": [
+                                    14.282498084539075
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLf_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        15.363535326974176
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    17.954048128106628
+                                ],
+                                "lo_data": [
+                                    12.773022525841723
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLg_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        12.934281576645706
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    15.024101088797087
+                                ],
+                                "lo_data": [
+                                    10.844462064494325
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRee_eMLLh_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        18.502665238052014
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    20.722818330818754
+                                ],
+                                "lo_data": [
+                                    16.282512145285274
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLa_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        15.49899664856476
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    18.056733352054504
+                                ],
+                                "lo_data": [
+                                    12.941259945075014
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLb_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        8.00717132798925
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    9.727413882209447
+                                ],
+                                "lo_data": [
+                                    6.286928773769052
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLc_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        6.555516683192479
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    8.178577520186208
+                                ],
+                                "lo_data": [
+                                    4.932455846198751
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLd_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        11.447530784119317
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    13.353584824980555
+                                ],
+                                "lo_data": [
+                                    9.54147674325808
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLe_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        15.563761241438817
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    17.835832996243386
+                                ],
+                                "lo_data": [
+                                    13.291689486634247
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLf_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        16.595049540410436
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    18.949265818929007
+                                ],
+                                "lo_data": [
+                                    14.240833261891863
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLg_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        15.383080439952655
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    17.420657198865566
+                                ],
+                                "lo_data": [
+                                    13.345503681039744
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SRmm_eMLLh_lowmet_deltaM_high_cuts",
+            "samples": [
+                {
+                    "name": "Bkg",
+                    "data": [
+                        36.04290688396655
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    39.362060070607924
+                                ],
+                                "lo_data": [
+                                    32.72375369732518
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ]
+                },
+                {
+                    "name": "Signal",
+                    "data": [
+                        0.0
+                    ],
+                    "modifiers": [
+                        {
+                            "data": null,
+                            "name": "lumi",
+                            "type": "lumi"
+                        },
+                        {
+                            "data": null,
+                            "name": "mu_Sig",
+                            "type": "normfactor"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "measurements": [
+        {
+            "name": "NormalMeasurement",
+            "config": {
+                "parameters": [
+                    {
+                        "auxdata": [
+                            1.0
+                        ],
+                        "bounds": [
+                            [
+                                0.915,
+                                1.085
+                            ]
+                        ],
+                        "fixed": true,
+                        "inits": [
+                            1.0
+                        ],
+                        "name": "lumi",
+                        "sigmas": [
+                            0.017
+                        ]
+                    }
+                ],
+                "poi": "mu_Sig"
+            }
+        }
+    ],
+    "observations": [
+        {
+            "data": [
+                2247.0
+            ],
+            "name": "CRtau_MLL_lowmet_cuts"
+        },
+        {
+            "data": [
+                6164.0
+            ],
+            "name": "CRtop_MLL_lowmet_cuts"
+        },
+        {
+            "data": [
+                721.0
+            ],
+            "name": "CRVV_MLL_lowmet_cuts"
+        },
+        {
+            "data": [
+                592.0
+            ],
+            "name": "CRtau_MLL_hghmet_cuts"
+        },
+        {
+            "data": [
+                4327.0
+            ],
+            "name": "CRtop_MLL_hghmet_cuts"
+        },
+        {
+            "data": [
+                687.0
+            ],
+            "name": "CRVV_MLL_hghmet_cuts"
+        },
+        {
+            "data": [
+                1.0
+            ],
+            "name": "SRee_eMLLc_hghmet_cuts"
+        },
+        {
+            "data": [
+                16.0
+            ],
+            "name": "SRee_eMLLd_hghmet_cuts"
+        },
+        {
+            "data": [
+                13.0
+            ],
+            "name": "SRee_eMLLe_hghmet_cuts"
+        },
+        {
+            "data": [
+                8.0
+            ],
+            "name": "SRee_eMLLf_hghmet_cuts"
+        },
+        {
+            "data": [
+                8.0
+            ],
+            "name": "SRee_eMLLg_hghmet_cuts"
+        },
+        {
+            "data": [
+                18.0
+            ],
+            "name": "SRee_eMLLh_hghmet_cuts"
+        },
+        {
+            "data": [
+                5.0
+            ],
+            "name": "SRmm_eMLLa_hghmet_cuts"
+        },
+        {
+            "data": [
+                5.0
+            ],
+            "name": "SRmm_eMLLb_hghmet_cuts"
+        },
+        {
+            "data": [
+                0.0
+            ],
+            "name": "SRmm_eMLLc_hghmet_cuts"
+        },
+        {
+            "data": [
+                9.0
+            ],
+            "name": "SRmm_eMLLd_hghmet_cuts"
+        },
+        {
+            "data": [
+                23.0
+            ],
+            "name": "SRmm_eMLLe_hghmet_cuts"
+        },
+        {
+            "data": [
+                3.0
+            ],
+            "name": "SRmm_eMLLf_hghmet_cuts"
+        },
+        {
+            "data": [
+                5.0
+            ],
+            "name": "SRmm_eMLLg_hghmet_cuts"
+        },
+        {
+            "data": [
+                20.0
+            ],
+            "name": "SRmm_eMLLh_hghmet_cuts"
+        },
+        {
+            "data": [
+                0.0
+            ],
+            "name": "SRee_eMLLc_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                4.0
+            ],
+            "name": "SRee_eMLLd_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                11.0
+            ],
+            "name": "SRee_eMLLe_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                4.0
+            ],
+            "name": "SRee_eMLLf_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                16.0
+            ],
+            "name": "SRmm_eMLLa_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                8.0
+            ],
+            "name": "SRmm_eMLLb_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                6.0
+            ],
+            "name": "SRmm_eMLLc_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                41.0
+            ],
+            "name": "SRmm_eMLLd_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                59.0
+            ],
+            "name": "SRmm_eMLLe_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                21.0
+            ],
+            "name": "SRmm_eMLLf_lowmet_deltaM_low_cuts"
+        },
+        {
+            "data": [
+                7.0
+            ],
+            "name": "SRee_eMLLc_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                11.0
+            ],
+            "name": "SRee_eMLLd_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                16.0
+            ],
+            "name": "SRee_eMLLe_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                16.0
+            ],
+            "name": "SRee_eMLLf_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                10.0
+            ],
+            "name": "SRee_eMLLg_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                9.0
+            ],
+            "name": "SRee_eMLLh_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                9.0
+            ],
+            "name": "SRmm_eMLLa_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                7.0
+            ],
+            "name": "SRmm_eMLLb_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                7.0
+            ],
+            "name": "SRmm_eMLLc_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                12.0
+            ],
+            "name": "SRmm_eMLLd_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                17.0
+            ],
+            "name": "SRmm_eMLLe_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                18.0
+            ],
+            "name": "SRmm_eMLLf_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                16.0
+            ],
+            "name": "SRmm_eMLLg_lowmet_deltaM_high_cuts"
+        },
+        {
+            "data": [
+                44.0
+            ],
+            "name": "SRmm_eMLLh_lowmet_deltaM_high_cuts"
+        }
+    ],
+    "version": "1.0.0"
+}
