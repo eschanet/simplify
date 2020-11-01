@@ -76,7 +76,7 @@ def yieldsTable(
         print(ylds.uncertainties[channel_name])
 
         table_path = pathlib.Path(table_folder) / _build_table_name(
-            channel_name, True
+            channel_name, False
         )
         
         plotting.yieldsTable(
@@ -215,6 +215,7 @@ def pulls(
     fit_results: fitter.FitResults,
     output_path: Union[str, pathlib.Path],
     exclude_list: Optional[List[str]] = None,
+    include_staterror: bool = True,
 ) -> None:
     """Draws pull plot of parameters and uncertainties.
 
@@ -226,6 +227,8 @@ def pulls(
         Output path where figures should be saved.
     exclude_list : Optional[List[str]]
         List of parameters to be excluded from plot. Defaults to None.
+    include_staterror : bool
+        Whether or not to include the staterrors.
     """
 
     figure_path = pathlib.Path(output_path) / "pulls.pdf"
@@ -255,7 +258,7 @@ def pulls(
     include_list = [
         label
         for i_np, label in enumerate(labels_np)
-        if (fit_results.types[i_np] == "unconstrained") or (label[0:10] == "staterror_")
+        if (fit_results.types[i_np] == "unconstrained") or (label[0:10] == "staterror_" and include_staterror)
     ]
 
     # filter out parameters
