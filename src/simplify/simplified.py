@@ -10,7 +10,6 @@ from . import fitter
 from . import yields
 
 import logging
-from . import logger
 log = logging.getLogger(__name__)
 
 
@@ -40,23 +39,23 @@ def get_simplified_spec(
                                 "type": "histosys"
                             }
                         ],
-                    },
-                    {
-                        'name': 'Signal',
-                        'data': np.zeros(ylds.yields[channel['name']].sum(axis=0).size).tolist(),
-                        'modifiers': [
-                            {
-                                "data": None,
-                                "name": "lumi",
-                                "type": "lumi"
-                            },
-                            {
-                                "data": None,
-                                "name": "mu_Sig",
-                                "type": "normfactor"
-                            }
-                        ],
-                    }
+                    }#,
+                    # {
+                    #     'name': 'Signal',
+                    #     'data': np.zeros(ylds.yields[channel['name']].sum(axis=0).size).tolist(),
+                    #     'modifiers': [
+                    #         {
+                    #             "data": None,
+                    #             "name": "lumi",
+                    #             "type": "lumi"
+                    #         },
+                    #         {
+                    #             "data": None,
+                    #             "name": "mu_Sig",
+                    #             "type": "normfactor"
+                    #         }
+                    #     ],
+                    # }
                 ],
             }
             for channel in spec['channels']

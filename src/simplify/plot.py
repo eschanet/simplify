@@ -7,14 +7,16 @@ from typing import Any, Dict, List, Optional, Union
 import numpy as np
 import pyhf
 
-from . import model_utils
+from . import model_tools
 from . import configuration
 from . import fitter
 from . import yields
 
 from .helpers import plotting
 
+import logging
 log = logging.getLogger(__name__)
+
 
 def _build_figure_name(region_name: str, is_prefit: bool) -> str:
     """Constructs a file name for a figure."""
@@ -25,6 +27,7 @@ def _build_figure_name(region_name: str, is_prefit: bool) -> str:
         figure_name += "_" + "postfit"
     figure_name += ".pdf"
     return figure_name
+
 
 def _build_table_name(region_name: str, is_prefit: bool) -> str:
     """Constructs a file name for a table."""
@@ -44,10 +47,12 @@ def _get_binning(region: Dict[str, Any]) -> np.ndarray:
 
     return np.asarray(region["Binning"])
 
+
 def yieldsTable(
     spec: Dict[str, Any],
     table_folder: Union[str, pathlib.Path],
     fit_results: Optional[fitter.FitResults] = None,
+    signal_name: Optional[str] = None,
 ) -> None:
     """Creates post-fit yieldstabes.
 
@@ -59,10 +64,12 @@ def yieldsTable(
         workspace spec in pyhf format.
     fit_results : Optional[fitter.FitResults]
         Fit results including best-fit params and uncertainties as well as correlation matrix. Defaults to None, in which case before fit is plotted.
+    signal_name : Optional[str]
+        Name of a signal process, if present. Will prevent this sample to be included in 'total fitted bkg'.
     """
 
-    model, data_combined = model_utils.model_and_data(spec, asimov=False)
-    
+    model, data_combined = model_tools.model_and_data(spec, asimov=False)
+
     ylds = yields._get_data_yield_uncertainties(spec, fit_results)
     prefit = True if fit_results is None else False
 
@@ -75,10 +82,8 @@ def yieldsTable(
         print(ylds.yields[channel_name])
         print(ylds.uncertainties[channel_name])
 
-        table_path = pathlib.Path(table_folder) / _build_table_name(
-            channel_name, False
-        )
-        
+        table_path = pathlib.Path(table_folder) / _build_table_name(channel_name, False)
+
         plotting.yieldsTable(
             channel_name,
             ylds.data[channel_name].size,
@@ -87,6 +92,7 @@ def yieldsTable(
             ylds.yields[channel_name],
             ylds.uncertainties[channel_name],
             table_path,
+            signal_name,
         )
 
 
@@ -113,7 +119,7 @@ def data_MC(
         Use log scale for y-axis. Defaults to None, in which case it automatically determines what to use.
     """
 
-    model, data_combined = model_utils.model_and_data(spec, with_aux=False)
+    model, data_combined = model_tools.model_and_data(spec, with_aux=False)
     ylds = yields._get_data_yield_uncertainties(spec, fit_results)
 
     if fit_results is not None:
@@ -254,11 +260,12 @@ def pulls(
         if fit_results.types[i_np] == "unconstrained"
     ]
 
-    #reinclude NF back into pull plot, because this is what is usually being done
+    # reinclude NF back into pull plot, because this is what is usually being done
     include_list = [
         label
         for i_np, label in enumerate(labels_np)
-        if (fit_results.types[i_np] == "unconstrained") or (label[0:10] == "staterror_" and include_staterror)
+        if (fit_results.types[i_np] == "unconstrained")
+        or (label[0:10] == "staterror_" and include_staterror)
     ]
 
     # filter out parameters
@@ -267,23 +274,33 @@ def pulls(
     uncertainty = fit_results.uncertainty[mask]
     labels = labels_np[mask]
 
-    #reinclude params from reinclude list
+    # reinclude params from reinclude list
     mask = [True if label in include_list else False for label in labels_np]
     unconstrained_bestfit = fit_results.bestfit[mask]
     unconstrained_uncertainty = fit_results.uncertainty[mask]
     unconstrained_labels = labels_np[mask]
 
-    #ordering stuff
+    # ordering stuff
     labels_lower = np.array([x.lower() if isinstance(x, str) else x for x in labels])
     _order = np.argsort(labels_lower)
     bestfit = bestfit[_order]
     uncertainty = uncertainty[_order]
     labels = labels[_order]
 
-    unconstrained_labels_lower = np.array([x.lower() if isinstance(x, str) else x for x in unconstrained_labels])
+    unconstrained_labels_lower = np.array(
+        [x.lower() if isinstance(x, str) else x for x in unconstrained_labels]
+    )
     _order = np.argsort(unconstrained_labels_lower)
     unconstrained_bestfit = unconstrained_bestfit[_order]
     unconstrained_uncertainty = unconstrained_uncertainty[_order]
     unconstrained_labels = unconstrained_labels[_order]
 
-    plotting.pulls(bestfit, uncertainty, labels, unconstrained_bestfit, unconstrained_uncertainty, unconstrained_labels, figure_path)
+    plotting.pulls(
+        bestfit,
+        uncertainty,
+        labels,
+        unconstrained_bestfit,
+        unconstrained_uncertainty,
+        unconstrained_labels,
+        figure_path,
+    )

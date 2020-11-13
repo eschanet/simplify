@@ -5,6 +5,8 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+import awkward1 as ak
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -17,6 +19,7 @@ def yieldsTable(
     yields: np.ndarray,
     uncertainties: np.ndarray,
     figure_path: pathlib.Path,
+    signal_name: str = None,
     standalone: bool = True,
 ) -> None:
     """Print a yieldstable in Latex format"""
@@ -48,16 +51,29 @@ def yieldsTable(
     column_names = region_name
     if nbins > 0:
         for i_bin in range(nbins):
-            column_names += " & \MyHead{1.0cm}{%s\_bin%i}" % (region_name, i_bin)
+            column_names += " & %s\_bin%i" % (region_name, i_bin)
 
+
+    if signal_name:
+        # signal_index = samples.index(signal_name)
+        signal_row = np.array([i for i in range(yields.shape[0]) if not i == samples.index(signal_name)])
+        bkgOnly_yields = yields[signal_row[:, ], :] #np.delete(yields, signal_index, 0)
+
+    else:
+        bkgOnly_yields = yields
+
+    # FIXME: this still has signal uncertainties in total uncertainty, which is not right!!!!
     # get total region first, then do the bins
     data_line = "Observed events & ${}$".format(np.sum(data))
-    total_sm = "Fitted bkg events & ${:8.3f} \pm {:8.3f}$".format(np.sum(yields), np.sqrt(np.sum(uncertainties**2)))
+    total_sm = "Fitted bkg events & ${:8.3f} \pm {:8.3f}$".format(np.sum(bkgOnly_yields), np.sqrt(np.sum(uncertainties**2)))
 
+    # FIXME: same as above, dooh...
     if nbins > 1:
         for i_bin in range(nbins):
             data_line += " & ${}$".format(data[i_bin])
-            total_sm += " & ${:8.3f} \pm {:8.3f}$".format(np.sum(yields[:,i_bin]), uncertainties[i_bin])
+            total_sm += " & ${:8.3f} \pm {:8.3f}$".format(
+                np.sum(bkgOnly_yields[:, i_bin]), uncertainties[i_bin]
+            )
 
     data_line += r'''\\
 '''
@@ -66,7 +82,7 @@ def yieldsTable(
 
     main = ''
     for i_sample, sample in enumerate(samples):
-        main += "Fitted {} events & ${:8.3f}$".format(sample, np.sum(yields[i_sample,:]))
+        main += "Fitted {} events & ${:8.3f}$".format(sample.replace("_", "\_"), np.sum(yields[i_sample,:]))
         if nbins > 1:
             for i_bin in range(nbins):
                 main += " & ${:8.3f}$".format((yields[i_sample,i_bin]))

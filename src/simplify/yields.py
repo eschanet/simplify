@@ -6,10 +6,9 @@ from typing import Any, Dict, List, Tuple, Optional, NamedTuple, overload
 import awkward1 as ak
 
 from . import fitter
-from . import model_utils
+from . import model_tools
 
 import logging
-from . import logger
 log = logging.getLogger(__name__)
 
 class Yields(NamedTuple):
@@ -81,7 +80,7 @@ def _get_data_yield_uncertainties(
 
     """
 
-    model, data_combined = model_utils.model_and_data(spec, with_aux=False)
+    model, data_combined = model_tools.model_and_data(spec, with_aux=False)
 
     if fit_results is not None:
         prefit = False
@@ -103,12 +102,12 @@ def _get_data_yield_uncertainties(
     )  # all channels concatenated
 
     # Need to slice the yields into an array where first index is the channel and second index is the sample
-    region_split_indices = model_utils._get_channel_boundary_indices(model)
+    region_split_indices = model_tools._get_channel_boundary_indices(model)
     model_yields = np.split(yields_combined, region_split_indices, axis=1)
     data_vals = np.split(data_combined, region_split_indices)  # data just indexed by channel
 
     # calculate the total standard deviation of the model prediction, index: channel
-    total_stdev_model = model_utils.calculate_stdev(
+    total_stdev_model = model_tools.calculate_stdev(
         model, param_values, param_uncertainty, corr_mat
     )
 

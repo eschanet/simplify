@@ -8,7 +8,6 @@ import awkward1 as ak
 from . import fitter
 
 import logging
-from . import logger
 log = logging.getLogger(__name__)
 
 

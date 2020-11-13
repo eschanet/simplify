@@ -7,9 +7,7 @@ import jsonschema
 import yaml
 
 import logging
-from .logger import logger
-
-log = logger.getChild(__name__)
+log = logging.getLogger(__name__)
 
 
 def load(file_path_string: Union[str, pathlib.Path]) -> Dict[str, Any]:

@@ -4,12 +4,10 @@ import iminuit
 import numpy as np
 import pyhf
 
-from . import model_utils
+from . import model_tools
 
 import logging
-from .logger import logger
-
-log = logger.getChild(__name__)
+log = logging.getLogger(__name__)
 
 
 class FitResults(NamedTuple):
@@ -63,8 +61,8 @@ def _fit_model_pyhf(model: pyhf.pdf.Model, data: List[float]) -> FitResults:
 
     bestfit = result[:, 0]
     uncertainty = result[:, 1]
-    labels = np.asarray(model_utils.get_parameter_names(model))
-    types = np.asarray(model_utils.get_parameter_types(model))
+    labels = np.asarray(model_tools.get_parameter_names(model))
+    types = np.asarray(model_tools.get_parameter_types(model))
     corr_mat = result_obj.minuit.np_matrix(correlation=True, skip_fixed=False)
     best_twice_nll = float(result_obj.fun)
 
@@ -102,7 +100,7 @@ def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
 
     log.info("performing maximum likelihood fit")
 
-    model, data = model_utils.model_and_data(spec, asimov=asimov)
+    model, data = model_tools.model_and_data(spec, asimov=asimov)
 
     fit_result = _fit_model_pyhf(model, data)
 
