@@ -8,6 +8,7 @@ import numpy as np
 import awkward1 as ak
 
 import logging
+
 log = logging.getLogger(__name__)
 
 
@@ -44,20 +45,27 @@ def yieldsTable(
     table_footer = ''
 
     columns = "l"
-    columns += "".join(["c"]*nbins)
-    if nbins > 1: columns += "c"
+    columns += "".join(["c"] * nbins)
+    if nbins > 1:
+        columns += "c"
 
-    region_name = region_name.replace('_','\_')
+    region_name = region_name.replace('_', '\_')
     column_names = region_name
     if nbins > 0:
         for i_bin in range(nbins):
             column_names += " & %s\_bin%i" % (region_name, i_bin)
 
-
     if signal_name:
         # signal_index = samples.index(signal_name)
-        signal_row = np.array([i for i in range(yields.shape[0]) if not i == samples.index(signal_name)])
-        bkgOnly_yields = yields[signal_row[:, ], :] #np.delete(yields, signal_index, 0)
+        signal_row = np.array(
+            [i for i in range(yields.shape[0]) if not i == samples.index(signal_name)]
+        )
+        bkgOnly_yields = yields[
+            signal_row[
+                :,
+            ],
+            :,
+        ]  # np.delete(yields, signal_index, 0)
 
     else:
         bkgOnly_yields = yields
@@ -65,7 +73,9 @@ def yieldsTable(
     # FIXME: this still has signal uncertainties in total uncertainty, which is not right!!!!
     # get total region first, then do the bins
     data_line = "Observed events & ${}$".format(np.sum(data))
-    total_sm = "Fitted bkg events & ${:8.3f} \pm {:8.3f}$".format(np.sum(bkgOnly_yields), np.sqrt(np.sum(uncertainties**2)))
+    total_sm = "Fitted bkg events & ${:8.3f} \pm {:8.3f}$".format(
+        np.sum(bkgOnly_yields), np.sqrt(np.sum(uncertainties ** 2))
+    )
 
     # FIXME: same as above, dooh...
     if nbins > 1:
@@ -82,14 +92,15 @@ def yieldsTable(
 
     main = ''
     for i_sample, sample in enumerate(samples):
-        main += "Fitted {} events & ${:8.3f}$".format(sample.replace("_", "\_"), np.sum(yields[i_sample,:]))
+        main += "Fitted {} events & ${:8.3f}$".format(
+            sample.replace("_", "\_"), np.sum(yields[i_sample, :])
+        )
         if nbins > 1:
             for i_bin in range(nbins):
-                main += " & ${:8.3f}$".format((yields[i_sample,i_bin]))
+                main += " & ${:8.3f}$".format((yields[i_sample, i_bin]))
 
         main += r'''\\
 '''
-
 
     content = r'''%%
 %s
@@ -105,7 +116,15 @@ def yieldsTable(
 \bottomrule
 \end{tabular}
 %s
-''' % (header, columns,column_names, data_line, total_sm, main, footer)
+''' % (
+        header,
+        columns,
+        column_names,
+        data_line,
+        total_sm,
+        main,
+        footer,
+    )
 
     figure_path.parent.mkdir(parents=True, exist_ok=True)
     with open(figure_path, 'w') as f:
@@ -333,15 +352,27 @@ def pulls(
 
     y_positions = np.arange(num_pars)[::-1]
     y_pos_constrained = np.arange(num_pars_constrained)[::-1]
-    y_pos_unconstrained = np.arange(y_pos_constrained[0]+1, num_pars)[::-1]
+    y_pos_unconstrained = np.arange(y_pos_constrained[0] + 1, num_pars)[::-1]
     print(y_pos_constrained)
     print(y_pos_unconstrained)
     fig, ax = plt.subplots(figsize=(6, 1 + num_pars / 4), dpi=100)
 
     ax2 = ax.twiny()
 
-    ax.errorbar(bestfit_constrained, y_pos_constrained, xerr=uncertainty_constrained, fmt="o", color="black")
-    ax2.errorbar(bestfit_unconstrained, y_pos_unconstrained, xerr=uncertainty_unconstrained, fmt="o", color="blue")
+    ax.errorbar(
+        bestfit_constrained,
+        y_pos_constrained,
+        xerr=uncertainty_constrained,
+        fmt="o",
+        color="black",
+    )
+    ax2.errorbar(
+        bestfit_unconstrained,
+        y_pos_unconstrained,
+        xerr=uncertainty_unconstrained,
+        fmt="o",
+        color="blue",
+    )
 
     ax.fill_between([-2, 2], -0.5, num_pars - 0.5, color="#fff9ab")
     ax.fill_between([-1, 1], -0.5, num_pars - 0.5, color="#a4eb9b")
@@ -352,7 +383,7 @@ def pulls(
     ax.set_xlabel(r"$\left(\hat{\theta} - \theta_0\right) / \Delta \theta$")
     ax.set_ylim([-0.5, num_pars - 0.5])
     ax.set_yticks(y_positions)
-    ax.set_yticklabels(np.append(labels_unconstrained,labels_constrained, axis=0))
+    ax.set_yticklabels(np.append(labels_unconstrained, labels_constrained, axis=0))
     ax.xaxis.set_minor_locator(mpl.ticker.AutoMinorLocator())  # minor ticks
     ax.tick_params(axis="both", which="major", pad=8)
     ax.tick_params(direction="in", top=True, right=True, which="both")
