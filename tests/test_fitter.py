@@ -87,13 +87,13 @@ def test__fit_model_pyhf(example_spec, example_spec_multibin):
 
 @mock.patch("simplify.fitter.print_results")
 @mock.patch(
-    "cabinetry.fitter._fit_model",
+    "simplify.fitter._fit_model_pyhf",
     return_value=fitter.FitResults(
-        np.asarray([1.0]), np.asarray([0.1]), ["par"], np.empty(0), 2.0
+        np.asarray([1.0]), np.asarray([0.1]), ["par"], ["constrained"], np.empty(0), 2.0
     ),
 )
-@mock.patch("cabinetry.model_tools.model_and_data", return_value=("model", "data"))
-def test_fit(mock_load, mock_fit, mock_print, mock_gof, example_spec):
+@mock.patch("simplify.model_tools.model_and_data", return_value=("model", "data"))
+def test_fit(mock_load, mock_fitter, mock_print, example_spec):
     # fit through pyhf.infer API
     fit_results = fitter.fit(example_spec)
     assert mock_load.call_args_list == [[(example_spec,), {"asimov": False}]]
@@ -104,6 +104,7 @@ def test_fit(mock_load, mock_fit, mock_print, mock_gof, example_spec):
     assert mock_print.call_args[0][0].bestfit == [1.0]
     assert mock_print.call_args[0][0].uncertainty == [0.1]
     assert mock_print.call_args[0][0].labels == ["par"]
+    assert mock_print.call_args[0][0].types == ["constrained"]
     assert fit_results.bestfit == [1.0]
 
     # # TODO: Asimov fit
