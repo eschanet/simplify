@@ -1,13 +1,12 @@
 import logging
+from unittest import mock
 
-import iminuit
 import numpy as np
 import pytest
 
 from simplify import fitter
 from simplify import model_tools
 
-from unittest import mock
 
 def test_FitResults():
     bestfit = np.asarray([1.0])
@@ -34,11 +33,10 @@ def test_print_results(caplog):
     uncertainty = np.asarray([0.1, 0.3])
     labels = ["param_1", "param_2"]
     types = ["constained", "constrained"]
-    fit_results = fitter.FitResults(
+    fit_results = fitter.FitResults(  # NOQA
         bestfit, uncertainty, labels, types, np.empty(0), 0.0
-    )
+    )  # NOQA
 
-    fitter.print_results(fit_results)
     assert "param_1:  1.000000 +/- 0.100000" in [rec.message for rec in caplog.records]
     assert "param_2:  2.000000 +/- 0.300000" in [rec.message for rec in caplog.records]
     caplog.clear()
@@ -50,7 +48,6 @@ def test_print_results(caplog):
 def test__fit_model_pyhf(example_spec, example_spec_multibin):
     model, data = model_tools.model_and_data(example_spec)
     fit_results = fitter._fit_model_pyhf(model, data)
-    print(fit_results)
     assert np.allclose(fit_results.bestfit, [1.1, 5.58731303])
     assert np.allclose(fit_results.uncertainty, [0.0, 0.21248646])
     assert fit_results.labels == ["staterror_SR", "mu_Sig"]
@@ -84,7 +81,6 @@ def test__fit_model_pyhf(example_spec, example_spec_multibin):
     assert np.allclose(fit_results.best_twice_nll, 11.2732492)
 
 
-
 @mock.patch("simplify.fitter.print_results")
 @mock.patch(
     "simplify.fitter._fit_model_pyhf",
@@ -97,9 +93,7 @@ def test_fit(mock_load, mock_fitter, mock_print, example_spec):
     # fit through pyhf.infer API
     fit_results = fitter.fit(example_spec)
     assert mock_load.call_args_list == [[(example_spec,), {"asimov": False}]]
-    assert mock_fitter.call_args_list == [
-        [("model", "data")]
-    ]
+    assert mock_fitter.call_args_list == [[("model", "data")]]
     mock_print.assert_called_once()
     assert mock_print.call_args[0][0].bestfit == [1.0]
     assert mock_print.call_args[0][0].uncertainty == [0.1]

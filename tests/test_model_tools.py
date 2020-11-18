@@ -1,10 +1,8 @@
-import numpy as np
-import pyhf
-import awkward1 as ak
-
 import copy
 
-import pytest
+import awkward1 as ak
+import numpy as np
+import pyhf
 
 from simplify import model_tools
 
@@ -46,7 +44,7 @@ def test_get_prefit_uncertainties(
 ):
     model = pyhf.Workspace(example_spec).model()
     uncertainties = model_tools.get_prefit_uncertainties(model)
-    assert np.allclose(uncertainties, [0.0, 0.0]) 
+    assert np.allclose(uncertainties, [0.0, 0.0])
 
     model = pyhf.Workspace(example_spec_multibin).model()
     uncertainties = model_tools.get_prefit_uncertainties(model)
@@ -76,7 +74,6 @@ def test__get_channel_boundary_indices(example_spec, example_spec_multibin):
     model = pyhf.Workspace(three_channel_model).model()
     indices = model_tools._get_channel_boundary_indices(model)
     assert indices == [2, 3]
-
 
 
 def test_calculate_stdev(example_spec, example_spec_multibin):
