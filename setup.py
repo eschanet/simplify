@@ -7,6 +7,10 @@ extras_require["test"] = sorted(
         + [
             "pytest",
             "pytest-cov>=2.5.1",
+            "flake8",
+            "flake8-bugbear",
+            "flake8-import-order",
+            "flake8-print",
             "pydocstyle",
             "black",
         ]
