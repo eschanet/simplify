@@ -1,16 +1,24 @@
-from setuptools import setup, find_packages
+from setuptools import setup
+
+extras_require = {"contrib": ["matplotlib", "uproot", "uproot4>=0.0.19"]}
+extras_require["test"] = sorted(
+    set(
+        extras_require["contrib"]
+        + [
+            "pytest",
+            "pytest-cov>=2.5.1",
+            "pydocstyle",
+            "black",
+        ]
+    )
+)
+
+extras_require["develop"] = sorted(
+    set(extras_require["test"] + ["pre-commit", "twine"])
+)
+
+extras_require["complete"] = sorted(set(sum(extras_require.values(), [])))
 
 setup(
-      # mandatory
-      name='simplify',
-      # mandatory
-      version='0.1',
-      # mandatory
-      author_email='eric.schanet@cern.ch',
-      packages=['simplify'],
-      package_data={},
-      install_requires=['pyhf', 'click'],
-      entry_points={
-        'console_scripts': ['simplify = simplify.cli:cli']
-      }
+    extras_require=extras_require,
 )
