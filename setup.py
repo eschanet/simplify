@@ -11,6 +11,8 @@ extras_require["test"] = sorted(
             "flake8-bugbear",
             "flake8-import-order",
             "flake8-print",
+            "mypy",
+            "typeguard",
             "pydocstyle",
             "black",
         ]
