@@ -1,7 +1,6 @@
-
-from . import model_tools
-from . import plot
-from . import fitter
-from . import configuration
-from . import yields
-from . import simplified
+from . import model_tools  # NOQA
+from . import plot  # NOQA
+from . import fitter  # NOQA
+from . import configuration  # NOQA
+from . import yields  # NOQA
+from . import simplified  # NOQA

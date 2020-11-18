@@ -1,12 +1,11 @@
-from typing import Any, Dict, List, NamedTuple, Optional, Tuple, overload
+import logging
+from typing import Any, Dict, List, NamedTuple, Optional
 
-import iminuit
 import numpy as np
 import pyhf
 
 from . import model_tools
 
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -107,7 +106,8 @@ def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
     spec : Dict[str, Any]
         JSON spec readable by `pyhf`.
     asimov : bool
-        boolean that determines if the fit is done to asimov data or not. Defaults to fals.
+        boolean that determines if the fit is done to
+        asimov data or not. Defaults to fals.
 
     Returns
     -------

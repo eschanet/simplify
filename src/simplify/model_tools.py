@@ -1,25 +1,29 @@
-import pyhf
-import numpy as np
-
-from typing import Any, Dict, List, Tuple, Optional, overload
+import logging
+from typing import Any, Dict, List, overload, Tuple
 
 import awkward1 as ak
+import numpy as np
+import pyhf
 
-from . import fitter
 
-import logging
 log = logging.getLogger(__name__)
 
 
 @overload
 def model_and_data(
-        spec: Dict[str, Any], poi_name: str = None, asimov: bool = False, with_aux: bool = True
+    spec: Dict[str, Any],
+    poi_name: str = None,
+    asimov: bool = False,
+    with_aux: bool = True,
 ) -> Tuple[pyhf.pdf.Model, List[float]]:
     ...
 
 
 def model_and_data(
-    spec: Dict[str, Any], poi_name: str = None, asimov: bool = False, with_aux: bool = True
+    spec: Dict[str, Any],
+    poi_name: str = None,
+    asimov: bool = False,
+    with_aux: bool = True,
 ) -> Tuple[pyhf.pdf.Model, List[float]]:
     """Returns model and data for a ``pyhf`` workspace spec.
     Args:
@@ -40,16 +44,16 @@ def model_and_data(
         workspace = spec
 
     model = workspace.model(
-        modifier_settings = {
+        modifier_settings={
             "normsys": {"interpcode": "code4"},
             "histosys": {"interpcode": "code4p"},
         },
-        poi_name = poi_name
+        poi_name=poi_name,
     )
     if not asimov:
-        data = workspace.data(model, with_aux = with_aux)
+        data = workspace.data(model, with_aux=with_aux)
     else:
-        data = build_Asimov_data(model, with_aux = with_aux)
+        data = build_Asimov_data(model, with_aux=with_aux)
     return model, data
 
 
@@ -78,6 +82,7 @@ def get_parameter_names(model: pyhf.pdf.Model) -> List[str]:
             )
     return labels
 
+
 def get_parameter_types(model: pyhf.pdf.Model) -> List[str]:
     """Gets the types of all fit parameters. Expands gammas.
 
@@ -94,11 +99,11 @@ def get_parameter_types(model: pyhf.pdf.Model) -> List[str]:
     """
     types = []
     for param in model.config.par_order:
-        for i_par in range(model.config.param_set(param).n_parameters):
+        for i_par in range(model.config.param_set(param).n_parameters):  # NOQA
             types.append(
-                f"constrained"
+                "constrained"
                 if model.config.param_set(param).constrained
-                else f"unconstrained"
+                else "unconstrained"
             )
     return types
 
@@ -128,7 +133,7 @@ def get_prefit_uncertainties(model: pyhf.pdf.Model) -> np.ndarray:
         else:
             if model.config.param_set(parameter).n_parameters == 1:
                 pre_fit_unc.append(0.0)
-            else: # shapefactor
+            else:  # shapefactor
                 pre_fit_unc += [0.0] * model.config.param_set(parameter).n_parameters
     return np.asarray(pre_fit_unc)
 
@@ -173,7 +178,8 @@ def calculate_stdev(
     Returns
     -------
     ak.highlevel.Array
-        array containing channels with each channel being an array containing the stdevs for each bin.
+        array containing channels with each channel being
+        an array containing the stdevs for each bin.
 
     """
 

@@ -1,20 +1,15 @@
-import glob
-import pathlib
 import logging
-
+import pathlib
 from typing import Any, Dict, List, Optional, Union
 
 import numpy as np
-import pyhf
 
-from . import model_tools
 from . import configuration
 from . import fitter
+from . import model_tools
 from . import yields
-
 from .helpers import plotting
 
-import logging
 log = logging.getLogger(__name__)
 
 
@@ -63,24 +58,18 @@ def yieldsTable(
     spec : Dict[str, Any]
         workspace spec in pyhf format.
     fit_results : Optional[fitter.FitResults]
-        Fit results including best-fit params and uncertainties as well as correlation matrix. Defaults to None, in which case before fit is plotted.
+        Fit results including best-fit params and uncertainties as well
+        as correlation matrix. Defaults to None, in which case before fit is plotted.
     signal_name : Optional[str]
-        Name of a signal process, if present. Will prevent this sample to be included in 'total fitted bkg'.
+        Name of a signal process, if present. Will prevent this sample
+        to be included in 'total fitted bkg'.
     """
 
     model, data_combined = model_tools.model_and_data(spec, asimov=False)
 
     ylds = yields._get_data_yield_uncertainties(spec, fit_results)
-    prefit = True if fit_results is None else False
 
     for channel_name in model.config.channels:
-
-        print(channel_name)
-        print(ylds.data[channel_name].size)
-        print(model.config.samples)
-        print(ylds.data[channel_name])
-        print(ylds.yields[channel_name])
-        print(ylds.uncertainties[channel_name])
 
         table_path = pathlib.Path(table_folder) / _build_table_name(channel_name, False)
 
@@ -114,9 +103,11 @@ def data_MC(
     figure_folder : Union[str, pathlib.Path]
         Directory where to save the figures.
     fit_results : Optional[fitter.FitResults]
-        Fit results including best-fit params and uncertainties as well as correlation matrix. Defaults to None, in which case before fit is plotted.
+        Fit results including best-fit params and uncertainties as well
+        as correlation matrix. Defaults to None, in which case before fit is plotted.
     log_scale : Optional[bool]
-        Use log scale for y-axis. Defaults to None, in which case it automatically determines what to use.
+        Use log scale for y-axis. Defaults to None, in which case
+        it automatically determines what to use.
     """
 
     model, data_combined = model_tools.model_and_data(spec, with_aux=False)
@@ -127,9 +118,7 @@ def data_MC(
     else:
         prefit = True
 
-    for i_chan, channel_name in enumerate(
-        model.config.channels
-    ):  # process channel by channel
+    for channel_name in model.config.channels:  # process channel by channel
         histogram_dict_list = []  # one dict per region/channel
 
         # get the region dictionary from the config for binning / variable name
@@ -156,8 +145,6 @@ def data_MC(
                 "variable": variable,
             }
         )
-
-        from .helpers import plotting
 
         if prefit:
             figure_path = pathlib.Path(figure_folder) / _build_figure_name(
@@ -190,7 +177,8 @@ def correlation_matrix(
     output_path : Union[str, pathlib.Path]
         Directoy where figures are saved.
     pruning_threshold : float
-        Minimum correlation of a parameter to have with any other parameter to get included in the plot. Defaults to 0.0.
+        Minimum correlation of a parameter to have with any other parameter
+        to get included in the plot. Defaults to 0.0.
     """
 
     # create a matrix that is True if a correlation is below threshold, and True on the

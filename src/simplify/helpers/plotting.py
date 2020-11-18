@@ -1,3 +1,4 @@
+import logging
 import pathlib
 from typing import Any, Dict, List, Optional, Union
 
@@ -5,9 +6,6 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-import awkward1 as ak
-
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -41,19 +39,16 @@ def yieldsTable(
         header = ''
         footer = ''
 
-    table_header = ''
-    table_footer = ''
-
     columns = "l"
     columns += "".join(["c"] * nbins)
     if nbins > 1:
         columns += "c"
 
-    region_name = region_name.replace('_', '\_')
+    region_name = region_name.replace('_', r'\_')
     column_names = region_name
     if nbins > 0:
         for i_bin in range(nbins):
-            column_names += " & %s\_bin%i" % (region_name, i_bin)
+            column_names += r' & %s\_bin%i' % (region_name, i_bin)
 
     if signal_name:
         # signal_index = samples.index(signal_name)
@@ -70,10 +65,11 @@ def yieldsTable(
     else:
         bkgOnly_yields = yields
 
-    # FIXME: this still has signal uncertainties in total uncertainty, which is not right!!!!
+    # FIXME: this still has signal uncertainties
+    # in total uncertainty, which is not right!!!!
     # get total region first, then do the bins
     data_line = "Observed events & ${}$".format(np.sum(data))
-    total_sm = "Fitted bkg events & ${:8.3f} \pm {:8.3f}$".format(
+    total_sm = r'Fitted bkg events & ${:8.3f} \pm {:8.3f}'.format(
         np.sum(bkgOnly_yields), np.sqrt(np.sum(uncertainties ** 2))
     )
 
@@ -81,7 +77,7 @@ def yieldsTable(
     if nbins > 1:
         for i_bin in range(nbins):
             data_line += " & ${}$".format(data[i_bin])
-            total_sm += " & ${:8.3f} \pm {:8.3f}$".format(
+            total_sm += r' & ${:8.3f} \pm {:8.3f}$'.format(
                 np.sum(bkgOnly_yields[:, i_bin]), uncertainties[i_bin]
             )
 
@@ -93,7 +89,7 @@ def yieldsTable(
     main = ''
     for i_sample, sample in enumerate(samples):
         main += "Fitted {} events & ${:8.3f}$".format(
-            sample.replace("_", "\_"), np.sum(yields[i_sample, :])
+            sample.replace("_", r'\_'), np.sum(yields[i_sample, :])
         )
         if nbins > 1:
             for i_bin in range(nbins):
@@ -353,8 +349,6 @@ def pulls(
     y_positions = np.arange(num_pars)[::-1]
     y_pos_constrained = np.arange(num_pars_constrained)[::-1]
     y_pos_unconstrained = np.arange(y_pos_constrained[0] + 1, num_pars)[::-1]
-    print(y_pos_constrained)
-    print(y_pos_unconstrained)
     fig, ax = plt.subplots(figsize=(6, 1 + num_pars / 4), dpi=100)
 
     ax2 = ax.twiny()

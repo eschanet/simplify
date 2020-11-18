@@ -1,18 +1,18 @@
-import click
-
-import pyhf
-pyhf.set_backend(pyhf.tensorlib, "minuit")
-
 import json
 import logging
+from typing import Any, KeysView
 
-from typing import Any, KeysView, Optional, Tuple
+import click
+import pyhf
 
-from ..version import __version__
 from .. import fitter
-from .. import yields
 from .. import model_tools
 from .. import simplified
+from .. import yields
+from ..version import __version__
+
+pyhf.set_backend(pyhf.tensorlib, "minuit")
+
 
 class OrderedGroup(click.Group):
     """A group that shows commands in the order they were added."""
@@ -29,7 +29,6 @@ def _set_logging() -> None:
     logging.getLogger("pyhf").setLevel(logging.WARNING)
 
 
-
 @click.group(cls=OrderedGroup)
 @click.version_option(version=__version__)
 def simplify():
@@ -37,8 +36,8 @@ def simplify():
 
 
 @click.command()
-@click.option('--input-file','-i', help="Input JSON likelihood file")
-@click.option('--output-file','-o', help="Name of output JSON likelihood file")
+@click.option('--input-file', '-i', help="Input JSON likelihood file")
+@click.option('--output-file', '-o', help="Name of output JSON likelihood file")
 def convert(input_file, output_file):
 
     click.echo("Loading input JSON")
@@ -50,14 +49,13 @@ def convert(input_file, output_file):
     click.echo("Bkg-only fit")
     fit_result = fitter.fit(spec)
 
-    # click.echo("Computing uncertainties")
-    # stdevs = model_tools.calculate_stdev(model,fit_result.bestfit,fit_result.uncertainty,fit_result.corr_mat)
-
     click.echo("Getting post-fit yields and uncertainties")
     ylds = yields.get_yields(spec, fit_result)
 
     click.echo("Building simplified likelihood")
-    newspec = simplified.get_simplified_spec(spec, ylds, allowed_modifiers=["lumi"], prune_channels=[])
+    newspec = simplified.get_simplified_spec(
+        spec, ylds, allowed_modifiers=["lumi"], prune_channels=[]
+    )
 
     with open(output_file, 'w') as ofile:
         json.dump(newspec, ofile, indent=4)
