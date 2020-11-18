@@ -39,7 +39,7 @@ def example_spec():
                     ],
                     "poi": "mu_Sig",
                 },
-                "name": "helm",
+                "name": "single bin",
             }
         ],
         "observations": [{"data": [691], "name": "SR"}],
@@ -77,7 +77,7 @@ def example_spec_multibin():
                 "name": "region_2",
                 "samples": [
                     {
-                        "data": [11],
+                        "data": [10],
                         "modifiers": [
                             {
                                 "data": [2],
@@ -96,12 +96,108 @@ def example_spec_multibin():
             },
         ],
         "measurements": [
-            {"config": {"parameters": [], "poi": "mu_Sig"}, "name": "helm"}
+            {"config": {"parameters": [], "poi": "mu_Sig"}, "name": "multi bin"}
         ],
         "observations": [
             {"data": [42, 9], "name": "region_1"},
             {"data": [10], "name": "region_2"},
         ],
+        "version": "1.0.0",
+    }
+    return spec
+
+
+@pytest.fixture
+def example_spec_shapefactor():
+    spec = {
+        "channels": [
+            {
+                "name": "SR",
+                "samples": [
+                    {
+                        "data": [30, 12],
+                        "modifiers": [
+                            {
+                                "data": None,
+                                "name": "shape factor",
+                                "type": "shapefactor",
+                            },
+                            {
+                                "data": None,
+                                "name": "mu_Sig",
+                                "type": "normfactor",
+                            },
+                        ],
+                        "name": "Signal",
+                    }
+                ],
+            }
+        ],
+        "measurements": [
+            {
+                "config": {"parameters": [], "poi": "mu_Sig"},
+                "name": "shapefactor fit",
+            }
+        ],
+        "observations": [{"data": [32, 11], "name": "SR"}],
+        "version": "1.0.0",
+    }
+    return spec
+
+
+@pytest.fixture
+def example_spec_with_background():
+    spec = {
+        "channels": [
+            {
+                "name": "SR",
+                "samples": [
+                    {
+                        "data": [43],
+                        "modifiers": [
+                            {
+                                "data": [5],
+                                "name": "staterror_SR",
+                                "type": "staterror",
+                            },
+                            {
+                                "data": None,
+                                "name": "mu_Sig",
+                                "type": "normfactor",
+                            },
+                        ],
+                        "name": "Signal",
+                    },
+                    {
+                        "data": [146],
+                        "modifiers": [
+                            {
+                                "data": [7],
+                                "name": "staterror_SR",
+                                "type": "staterror",
+                            }
+                        ],
+                        "name": "Bkg",
+                    },
+                ],
+            }
+        ],
+        "measurements": [
+            {
+                "config": {
+                    "parameters": [
+                        {
+                            "name": "mu_Sig",
+                            "bounds": [[0, 10]],
+                            "inits": [1.0],
+                        }
+                    ],
+                    "poi": "mu_Sig",
+                },
+                "name": "signal+background",
+            }
+        ],
+        "observations": [{"data": [150], "name": "SR"}],
         "version": "1.0.0",
     }
     return spec
