@@ -121,7 +121,7 @@ def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
 
     fit_result = _fit_model_pyhf(model, data)
 
-    # log.debug(print_results(fit_result))
+    log.debug(print_results(fit_result))
     log.debug(f"-2 log(L) = {fit_result.best_twice_nll:.6f} at the best-fit point")
 
     return fit_result
