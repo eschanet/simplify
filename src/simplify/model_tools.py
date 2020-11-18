@@ -118,20 +118,17 @@ def get_prefit_uncertainties(model: pyhf.pdf.Model) -> np.ndarray:
 
     """
 
-    pre_fit_unc = []  # pre-fit uncertainties for parameters
+    pre_fit_unc = []
     for parameter in model.config.par_order:
-        # obtain pre-fit uncertainty for constrained, non-fixed parameters
         if (
             model.config.param_set(parameter).constrained
-            and not model.config.param_set(parameter).fixed
+            and not model.config.param_set(parameter).suggested_fixed
         ):
             pre_fit_unc += model.config.param_set(parameter).width()
         else:
             if model.config.param_set(parameter).n_parameters == 1:
-                # unconstrained normfactor or fixed parameter, uncertainty is 0
                 pre_fit_unc.append(0.0)
-            else:
-                # shapefactor
+            else: # shapefactor
                 pre_fit_unc += [0.0] * model.config.param_set(parameter).n_parameters
     return np.asarray(pre_fit_unc)
 
