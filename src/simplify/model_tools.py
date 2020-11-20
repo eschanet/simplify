@@ -62,8 +62,8 @@ def model_and_data(
     )
     if not asimov:
         data = workspace.data(model, with_aux=with_aux)
-    else:
-        data = build_Asimov_data(model, with_aux=with_aux)
+    # else:
+    #     data = build_Asimov_data(model, with_aux=with_aux)
     return model, data
 
 
