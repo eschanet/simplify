@@ -1,12 +1,9 @@
-import json
+import logging
 import pathlib
-import pkgutil
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, Union
 
-import jsonschema
 import yaml
 
-import logging
 
 log = logging.getLogger(__name__)
 
