@@ -18,8 +18,8 @@ def yieldsTable(
     yields: np.ndarray,
     uncertainties: np.ndarray,
     figure_path: pathlib.Path,
-    signal_name: str = None,
-    standalone: bool = True,
+    signal_name: Optional[str] = None,
+    standalone: Optional[bool] = True,
 ) -> None:
     """Print a yieldstable in Latex format"""
 

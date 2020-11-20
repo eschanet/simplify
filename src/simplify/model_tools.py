@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, overload, Tuple
+from typing import Any, Dict, List, Optional, overload, Tuple, Union
 
 import awkward1 as ak
 import numpy as np
@@ -12,7 +12,17 @@ log = logging.getLogger(__name__)
 @overload
 def model_and_data(
     spec: Dict[str, Any],
-    poi_name: str = None,
+    poi_name: Optional[str] = None,
+    asimov: bool = False,
+    with_aux: bool = True,
+) -> Tuple[pyhf.pdf.Model, List[float]]:
+    ...
+
+
+@overload
+def model_and_data(
+    spec: pyhf.Workspace,
+    poi_name: Optional[str] = None,
     asimov: bool = False,
     with_aux: bool = True,
 ) -> Tuple[pyhf.pdf.Model, List[float]]:
@@ -20,8 +30,8 @@ def model_and_data(
 
 
 def model_and_data(
-    spec: Dict[str, Any],
-    poi_name: str = None,
+    spec: Union[Dict[str, Any], pyhf.Workspace],
+    poi_name: Optional[str] = None,
     asimov: bool = False,
     with_aux: bool = True,
 ) -> Tuple[pyhf.pdf.Model, List[float]]:

@@ -31,14 +31,14 @@ def _set_logging() -> None:
 
 @click.group(cls=OrderedGroup)
 @click.version_option(version=__version__)
-def simplify():
+def simplify() -> None:
     """Top-level CLI entrypoint."""
 
 
 @click.command()
 @click.option('--input-file', '-i', help="Input JSON likelihood file")
 @click.option('--output-file', '-o', help="Name of output JSON likelihood file")
-def convert(input_file, output_file):
+def convert(input_file: str, output_file: str) -> None:
 
     click.echo("Loading input JSON")
     spec = json.load(open(input_file, "r"))

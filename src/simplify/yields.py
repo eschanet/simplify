@@ -24,12 +24,12 @@ class Yields(NamedTuple):
 def _pdgRound(
     value: float,
     error: float,
-) -> Tuple[float, float]:
+) -> Tuple[str, str]:
     """
     Given a value and an error, round and format them according to PDG rounding rules.
     """
 
-    def threeDigits(err):
+    def threeDigits(err: float) -> int:
         """Extract the three most significant digits and return as int"""
         return int(
             ("%.2e" % float(err))
@@ -39,7 +39,7 @@ def _pdgRound(
             .replace('-', '')
         )
 
-    def nSignificantDigits(threeDigits):
+    def nSignificantDigits(threeDigits: int) -> int:
         if threeDigits == 0:
             return 0
         assert threeDigits < 1000, (
@@ -55,19 +55,21 @@ def _pdgRound(
         else:
             return 2
 
-    def frexp10(value):
+    def frexp10(value: float) -> Tuple[float, int]:
         "convert to mantissa+exp representation (same as frex, but in base 10)"
         valueStr = ("%e" % float(value)).split('e')
         return float(valueStr[0]), int(valueStr[1])
 
-    def nDigitsValue(expVal, expErr, nDigitsErr):
+    def nDigitsValue(expVal: int, expErr: int, nDigitsErr: int) -> int:
         """
         compute the number of digits we want for the value,
         assuming we keep nDigitsErr for the error
         """
         return expVal - expErr + nDigitsErr
 
-    def formatValue(value, exponent, nDigits, extraRound=0):
+    def formatValue(
+        value: float, exponent: int, nDigits: int, extraRound: int = 0
+    ) -> str:
         "Format the value; extraRound is meant for the special case of threeDigits>950"
         roundAt = nDigits - 1 - exponent - extraRound
         nDec = roundAt if exponent < nDigits else 0
@@ -75,7 +77,7 @@ def _pdgRound(
         return ('%.' + str(nDec) + 'f') % round(value, roundAt)
 
     if value == 0.0 and error == 0.0:
-        return (0.0, 0.0)
+        return ("0.0", "0.0")
     tD = threeDigits(error)
     nD = nSignificantDigits(tD)
     expVal, expErr = frexp10(value)[1], frexp10(error)[1]
@@ -89,7 +91,7 @@ def _pdgRound(
 def _get_data_yield_uncertainties(
     spec: Dict[str, Any],
     fit_results: Optional[fitter.FitResults] = None,
-) -> Tuple[List[np.ndarray], List[np.ndarray], ak.highlevel.Array]:
+) -> Yields:
     """Gets data, yields and uncertainties.
     Prefit if no fit results are given, else postfit.
 
@@ -162,7 +164,7 @@ def _get_data_yield_uncertainties(
 def get_yields(
     spec: Dict[str, Any],
     fit_results: Optional[fitter.FitResults] = None,
-) -> Tuple[List[np.ndarray], ak.highlevel.Array]:
+) -> Yields:
     """Gets yields and uncertainties. Prefit if no fit results are given, else postfit.
 
     Parameters
