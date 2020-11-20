@@ -37,6 +37,7 @@ def test_print_results(caplog):
         bestfit, uncertainty, labels, types, np.empty(0), 0.0
     )  # NOQA
 
+    fitter.print_results(fit_results)
     assert "param_1:  1.000000 +/- 0.100000" in [rec.message for rec in caplog.records]
     assert "param_2:  2.000000 +/- 0.300000" in [rec.message for rec in caplog.records]
     caplog.clear()
@@ -45,6 +46,7 @@ def test_print_results(caplog):
 # skip a "RuntimeWarning: numpy.ufunc size changed" warning
 # due to different numpy versions used in dependencies
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
+@pytest.mark.filterwarnings("ignore::DeprecationWarning")
 def test__fit_model_pyhf(example_spec, example_spec_multibin):
     model, data = model_tools.model_and_data(example_spec)
     fit_results = fitter._fit_model_pyhf(model, data)
