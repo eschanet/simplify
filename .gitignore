@@ -5,7 +5,8 @@
 *.png
 
 # reference for tests
-!tests/helpers/reference/*pdf
+!tests/helpers/reference/*.pdf
+!tests/helpers/reference/*.tex
 
 # Editors
 .vscode/
