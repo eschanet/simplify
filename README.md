@@ -4,7 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/simplify-hep/badge/?version=latest)](https://simplify-hep.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://codecov.io/gh/eschanet/simplify/branch/master/graph/badge.svg)](https://codecov.io/gh/eschanet/simplify)
 [![PyPI version](https://badge.fury.io/py/simplify-hep.svg)](https://badge.fury.io/py/simplify-hep)
-[![python version](https://img.shields.io/pypi/pyversions/simplify.svg)](https://pypi.org/project/simplify-hep/)
+[![python version](https://img.shields.io/pypi/pyversions/simplify-hep.svg)](https://pypi.org/project/simplify-hep/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A package that creates simplified likelihoods from full likelihoods. Currently, only one form of simplified likelihoods is implemented, but the idea is to implement additional versions of the simplified likelihoods, such that the user can chose the one he likes the most (or needs the most).
