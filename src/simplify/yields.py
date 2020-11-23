@@ -1,6 +1,7 @@
 import logging
 from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 
+import awkward1 as ak1
 import numpy as np
 
 from . import fitter
@@ -16,7 +17,7 @@ class Yields(NamedTuple):
     regions: List[str]
     samples: List[str]
     yields: Dict[str, np.array]
-    uncertainties: Dict[str, np.ndarray]
+    uncertainties: Dict[str, ak1.highlevel.Array]
     data: Dict[str, np.array]
 
 
@@ -103,7 +104,7 @@ def _get_data_yield_uncertainties(
 
     Returns
     -------
-    Tuple[List[np.ndarray], ak.highlevel.Array]
+    Yields
         Data, yields and uncertainties.
 
     """
@@ -175,7 +176,7 @@ def get_yields(
 
     Returns
     -------
-    Tuple[List[np.ndarray], ak.highlevel.Array]
+    Yields
         Yields and uncertainties for all channels.
 
     """
