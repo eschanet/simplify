@@ -1,5 +1,6 @@
 prune *
 graft src
 include LICENSE
+include CONTRIBUTING.md
 
 global-exclude __pycache__ *.py[cod] .* *.ipynb
