@@ -22,6 +22,15 @@ def test_model_and_data(example_spec):
 
     # TODO: Need to test overloaded method as well
 
+    # test handing a workspace instead of JSON
+    model, data = model_tools.model_and_data(pyhf.Workspace(example_spec))
+    assert model.spec["channels"] == example_spec["channels"]
+    assert model.config.modifier_settings == {
+        "normsys": {"interpcode": "code4"},
+        "histosys": {"interpcode": "code4p"},
+    }
+    assert data == [691, 1.0]
+
     # without auxdata
     model, data = model_tools.model_and_data(example_spec, with_aux=False)
     assert data == [691]
