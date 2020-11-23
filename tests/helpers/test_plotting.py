@@ -29,11 +29,9 @@ def test_yieldsTable(tmp_path):
         standalone=True,
     )
 
-    with open("tests/helpers/reference/yieldstable.tex") as f:
-        data = f.read().replace('\n', '')
-    with open(fname) as f:
-        new = f.read().replace('\n', '')
-    assert new == data
+    assert [row.strip() for row in open("tests/helpers/reference/yieldstable.tex")] == [
+        row.strip() for row in open(fname)
+    ]
 
 
 def test_correlation_matrix(tmp_path):
