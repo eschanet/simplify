@@ -62,8 +62,8 @@ def model_and_data(
     )
     if not asimov:
         data = workspace.data(model, with_aux=with_aux)
-    # else:
-    #     data = build_Asimov_data(model, with_aux=with_aux)
+    else:
+        data = build_Asimov_data(model, with_aux=with_aux)
     return model, data
 
 
@@ -149,11 +149,49 @@ def get_prefit_uncertainties(model: pyhf.pdf.Model) -> np.ndarray:
 
 
 def build_Asimov_data(model: pyhf.Model, with_aux: bool = True) -> List[float]:
-    pass
+    """Get asimov dataset for a model
+
+    Args:
+        model (pyhf.Model): the model for which to construct the asimov data
+        with_aux (bool, optional): with or without auxdata. Defaults to True.
+
+    Returns:
+        List[float]: asimov data
+    """
+
+    asimov_data = model.expected_data(
+        get_asimov_parameters(model), include_auxdata=with_aux
+    ).tolist()
+    return asimov_data
 
 
 def get_asimov_parameters(model: pyhf.pdf.Model) -> np.ndarray:
-    pass
+    """Get list of asimov parameter values.
+
+    Args:
+        model (pyhf.pdf.Model): model for which to get asimov parameter values
+
+    Returns:
+        np.ndarray: asimov parameter values
+    """
+    auxdata_pars_all = []
+    for parameter in model.config.auxdata_order:
+        auxdata_pars_all += [parameter] * model.config.param_set(parameter).n_parameters
+
+    asimov_parameters = []
+    for parameter in model.config.par_order:
+        aux_indices = [i for i, par in enumerate(auxdata_pars_all) if par == parameter]
+        if aux_indices:
+            # best-fit value from auxdata
+            inits = [
+                aux for i, aux in enumerate(model.config.auxdata) if i in aux_indices
+            ]
+        else:
+            # suggested inits from ws (for normfactors)
+            inits = model.config.param_set(parameter).suggested_init
+        asimov_parameters += inits
+
+    return np.asarray(asimov_parameters)
 
 
 def _get_channel_boundary_indices(model: pyhf.pdf.Model) -> List[int]:

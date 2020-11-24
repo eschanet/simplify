@@ -87,8 +87,8 @@ def yieldsTable(
 
 def data_MC(
     config: Dict[str, Any],
-    figure_folder: Union[str, pathlib.Path],
     spec: Dict[str, Any],
+    figure_folder: Union[str, pathlib.Path],
     fit_results: Optional[fitter.FitResults] = None,
     log_scale: Optional[bool] = None,
 ) -> None:

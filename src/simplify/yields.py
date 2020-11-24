@@ -1,7 +1,7 @@
 import logging
 from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 
-import awkward1 as ak1
+import awkward1 as ak
 import numpy as np
 
 from . import fitter
@@ -17,7 +17,7 @@ class Yields(NamedTuple):
     regions: List[str]
     samples: List[str]
     yields: Dict[str, np.array]
-    uncertainties: Dict[str, ak1.highlevel.Array]
+    uncertainties: Dict[str, ak.highlevel.Array]
     data: Dict[str, np.array]
 
 
@@ -112,19 +112,16 @@ def _get_data_yield_uncertainties(
     model, data_combined = model_tools.model_and_data(spec, with_aux=False)
 
     if fit_results is not None:
-        # prefit = False
         param_values = fit_results.bestfit
         param_uncertainty = fit_results.uncertainty
         corr_mat = fit_results.corr_mat
 
-    # else:
-    #     # no fit results specified, draw a pre-fit plot
-    #     prefit = True
-    #     # use pre-fit parameter values, uncertainties, and diagonal correlation matrix
-    #     param_values = get_asimov_parameters(model)
-    #     param_uncertainty = get_prefit_uncertainties(model)
-    #     corr_mat = np.zeros(shape=(len(param_values), len(param_values)))
-    #     np.fill_diagonal(corr_mat, 1.0)
+    else:
+        # no fit results specified, draw a prefit plot
+        param_values = model_tools.get_asimov_parameters(model)
+        param_uncertainty = model_tools.get_prefit_uncertainties(model)
+        corr_mat = np.zeros(shape=(len(param_values), len(param_values)))
+        np.fill_diagonal(corr_mat, 1.0)
 
     yields_combined = model.main_model.expected_data(
         param_values, return_by_sample=True
