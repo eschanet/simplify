@@ -70,18 +70,12 @@ def model_and_data(
 def get_parameter_names(model: pyhf.pdf.Model) -> List[str]:
     """Gets the labels of all fit parameters. Expands gammas.
 
-    Parameters
-    ----------
-    model : pyhf.pdf.Model
-        pyhf model.
+    Args:
+        model (pyhf.pdf.Model): pyhf model
 
-    Returns
-    -------
-    List[str]
-        Names of fit parameters.
-
+    Returns:
+        List[str]: names of fit params
     """
-
     labels = []
     for param in model.config.par_order:
         for i_par in range(model.config.param_set(param).n_parameters):
@@ -94,18 +88,13 @@ def get_parameter_names(model: pyhf.pdf.Model) -> List[str]:
 
 
 def get_parameter_types(model: pyhf.pdf.Model) -> List[str]:
-    """Gets the types of all fit parameters. Expands gammas.
+    """Gets the types of all fit parameters.
 
-    Parameters
-    ----------
-    model : pyhf.pdf.Model
-        pyhf model.
+    Args:
+        model (pyhf.pdf.Model): pyhf model
 
-    Returns
-    -------
-    List[str]
-        Types of fit parameters.
-
+    Returns:
+        List[str]: types of fit params
     """
     types = []
     for param in model.config.par_order:
@@ -119,20 +108,14 @@ def get_parameter_types(model: pyhf.pdf.Model) -> List[str]:
 
 
 def get_prefit_uncertainties(model: pyhf.pdf.Model) -> np.ndarray:
-    """Gets list of before fit parameter uncertainties for a pyhf model
+    """List of before fit parameter uncertainties
 
-    Parameters
-    ----------
-    model : pyhf.pdf.Model
-        pyhf model for which the parameters should be extracted.
+    Args:
+        model (pyhf.pdf.Model): pyhf model from which to extract the parameters
 
-    Returns
-    -------
-    np.ndarray
-        Before fit uncertainties.
-
+    Returns:
+        np.ndarray: before fit uncertainties
     """
-
     pre_fit_unc = []
     for parameter in model.config.par_order:
         if (
@@ -210,25 +193,17 @@ def calculate_stdev(
     uncertainty: np.ndarray,
     corr_mat: np.ndarray,
 ) -> ak.highlevel.Array:
-    """Method for computing the symmetrized yield standard deviation of a model.
+    """Computes the symmetrized yield std dev.
 
-    Parameters
-    ----------
-    model : pyhf.pdf.Model
-        pyhf model for which to compute the stdev for all bins.
-    parameters : np.ndarray
-        central values.
-    uncertainty : np.ndarray
-        uncertainties of all parameters.
-    corr_mat : np.ndarray
-        correlation matrix.
+    Args:
+        model (pyhf.pdf.Model): pyhf model for which to compute the stdev for all bins
+        parameters (np.ndarray): central values
+        uncertainty (np.ndarray): uncertainties of all parameters
+        corr_mat (np.ndarray): correlation matrix
 
-    Returns
-    -------
-    ak.highlevel.Array
-        array containing channels with each channel being
-        an array containing the stdevs for each bin.
-
+    Returns:
+        ak.highlevel.Array: awkward array containing channel arrays where
+        each array contains the stdevs for each bin in the respective channel
     """
 
     # indices where to split to separate all bins into regions
