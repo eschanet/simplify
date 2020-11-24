@@ -105,4 +105,4 @@ tables = simplify.plot.yieldsTable(
 
 ## Dependencies
 
-Naturally relies heavily on `pyhf`. Part of the code for plotting and validating results is inspired by Alexander Held's [`simplify`](https://github.com/eschanet/simplify/blob/master/src/simplify/fit.py).
+Naturally relies heavily on `pyhf`. Part of the code for plotting and validating results is inspired by Alexander Held's [`cabinetry`](https://github.com/alexander-held/cabinetry/).
