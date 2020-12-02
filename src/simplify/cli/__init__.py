@@ -13,6 +13,8 @@ from ..version import __version__
 
 pyhf.set_backend(pyhf.tensorlib, "minuit")
 
+log = logging.getLogger(__name__)
+
 
 class OrderedGroup(click.Group):
     """A group that shows commands in the order they were added."""
@@ -36,26 +38,26 @@ def simplify() -> None:
 
 
 @click.command()
-@click.option('--input-file', '-i', help="Input JSON likelihood file")
+@click.argument("workspace", default="-")
 @click.option(
     '--output-file', '-o', default=None, help="Name of output JSON likelihood file"
 )
-# @click.option('--fixed-pars', '-f', help="Parameters to be held constant in fit")
-def convert(input_file: str, output_file: Optional[str] = None) -> None:
+def convert(workspace: str, output_file: Optional[str] = None) -> None:
 
-    click.echo("Loading input JSON")
-    spec = json.load(open(input_file))
+    log.debug("Loading input")
+    with click.open_file(workspace, "r") as specstream:
+        spec = json.load(specstream)
 
-    click.echo("Getting model and data")
+    log.debug("Getting model and data")
     model, data = model_tools.model_and_data(spec)
 
-    click.echo("Bkg-only fit")
+    log.debug("Bkg-only fit")
     fit_result = fitter.fit(spec)
 
-    click.echo("Getting post-fit yields and uncertainties")
+    log.debug("Getting post-fit yields and uncertainties")
     ylds = yields.get_yields(spec, fit_result)
 
-    click.echo("Building simplified likelihood")
+    log.debug("Building simplified likelihood")
     newspec = simplified.get_simplified_spec(
         spec, ylds, allowed_modifiers=["lumi"], prune_channels=[]
     )
@@ -65,7 +67,7 @@ def convert(input_file: str, output_file: Optional[str] = None) -> None:
     else:
         with open(output_file, 'w+') as out_file:
             json.dump(newspec, out_file, indent=4, sort_keys=True)
-        click.echo(f"Written to {output_file}")
+        log.debug(f"Written to {output_file}")
 
 
 simplify.add_command(convert)
