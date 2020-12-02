@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, KeysView
+from typing import Any, KeysView, Optional
 
 import click
 import pyhf
@@ -37,11 +37,14 @@ def simplify() -> None:
 
 @click.command()
 @click.option('--input-file', '-i', help="Input JSON likelihood file")
-@click.option('--output-file', '-o', help="Name of output JSON likelihood file")
-def convert(input_file: str, output_file: str) -> None:
+@click.option(
+    '--output-file', '-o', default=None, help="Name of output JSON likelihood file"
+)
+# @click.option('--fixed-pars', '-f', help="Parameters to be held constant in fit")
+def convert(input_file: str, output_file: Optional[str] = None) -> None:
 
     click.echo("Loading input JSON")
-    spec = json.load(open(input_file, "r"))
+    spec = json.load(open(input_file))
 
     click.echo("Getting model and data")
     model, data = model_tools.model_and_data(spec)
@@ -57,8 +60,12 @@ def convert(input_file: str, output_file: str) -> None:
         spec, ylds, allowed_modifiers=["lumi"], prune_channels=[]
     )
 
-    with open(output_file, 'w') as ofile:
-        json.dump(newspec, ofile, indent=4)
+    if output_file is None:
+        click.echo(json.dumps(newspec, indent=4, sort_keys=True))
+    else:
+        with open(output_file, 'w+') as out_file:
+            json.dump(newspec, out_file, indent=4, sort_keys=True)
+        click.echo(f"Written to {output_file}")
 
 
 simplify.add_command(convert)
