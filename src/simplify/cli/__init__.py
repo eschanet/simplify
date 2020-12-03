@@ -52,7 +52,7 @@ def convert(workspace: str, output_file: Optional[str] = None) -> None:
     model, data = model_tools.model_and_data(spec)
 
     log.debug("Bkg-only fit")
-    fit_result = fitter.fit(spec)
+    fit_result = fitter.fit(model, data)
 
     log.debug("Getting post-fit yields and uncertainties")
     ylds = yields.get_yields(spec, fit_result)

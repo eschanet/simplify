@@ -42,7 +42,7 @@ def test___pdgRound():
 @pytest.mark.filterwarnings("ignore::DeprecationWarning")
 def test__get_data_yield_uncertainties(example_spec):
     model, data = model_tools.model_and_data(example_spec)
-    fit_results = fitter._fit_model_pyhf(model, data)
+    fit_results = fitter.fit(model, data)
 
     y = yld._get_data_yield_uncertainties(example_spec, fit_results)
     for region in y.regions:
@@ -56,7 +56,7 @@ def test__get_data_yield_uncertainties(example_spec):
 @pytest.mark.filterwarnings("ignore::DeprecationWarning")
 def test_get_yields(example_spec):
     model, data = model_tools.model_and_data(example_spec)
-    fit_results = fitter._fit_model_pyhf(model, data)
+    fit_results = fitter.fit(model, data)
 
     y = yld.get_yields(example_spec, fit_results)
     for region in y.regions:
