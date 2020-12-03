@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, KeysView
+from typing import Any, KeysView, Optional
 
 import click
 import pyhf
@@ -12,6 +12,8 @@ from .. import yields
 from ..version import __version__
 
 pyhf.set_backend(pyhf.tensorlib, "minuit")
+
+log = logging.getLogger(__name__)
 
 
 class OrderedGroup(click.Group):
@@ -36,29 +38,36 @@ def simplify() -> None:
 
 
 @click.command()
-@click.option('--input-file', '-i', help="Input JSON likelihood file")
-@click.option('--output-file', '-o', help="Name of output JSON likelihood file")
-def convert(input_file: str, output_file: str) -> None:
+@click.argument("workspace", default="-")
+@click.option(
+    '--output-file', '-o', default=None, help="Name of output JSON likelihood file"
+)
+def convert(workspace: str, output_file: Optional[str] = None) -> None:
 
-    click.echo("Loading input JSON")
-    spec = json.load(open(input_file, "r"))
+    log.debug("Loading input")
+    with click.open_file(workspace, "r") as specstream:
+        spec = json.load(specstream)
 
-    click.echo("Getting model and data")
+    log.debug("Getting model and data")
     model, data = model_tools.model_and_data(spec)
 
-    click.echo("Bkg-only fit")
+    log.debug("Bkg-only fit")
     fit_result = fitter.fit(spec)
 
-    click.echo("Getting post-fit yields and uncertainties")
+    log.debug("Getting post-fit yields and uncertainties")
     ylds = yields.get_yields(spec, fit_result)
 
-    click.echo("Building simplified likelihood")
+    log.debug("Building simplified likelihood")
     newspec = simplified.get_simplified_spec(
         spec, ylds, allowed_modifiers=["lumi"], prune_channels=[]
     )
 
-    with open(output_file, 'w') as ofile:
-        json.dump(newspec, ofile, indent=4)
+    if output_file is None:
+        click.echo(json.dumps(newspec, indent=4, sort_keys=True))
+    else:
+        with open(output_file, 'w+') as out_file:
+            json.dump(newspec, out_file, indent=4, sort_keys=True)
+        log.debug(f"Written to {output_file}")
 
 
 simplify.add_command(convert)

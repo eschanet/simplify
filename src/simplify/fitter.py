@@ -64,7 +64,7 @@ def _fit_model_pyhf(
         Results of the fit.
 
     """
-    pyhf.set_backend("numpy", pyhf.optimize.minuit_optimizer(verbose=True))
+    pyhf.set_backend("numpy", pyhf.optimize.minuit_optimizer(verbose=False))
 
     result, result_obj = pyhf.infer.mle.fit(
         data,
