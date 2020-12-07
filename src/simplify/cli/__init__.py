@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, KeysView, Optional
+from typing import Any, KeysView, List, Optional
 
 import click
 import pyhf
@@ -42,22 +42,45 @@ def simplify() -> None:
 @click.option(
     '--output-file', '-o', default=None, help="Name of output JSON likelihood file"
 )
-def convert(workspace: str, output_file: Optional[str] = None) -> None:
+@click.option(
+    '--fixed-pars',
+    '-f',
+    default=[],
+    multiple=True,
+    help="Parameters to keep fixed at given value (e.g. 'mu_SIG:1.0')",
+)
+def convert(
+    workspace: str,
+    fixed_pars: Optional[List[str]] = None,
+    output_file: Optional[str] = None,
+) -> None:
 
-    log.debug("Loading input")
+    # Read JSON spec
     with click.open_file(workspace, "r") as specstream:
         spec = json.load(specstream)
 
-    log.debug("Getting model and data")
+    # Get model and data
     model, data = model_tools.model_and_data(spec)
 
-    log.debug("Bkg-only fit")
-    fit_result = fitter.fit(model, data)
+    # Set fixed params and run fit
+    fixed_params = model.config.suggested_fixed()
+    init_pars = model.config.suggested_init()
+    if not fixed_pars:
+        fixed_pars = []
 
-    log.debug("Getting post-fit yields and uncertainties")
+    for (param, init) in [
+        (param.split(':')[0], float(param.split(':')[1])) for param in fixed_pars
+    ]:
+        index = model.config.par_order.index(param)
+        fixed_params[index] = True
+        init_pars[index] = float(init)
+
+    fit_result = fitter.fit(model, data, init_pars=init_pars, fixed_pars=fixed_params)
+
+    # Get yields
     ylds = yields.get_yields(spec, fit_result)
 
-    log.debug("Building simplified likelihood")
+    # Hand yields to simplified LH builder and get simplified LH
     newspec = simplified.get_simplified_spec(
         spec, ylds, allowed_modifiers=["lumi"], prune_channels=[]
     )
