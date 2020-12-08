@@ -91,6 +91,7 @@ def _pdgRound(
 def _get_data_yield_uncertainties(
     spec: Dict[str, Any],
     fit_results: Optional[fitter.FitResults] = None,
+    exclude_process: Optional[List[str]] = None,
 ) -> Yields:
     """Gets data, yields and uncertainties.
     Prefit if no fit results are given, else postfit.
@@ -101,6 +102,8 @@ def _get_data_yield_uncertainties(
         pyhf JSON spec.
     fit_results : Optional[fitter.FitResults]
         Fit results holding parameters and best-fit values.
+    exclude_process : Optional[List[str]]
+        List of sample names to exclude from yields.
 
     Returns
     -------
@@ -140,8 +143,16 @@ def _get_data_yield_uncertainties(
         model, param_values, param_uncertainty, corr_mat
     )
 
+    exclude_process = exclude_process or []
+    include_samples = np.array(
+        [
+            True if sample not in exclude_process else False
+            for sample in model.config.samples
+        ]
+    )
+
     yields = {
-        channel: model_yields[i_yields]
+        channel: model_yields[i_yields][include_samples]
         for i_yields, channel in enumerate(model.config.channels)
     }
     uncertainties = {
@@ -154,13 +165,18 @@ def _get_data_yield_uncertainties(
     }
 
     return Yields(
-        model.config.channels, model.config.samples, yields, uncertainties, data
+        model.config.channels,
+        list(np.array(model.config.samples)[include_samples]),
+        yields,
+        uncertainties,
+        data,
     )
 
 
 def get_yields(
     spec: Dict[str, Any],
     fit_results: Optional[fitter.FitResults] = None,
+    exclude_process: Optional[List[str]] = None,
 ) -> Yields:
     """Gets yields and uncertainties. Prefit if no fit results are given, else postfit.
 
@@ -170,6 +186,8 @@ def get_yields(
         pyhf JSON spec.
     fit_results : Optional[fitter.FitResults]
         Fit results holding parameters and best-fit values.
+    exclude_process : Optional[List[str]]
+        List of sample names to exclude from yields.
 
     Returns
     -------
@@ -178,4 +196,6 @@ def get_yields(
 
     """
 
-    return _get_data_yield_uncertainties(spec, fit_results)
+    return _get_data_yield_uncertainties(
+        spec, fit_results=fit_results, exclude_process=exclude_process
+    )

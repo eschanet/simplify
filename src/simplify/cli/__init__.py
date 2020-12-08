@@ -49,11 +49,22 @@ def simplify() -> None:
     multiple=True,
     help="Parameters to keep fixed at given value (e.g. 'mu_SIG:1.0')",
 )
+@click.option(
+    '--exclude-process',
+    '-e',
+    default=[],
+    multiple=True,
+    help="Process to be excluded in computation of fitted yields",
+)
 def convert(
     workspace: str,
     fixed_pars: Optional[List[str]] = None,
+    exclude_process: Optional[List[str]] = None,
     output_file: Optional[str] = None,
 ) -> None:
+
+    fixed_pars = fixed_pars or []
+    exclude_process = exclude_process or []
 
     # Read JSON spec
     with click.open_file(workspace, "r") as specstream:
@@ -78,7 +89,7 @@ def convert(
     fit_result = fitter.fit(model, data, init_pars=init_pars, fixed_pars=fixed_params)
 
     # Get yields
-    ylds = yields.get_yields(spec, fit_result)
+    ylds = yields.get_yields(spec, fit_result, exclude_process)
 
     # Hand yields to simplified LH builder and get simplified LH
     newspec = simplified.get_simplified_spec(
