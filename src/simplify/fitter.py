@@ -46,6 +46,7 @@ def fit(
     init_pars: Optional[List[float]] = None,
     fixed_pars: Optional[List[bool]] = None,
     asimov: bool = False,
+    minuit_verbose: bool = False,
 ) -> FitResults:
     """Performs a  maximum likelihood fit, reports and returns the results.
     The asimov flag allows to fit the Asimov dataset instead of observed
@@ -60,6 +61,7 @@ def fit(
         fixed_pars (Optional[List[bool]], optional): List of parameters to set to be
         fixed in the fit. Defaults to None.
         asimov (bool, optional): Asimov data or not. Defaults to False.
+        minuit_verbose (bool, optional): Set minuit verbosity. Defaults to False.
 
     Returns:
         FitResults: Object containing fit results.
@@ -69,7 +71,7 @@ def fit(
 
     # model, data = model_tools.model_and_data(spec, asimov=asimov)
 
-    pyhf.set_backend("numpy", pyhf.optimize.minuit_optimizer(verbose=False))
+    pyhf.set_backend("numpy", pyhf.optimize.minuit_optimizer(verbose=minuit_verbose))
 
     result, result_obj = pyhf.infer.mle.fit(
         data,
