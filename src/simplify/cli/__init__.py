@@ -82,7 +82,7 @@ def convert(
     for (param, init) in [
         (param.split(':')[0], float(param.split(':')[1])) for param in fixed_pars
     ]:
-        index = model.config.par_order.index(param)
+        index = model_tools.get_parameter_names(model).index(param)
         fixed_params[index] = True
         init_pars[index] = float(init)
 
