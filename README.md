@@ -55,13 +55,19 @@ python3 -m pytest
 
 ### CLI
 
-Run with
+Run with e.g.
 
 ```sh
-simplify convert -i <fullLH.json> -o <simplifiedLH.json>
+simplify convert < fullLH.json > simplifiedLH.json
 ```
 
-where `fullLH.json` is the full likelihood you want to convert into a simplified likelihood.
+or e.g.
+
+```sh
+curl http://fo/likelihood.json | simplify convert
+```
+
+where `fullLH.json` is the full likelihood you want to convert into a simplified likelihood. Simplify is able to read/write from/to stdin/stdout.
 
 ### In python script
 
