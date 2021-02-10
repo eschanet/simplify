@@ -56,11 +56,17 @@ def simplify() -> None:
     multiple=True,
     help="Process to be excluded in computation of fitted yields",
 )
+@click.option(
+    '--dummy-signal/--no-dummy-signal',
+    default=False,
+    help="Output simplified likelihood with or without dummy signal",
+)
 def convert(
     workspace: str,
+    dummy_signal: bool = False,
+    output_file: Optional[str] = None,
     fixed_pars: Optional[List[str]] = None,
     exclude_process: Optional[List[str]] = None,
-    output_file: Optional[str] = None,
 ) -> None:
 
     fixed_pars = fixed_pars or []
@@ -93,7 +99,7 @@ def convert(
 
     # Hand yields to simplified LH builder and get simplified LH
     newspec = simplified.get_simplified_spec(
-        spec, ylds, allowed_modifiers=["lumi"], prune_channels=[]
+        spec, ylds, allowed_modifiers=[], prune_channels=[], include_signal=dummy_signal
     )
 
     if output_file is None:
