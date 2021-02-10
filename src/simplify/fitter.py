@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, NamedTuple, Optional
+from typing import List, NamedTuple, Optional
 
 import numpy as np
 import pyhf
@@ -39,32 +39,39 @@ def print_results(
         )
 
 
-def _fit_model_pyhf(
+def fit(
+    # spec: Dict[str, Any],
     model: pyhf.pdf.Model,
     data: List[float],
     init_pars: Optional[List[float]] = None,
     fixed_pars: Optional[List[bool]] = None,
+    asimov: bool = False,
+    minuit_verbose: bool = False,
 ) -> FitResults:
-    """Uses pyhf.infer API to perform a maximum likelihood fit.
+    """Performs a  maximum likelihood fit, reports and returns the results.
+    The asimov flag allows to fit the Asimov dataset instead of observed
+    data.
 
-    Parameters
-    ----------
-    model : pyhf.pdf.Model
-        Model to be used in the fit.
-    data : List[float]
-        Data to fit the model to.
-    init_pars : Optional[List[float]]
-        Initial parameter settings. Setting to none uses pyhf suggested ones.
-    fixed_pars : Optional[List[float]]
-        List of parameters to set to be fixed in the fit.
+    Args:
+        spec (Dict[str, Any]): [description]
+        model (pyhf.pdf.Model): Model to be used in the fit.
+        data (List[float]): Data to fit the model to.
+        init_pars (Optional[List[float]], optional): Initial parameter settings.
+        Setting to none uses pyhf suggested ones.. Defaults to None.
+        fixed_pars (Optional[List[bool]], optional): List of parameters to set to be
+        fixed in the fit. Defaults to None.
+        asimov (bool, optional): Asimov data or not. Defaults to False.
+        minuit_verbose (bool, optional): Set minuit verbosity. Defaults to False.
 
-    Returns
-    -------
-    FitResults
-        Results of the fit.
-
+    Returns:
+        FitResults: Object containing fit results.
     """
-    pyhf.set_backend("numpy", pyhf.optimize.minuit_optimizer(verbose=False))
+
+    log.info("performing maximum likelihood fit")
+
+    # model, data = model_tools.model_and_data(spec, asimov=asimov)
+
+    pyhf.set_backend("numpy", pyhf.optimize.minuit_optimizer(verbose=minuit_verbose))
 
     result, result_obj = pyhf.infer.mle.fit(
         data,
@@ -93,33 +100,6 @@ def _fit_model_pyhf(
     fit_result = FitResults(
         bestfit, uncertainty, labels, types, corr_mat, best_twice_nll
     )
-    return fit_result
-
-
-def fit(spec: Dict[str, Any], asimov: bool = False) -> FitResults:
-    """Performs a  maximum likelihood fit, reports and returns the results.
-    The asimov flag allows to fit the Asimov dataset instead of observed
-    data.
-
-    Parameters
-    ----------
-    spec : Dict[str, Any]
-        JSON spec readable by `pyhf`.
-    asimov : bool
-        boolean that determines if the fit is done to
-        asimov data or not. Defaults to fals.
-
-    Returns
-    -------
-    FitResults
-        Object containing fit results.
-    """
-
-    log.info("performing maximum likelihood fit")
-
-    model, data = model_tools.model_and_data(spec, asimov=asimov)
-
-    fit_result = _fit_model_pyhf(model, data)  # only one for now
 
     log.debug(print_results(fit_result))  # type: ignore
     log.debug(f"-2 log(L) = {fit_result.best_twice_nll:.6f} at the best-fit point")

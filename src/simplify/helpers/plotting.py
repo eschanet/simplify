@@ -14,7 +14,7 @@ def yieldsTable(
     region_name: str,
     nbins: int,
     samples: List[str],
-    data: np.array,
+    data: np.ndarray,
     yields: np.ndarray,
     uncertainties: np.ndarray,
     figure_path: pathlib.Path,
@@ -93,26 +93,26 @@ def yieldsTable(
         )
         if nbins > 1:
             for i_bin in range(nbins):
-                main += " & ${:8.3f}$".format((yields[i_sample, i_bin]))
+                main += " & ${:8.3f}$".format(yields[i_sample, i_bin])
 
         main += r'''\\
 '''
 
-    content = r'''%%
-%s
-\begin{tabular}{%s}
+    content = r'''%
+{}
+\begin{{tabular}}{{{}}}
 \toprule
-%s \\
+{} \\
 \midrule
-%s
+{}
 \midrule
-%s
+{}
 \midrule
-%s
+{}
 \bottomrule
-\end{tabular}
-%s
-''' % (
+\end{{tabular}}
+{}
+'''.format(
         header,
         columns,
         column_names,

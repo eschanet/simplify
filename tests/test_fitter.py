@@ -47,9 +47,11 @@ def test_print_results(caplog):
 # due to different numpy versions used in dependencies
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
 @pytest.mark.filterwarnings("ignore::DeprecationWarning")
-def test__fit_model_pyhf(example_spec, example_spec_multibin):
+@mock.patch("simplify.fitter.print_results")
+def test_fit(mock_print, example_spec, example_spec_multibin):
     model, data = model_tools.model_and_data(example_spec)
-    fit_results = fitter._fit_model_pyhf(model, data)
+    fit_results = fitter.fit(model, data)
+    mock_print.assert_called_once()
     assert np.allclose(fit_results.bestfit, [1.1, 5.58731303])
     assert np.allclose(fit_results.uncertainty, [0.0, 0.21248646])
     assert fit_results.labels == ["staterror_SR", "mu_Sig"]
@@ -58,7 +60,7 @@ def test__fit_model_pyhf(example_spec, example_spec_multibin):
 
     # # TODO: Asimov fit, with fixed gamma (fixed not to Asimov MLE)
     # model, data = model_tools.model_and_data(example_spec, asimov=True)
-    # fit_results = fitter._fit_model_pyhf(model, data)
+    # fit_results = fitter.fit(model, data)
     # # the gamma factor is multiplicative and fixed to 1.1, so the
     # # signal strength needs to be 1/1.1 to compensate
     # assert np.allclose(fit_results.bestfit, [1.1, 0.90917877])
@@ -75,36 +77,7 @@ def test__fit_model_pyhf(example_spec, example_spec_multibin):
     fixed_pars = model.config.suggested_fixed()
     fixed_pars[0] = True
     fixed_pars[1] = True
-    fit_results = fitter._fit_model_pyhf(
-        model, data, init_pars=init_pars, fixed_pars=fixed_pars
-    )
+    fit_results = fitter.fit(model, data, init_pars=init_pars, fixed_pars=fixed_pars)
     assert np.allclose(fit_results.bestfit, [0.9, 1.1, 1.11996446, 0.96618774])
     assert np.allclose(fit_results.uncertainty, [0.0, 0.0, 0.1476617, 0.17227148])
     assert np.allclose(fit_results.best_twice_nll, 11.2732492)
-
-
-@mock.patch("simplify.fitter.print_results")
-@mock.patch(
-    "simplify.fitter._fit_model_pyhf",
-    return_value=fitter.FitResults(
-        np.asarray([1.0]), np.asarray([0.1]), ["par"], ["constrained"], np.empty(0), 2.0
-    ),
-)
-@mock.patch("simplify.model_tools.model_and_data", return_value=("model", "data"))
-def test_fit(mock_load, mock_fitter, mock_print, example_spec):
-    # fit through pyhf.infer API
-    fit_results = fitter.fit(example_spec)
-    assert mock_load.call_args_list == [[(example_spec,), {"asimov": False}]]
-    assert mock_fitter.call_args_list == [[("model", "data")]]
-    mock_print.assert_called_once()
-    assert mock_print.call_args[0][0].bestfit == [1.0]
-    assert mock_print.call_args[0][0].uncertainty == [0.1]
-    assert mock_print.call_args[0][0].labels == ["par"]
-    assert mock_print.call_args[0][0].types == ["constrained"]
-    assert fit_results.bestfit == [1.0]
-
-    # # TODO: Asimov fit
-    # fit_results = fitter.fit(example_spec, asimov=True)
-    # assert mock_fitter.call_count == 2
-    # assert mock_load.call_args == [(example_spec,), {"asimov": True}]
-    # assert fit_results.bestfit == [1.0]
