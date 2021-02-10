@@ -16,9 +16,9 @@ class Yields(NamedTuple):
 
     regions: List[str]
     samples: List[str]
-    yields: Dict[str, np.array]
+    yields: Dict[str, np.ndarray]
     uncertainties: Dict[str, ak.highlevel.Array]
-    data: Dict[str, np.array]
+    data: Dict[str, np.ndarray]
 
 
 def _pdgRound(
