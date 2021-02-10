@@ -47,7 +47,7 @@ def simplify() -> None:
     '-f',
     default=[],
     multiple=True,
-    help="Parameters to keep fixed at given value (e.g. 'mu_SIG:1.0')",
+    help="Parameters to keep fixed at given value in fit (e.g. 'mu_SIG:1.0')",
 )
 @click.option(
     '--exclude-process',
