@@ -16,6 +16,7 @@ def get_simplified_spec(
     ylds: yields.Yields,
     allowed_modifiers: List[str],
     prune_channels: List[str],
+    include_signal: bool = False,
 ) -> pyhf.workspace:
 
     newspec = {
@@ -25,7 +26,6 @@ def get_simplified_spec(
                 'samples': [
                     {
                         'name': 'Bkg',
-                        # 'data': yields.yields[channel['name']],
                         'data': ylds.yields[channel['name']]
                         .sum(axis=0)
                         .flatten()
@@ -86,5 +86,25 @@ def get_simplified_spec(
         ],
         'version': spec['version'],
     }
+
+    if include_signal:
+        channels_with_signal = [
+            {
+                'name': c['name'],
+                'samples': c['samples']
+                + [
+                    {
+                        "name": "Signal",
+                        "data": [0]
+                        * len(ylds.yields[c['name']].sum(axis=0).flatten().tolist()),
+                        "modifiers": [
+                            {"data": None, "name": "mu_Sig", "type": "normfactor"}
+                        ],
+                    }
+                ],
+            }
+            for c in newspec['channels']
+        ]
+        newspec['channels'] = channels_with_signal
 
     return newspec
