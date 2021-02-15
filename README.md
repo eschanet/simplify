@@ -7,7 +7,7 @@
 [![python version](https://img.shields.io/pypi/pyversions/simplify-hep.svg)](https://pypi.org/project/simplify-hep/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-A package that creates simplified likelihoods from full likelihoods. Currently, only one form of simplified likelihoods is implemented, but the idea is to implement additional versions of the simplified likelihoods, such that the user can chose the one he likes the most (or needs the most).
+A package that creates simplified likelihoods from full likelihoods. Currently, only one form of simplified likelihoods is implemented, but the idea is to implement additional versions of the simplified likelihoods, such that varying degrees of simplification can be supported.
 
 ## Installation
 
@@ -45,7 +45,7 @@ Next, setup the git pre-commit hook for Black
 pre-commit install
 ```
 
-You caan run all the tests with
+You can run all the tests with
 
 ```sh
 python3 -m pytest
@@ -64,7 +64,7 @@ simplify convert < fullLH.json > simplifiedLH.json
 or e.g.
 
 ```sh
-curl http://fo/likelihood.json | simplify convert
+curl http://foo/likelihood.json | simplify convert
 ```
 
 where `fullLH.json` is the full likelihood you want to convert into a simplified likelihood. Simplify is able to read/write from/to stdin/stdout.
@@ -108,6 +108,22 @@ tables = simplify.plot.yieldsTable(
     fit_result,
 )
 ```
+
+<!-- ## Real-life example
+
+Using the [ATLAS search for electroweakinos in final states with one lepton](https://link.springer.com/article/10.1140/epjc/s10052-020-8050-3), one can download the full analysis likelihood from [HEPData](https://www.hepdata.net/record/ins1755298)
+
+```
+pyhf contrib download https://doi.org/10.17182/hepdata.90607.v3/r3 1Lbb-likelihoods && cd 1Lbb-likelihoods
+```
+
+Then, produce a simplified version of the full likelihood
+
+```
+simplify convert < BkgOnly.json > simplified_likelihood.json
+```
+
+Using this simplified likelihood and the provided signal patchset file, the full analysis contour can be reproduced: -->
 
 ## Dependencies
 
