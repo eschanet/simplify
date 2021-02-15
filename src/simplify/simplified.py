@@ -95,7 +95,7 @@ def get_simplified_spec(
                 + [
                     {
                         "name": "Signal",
-                        "data": [0]
+                        "data": [0.0]
                         * len(ylds.yields[c['name']].sum(axis=0).flatten().tolist()),
                         "modifiers": [
                             {"data": None, "name": "mu_Sig", "type": "normfactor"}
