@@ -5,6 +5,7 @@ from typing import Any, KeysView, List, Optional
 import click
 import pyhf
 
+from .. import exceptions
 from .. import fitter
 from .. import model_tools
 from .. import simplified
@@ -61,9 +62,15 @@ def simplify() -> None:
     default=False,
     help="Output simplified likelihood with or without dummy signal",
 )
+@click.option(
+    '--poi-name',
+    default="lumi",
+    help="Name of the POI. Defaults to lumi.",
+)
 def convert(
     workspace: str,
     dummy_signal: bool = False,
+    poi_name: str = "lumi",
     output_file: Optional[str] = None,
     fixed_pars: Optional[List[str]] = None,
     exclude_process: Optional[List[str]] = None,
@@ -75,6 +82,14 @@ def convert(
     # Read JSON spec
     with click.open_file(workspace, "r") as specstream:
         spec = json.load(specstream)
+
+    if poi_name:
+        try:
+            spec['measurements'][0]["config"]["poi"] = poi_name
+        except IndexError:
+            raise exceptions.InvalidMeasurement(
+                "The measurement index 0 is out of bounds."
+            )
 
     # Get model and data
     model, data = model_tools.model_and_data(spec)
