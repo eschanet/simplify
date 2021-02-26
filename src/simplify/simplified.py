@@ -65,6 +65,16 @@ def get_simplified_spec(
                 'name': measurement['name'],
                 'config': {
                     'parameters': [
+                        {
+                            "auxdata": [1.0],
+                            "bounds": [[0.915, 1.085]],
+                            "fixed": True,  # this is the important part
+                            "inits": [1.0],
+                            "name": "lumi",
+                            "sigmas": [0.017],
+                        }
+                    ]
+                    + [
                         dict(
                             parameter,
                             name=parameter['name'],
