@@ -1,0 +1,308 @@
+{
+    "channels": [
+        {
+            "name": "WREM_cuts",
+            "samples": [
+                {
+                    "data": [
+                        144.84243472951042
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    157.04340954437225
+                                ],
+                                "lo_data": [
+                                    132.64145991464858
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ],
+                    "name": "Bkg"
+                }
+            ]
+        },
+        {
+            "name": "STCREM_cuts",
+            "samples": [
+                {
+                    "data": [
+                        158.09326971304037
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    170.6083312784446
+                                ],
+                                "lo_data": [
+                                    145.57820814763613
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ],
+                    "name": "Bkg"
+                }
+            ]
+        },
+        {
+            "name": "TRHMEM_cuts",
+            "samples": [
+                {
+                    "data": [
+                        641.1512945464575
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    665.5061238272737
+                                ],
+                                "lo_data": [
+                                    616.7964652656414
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ],
+                    "name": "Bkg"
+                }
+            ]
+        },
+        {
+            "name": "TRMMEM_cuts",
+            "samples": [
+                {
+                    "data": [
+                        477.7640941920357
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    496.06021495792584
+                                ],
+                                "lo_data": [
+                                    459.4679734261456
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ],
+                    "name": "Bkg"
+                }
+            ]
+        },
+        {
+            "name": "TRLMEM_cuts",
+            "samples": [
+                {
+                    "data": [
+                        672.8782020599616
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    697.7949332535239
+                                ],
+                                "lo_data": [
+                                    647.9614708663993
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ],
+                    "name": "Bkg"
+                }
+            ]
+        },
+        {
+            "name": "SRHMEM_mct2",
+            "samples": [
+                {
+                    "data": [
+                        6.4399140537916,
+                        4.616118987016406,
+                        1.6039988672787184
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    8.428299100704244,
+                                    6.044265546447386,
+                                    2.233009902750523
+                                ],
+                                "lo_data": [
+                                    4.451529006878958,
+                                    3.187972427585425,
+                                    0.974987831806914
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ],
+                    "name": "Bkg"
+                }
+            ]
+        },
+        {
+            "name": "SRMMEM_mct2",
+            "samples": [
+                {
+                    "data": [
+                        3.843386762704485,
+                        5.928278314843057,
+                        1.837142597814569
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    5.435984836020788,
+                                    7.958108218479959,
+                                    2.464610617938567
+                                ],
+                                "lo_data": [
+                                    2.250788689388182,
+                                    3.898448411206155,
+                                    1.209674577690571
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ],
+                    "name": "Bkg"
+                }
+            ]
+        },
+        {
+            "name": "SRLMEM_mct2",
+            "samples": [
+                {
+                    "data": [
+                        13.006613335377088,
+                        9.84253666775875,
+                        6.668929241737197
+                    ],
+                    "modifiers": [
+                        {
+                            "data": {
+                                "hi_data": [
+                                    15.64114030194515,
+                                    12.138624037970574,
+                                    8.120516965320931
+                                ],
+                                "lo_data": [
+                                    10.372086368809025,
+                                    7.546449297546927,
+                                    5.217341518153463
+                                ]
+                            },
+                            "name": "totalError",
+                            "type": "histosys"
+                        }
+                    ],
+                    "name": "Bkg"
+                }
+            ]
+        }
+    ],
+    "measurements": [
+        {
+            "config": {
+                "parameters": [
+                    {
+                        "auxdata": [
+                            1.0
+                        ],
+                        "bounds": [
+                            [
+                                0.915,
+                                1.085
+                            ]
+                        ],
+                        "fixed": true,
+                        "inits": [
+                            1.0
+                        ],
+                        "name": "lumi",
+                        "sigmas": [
+                            0.017
+                        ]
+                    }
+                ],
+                "poi": "mu_Sig"
+            },
+            "name": "BasicMeasurement"
+        }
+    ],
+    "observations": [
+        {
+            "data": [
+                144.0
+            ],
+            "name": "WREM_cuts"
+        },
+        {
+            "data": [
+                155.0
+            ],
+            "name": "STCREM_cuts"
+        },
+        {
+            "data": [
+                641.0
+            ],
+            "name": "TRHMEM_cuts"
+        },
+        {
+            "data": [
+                491.0
+            ],
+            "name": "TRMMEM_cuts"
+        },
+        {
+            "data": [
+                657.0
+            ],
+            "name": "TRLMEM_cuts"
+        },
+        {
+            "data": [
+                6.0,
+                5.0,
+                3.0
+            ],
+            "name": "SRHMEM_mct2"
+        },
+        {
+            "data": [
+                4.0,
+                7.0,
+                2.0
+            ],
+            "name": "SRMMEM_mct2"
+        },
+        {
+            "data": [
+                16.0,
+                11.0,
+                7.0
+            ],
+            "name": "SRLMEM_mct2"
+        }
+    ],
+    "version": "1.0.0"
+}
