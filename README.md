@@ -1,10 +1,10 @@
 # simplify
 
 [![CI status](https://github.com/eschanet/simplify/workflows/CI/badge.svg)](https://github.com/eschanet/simplify/actions?query=workflow%3ACI)
-[![Documentation Status](https://readthedocs.org/projects/simplify-hep/badge/?version=latest)](https://simplify-hep.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/simplify/badge/?version=latest)](https://simplify.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://codecov.io/gh/eschanet/simplify/branch/master/graph/badge.svg)](https://codecov.io/gh/eschanet/simplify)
-[![PyPI version](https://badge.fury.io/py/simplify-hep.svg)](https://badge.fury.io/py/simplify-hep)
-[![python version](https://img.shields.io/pypi/pyversions/simplify-hep.svg)](https://pypi.org/project/simplify-hep/)
+[![PyPI version](https://badge.fury.io/py/simplify.svg)](https://badge.fury.io/py/simplify)
+[![python version](https://img.shields.io/pypi/pyversions/simplify.svg)](https://pypi.org/project/simplify/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A package that creates simplified likelihoods from full likelihoods. Currently, only one form of simplified likelihoods is implemented, but the idea is to implement additional versions of the simplified likelihoods, such that varying degrees of simplification can be supported.
@@ -28,7 +28,7 @@ source simplify/bin/activate
 Install the package with pip
 
 ```sh
-python3 -m pip install simplify-hep[contrib]
+python3 -m pip install simplify[contrib]
 ```
 
 ### Development install
