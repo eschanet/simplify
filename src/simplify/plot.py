@@ -167,8 +167,9 @@ def correlation_matrix(
     fit_results: fitter.FitResults,
     output_path: Union[str, pathlib.Path],
     pruning_threshold: float = 0.0,
+    **kwargs: int,
 ) -> None:
-    """Draws a correclation matrix.
+    """Draws a correlation matrix.
 
     Parameters
     ----------
@@ -202,7 +203,7 @@ def correlation_matrix(
     labels = np.delete(fit_results.labels, delete_indices)
 
     figure_path = pathlib.Path(output_path) / "correlation_matrix.pdf"
-    plotting.correlation_matrix(corr_mat, labels, figure_path)
+    plotting.correlation_matrix(corr_mat, labels, figure_path, **kwargs)
 
 
 def pulls(

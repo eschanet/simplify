@@ -298,6 +298,7 @@ def correlation_matrix(
     corr_mat: np.ndarray,
     labels: Union[List[str], np.ndarray],
     figure_path: pathlib.Path,
+    **kwargs: int,
 ) -> None:
     """Draw a correlation matrix"""
 
@@ -306,7 +307,12 @@ def correlation_matrix(
         figsize=(round(5 + len(labels) / 1.6, 1), round(3 + len(labels) / 1.6, 1)),
         dpi=100,
     )
-    im = ax.imshow(corr_mat, vmin=-1, vmax=1, cmap="RdBu")
+    vmin = kwargs.get('vmin', -1)
+    vmax = kwargs.get('vmax', 1)
+    cmap = kwargs.get('cmap', 'RdBu')
+    tmin = kwargs.get('tmin', 0.005)
+
+    im = ax.imshow(corr_mat, vmin=vmin, vmax=vmax, cmap=cmap)
 
     ax.set_xticks(np.arange(len(labels)))
     ax.set_yticks(np.arange(len(labels)))
@@ -323,7 +329,7 @@ def correlation_matrix(
     # add correlation as text
     for (j, i), corr in np.ndenumerate(corr_mat):
         text_color = "white" if abs(corr_mat[j, i]) > 0.75 else "black"
-        if abs(corr) > 0.005:
+        if abs(corr) > tmin:
             ax.text(i, j, f"{corr:.2f}", ha="center", va="center", color=text_color)
 
     figure_path.parent.mkdir(parents=True, exist_ok=True)
