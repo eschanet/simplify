@@ -17,6 +17,7 @@ class FitResults(NamedTuple):
     uncertainty: np.ndarray
     labels: List
     types: List
+    cov_mat: np.ndarray
     corr_mat: np.ndarray
     best_twice_nll: float
 
@@ -87,6 +88,7 @@ def fit(
     labels = model_tools.get_parameter_names(model)
     types = model_tools.get_parameter_types(model)
     corr_mat = result_obj.minuit.np_matrix(correlation=True, skip_fixed=False)
+    cov_mat = result_obj.hess_inv
     best_twice_nll = float(result_obj.fun)
 
     # ordering things
@@ -98,7 +100,7 @@ def fit(
     # # corr_mat = corr_mat[_order]
 
     fit_result = FitResults(
-        bestfit, uncertainty, labels, types, corr_mat, best_twice_nll
+        bestfit, uncertainty, labels, types, cov_mat, corr_mat, best_twice_nll
     )
 
     log.debug(print_results(fit_result))  # type: ignore
