@@ -12,7 +12,9 @@ extras_require["test"] = sorted(
             "flake8-import-order",
             "flake8-print",
             "mypy",
-            "typeguard~=2.10.0",
+            "types-PyYAML",
+            "types-tabulate",
+            "typeguard>=2.12.1",
             "pydocstyle",
             "black",
         ]
