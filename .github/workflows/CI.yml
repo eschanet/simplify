@@ -27,17 +27,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install .[test]
-    - name: Static code analysis with flake8 and mypy
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 src/simplify --select=E9,F63,F7,F82 --show-source
-        # check for additional issues flagged by flake8
-        flake8
-        # run mypy for type checking
-        mypy
-    - name: Format with Black
-      run: |
-        black --check --diff --verbose .
     - name: Test with pytest and generate coverage report
       run: |
         pytest --cov-report=xml
