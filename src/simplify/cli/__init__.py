@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, KeysView, List, Optional
+from typing import Any, List, Optional
 
 import click
 import pyhf
@@ -20,8 +20,8 @@ log = logging.getLogger(__name__)
 class OrderedGroup(click.Group):
     """A group that shows commands in the order they were added."""
 
-    def list_commands(self, _: Any) -> KeysView[str]:
-        return self.commands.keys()
+    def list_commands(self, _: Any) -> List[str]:
+        return list(self.commands.keys())
 
 
 def _set_logging() -> None:
