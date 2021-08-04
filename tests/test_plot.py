@@ -115,6 +115,7 @@ def test_data_MC(
         [],
         [],
         np.asarray([[1.0, 0.2], [0.2, 1.0]]),
+        np.asarray([[1.0, 0.2], [0.2, 1.0]]),
         0.0,
     )
     plot.data_MC(
@@ -149,6 +150,7 @@ def test_data_MC(
 @mock.patch("simplify.helpers.plotting.correlation_matrix")
 def test_correlation_matrix(mock_draw):
     corr_mat = np.asarray([[1.0, 0.2, 0.1], [0.2, 1.0, 0.1], [0.1, 0.1, 1.0]])
+    cov_mat = np.asarray([[1.0, 0.2, 0.1], [0.2, 1.0, 0.1], [0.1, 0.1, 1.0]])
     corr_mat_pruned = np.asarray([[1.0, 0.2], [0.2, 1.0]])
     labels = ["a", "b", "c"]
     labels_pruned = ["a", "b"]
@@ -156,7 +158,7 @@ def test_correlation_matrix(mock_draw):
     folder_path = "tmp"
     figure_path = pathlib.Path(folder_path) / "correlation_matrix.pdf"
     fit_results = fitter.FitResults(
-        np.empty(0), np.empty(0), labels, types, corr_mat, 1.0
+        np.empty(0), np.empty(0), labels, types, cov_mat, corr_mat, 1.0
     )
 
     # pruning with threshold
@@ -174,8 +176,9 @@ def test_correlation_matrix(mock_draw):
 
     # pruning of fixed parameter (all zeros in correlation matrix row/column)
     corr_mat_fixed = np.asarray([[1.0, 0.2, 0.0], [0.2, 1.0, 0.0], [0.0, 0.0, 0.0]])
+    cov_mat_fixed = np.asarray([[1.0, 0.2, 0.0], [0.2, 1.0, 0.0], [0.0, 0.0, 0.0]])
     fit_results_fixed = fitter.FitResults(
-        np.empty(0), np.empty(0), labels, types, corr_mat_fixed, 1.0
+        np.empty(0), np.empty(0), labels, types, cov_mat_fixed, corr_mat_fixed, 1.0
     )
     plot.correlation_matrix(fit_results_fixed, output_path=pathlib.Path(folder_path))
     assert np.allclose(mock_draw.call_args_list[1][0][0], corr_mat_pruned)
@@ -196,7 +199,7 @@ def test_pulls(mock_draw):
     exclude_list = ["a"]
     folder_path = "tmp"
     fit_results = fitter.FitResults(
-        bestfit, uncertainty, labels, types, np.empty(0), 1.0
+        bestfit, uncertainty, labels, types, np.empty(0), np.empty(0), 1.0
     )
 
     filtered_bestfit = np.asarray([1.0, 1.1])

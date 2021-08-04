@@ -6,12 +6,14 @@ extras_require["test"] = sorted(
         extras_require["contrib"]
         + [
             "pytest",
-            "pytest-cov>=2.5.1",
+            "pytest-cov>=2.6.1",
             "flake8",
             "flake8-bugbear",
             "flake8-import-order",
             "flake8-print",
             "mypy",
+            "types-PyYAML",
+            "types-tabulate",
             "typeguard~=2.10.0",
             "pydocstyle",
             "black",

@@ -14,9 +14,10 @@ def test_FitResults():
     labels = ["param"]
     types = ["constrained"]
     corr_mat = np.asarray([[1.0]])
+    cov_mat = np.asarray([[1.0]])
     best_twice_nll = 2.0
     fit_results = fitter.FitResults(
-        bestfit, uncertainty, labels, types, corr_mat, best_twice_nll
+        bestfit, uncertainty, labels, types, cov_mat, corr_mat, best_twice_nll
     )
     assert np.allclose(fit_results.bestfit, bestfit)
     assert np.allclose(fit_results.uncertainty, uncertainty)
@@ -34,7 +35,7 @@ def test_print_results(caplog):
     labels = ["param_1", "param_2"]
     types = ["constained", "constrained"]
     fit_results = fitter.FitResults(  # NOQA
-        bestfit, uncertainty, labels, types, np.empty(0), 0.0
+        bestfit, uncertainty, labels, types, np.empty(0), np.empty(0), 0.0
     )  # NOQA
 
     fitter.print_results(fit_results)
