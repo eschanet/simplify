@@ -7,7 +7,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-A package that creates simplified likelihoods from full likelihoods. Method documented in [ATLAS PUB Note](https://cds.cern.ch/record/2758958?) (currently internal access) and in [chapter 10 of my PhD thesis](https://cds.cern.ch/record/2774438/files/CERN-THESIS-2021-077.pdf). Currently, only one format is implemented for simplified likelihoods, but the idea is to support additional forms of (not so) simplified likelihoods. 
+A package that creates simplified likelihoods from full likelihoods. Method documented in [ATLAS PUB Note](https://cds.cern.ch/record/2758958?) (soon to be published, currently only internal access) and in [chapter 10 of my PhD thesis](https://cds.cern.ch/record/2774438/files/CERN-THESIS-2021-077.pdf). Currently, only one format is implemented for simplified likelihoods, but the idea is to support additional forms of (not so) simplified likelihoods. 
 
 ## Table of contents
 
