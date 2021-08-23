@@ -30,7 +30,7 @@ The approximation method put forward in [ATLAS PUB Note](https://cds.cern.ch/rec
 
 ## Installation
 
-Follow good practice and start by creating a virtual environment
+Follow good practice and start by creating a virtual environment, e.g. using `venv`
 
 ```sh
 python3 -m venv simplify
@@ -42,9 +42,9 @@ and then activating it
 source simplify/bin/activate
 ```
 
-### Default installation from pip
+### Default installation from pypi
 
-You can install `simplify` directly from pip with
+You can install `simplify` directly from pypi with
 
 ```sh
 python3 -m pip install simplify[contrib]
@@ -75,6 +75,7 @@ python3 -m pytest
 ## How to run
 
 You can use `simplify` either through your command line, or integrate it directly into your scripts.
+
 ### CLI
 
 Run with e.g.
@@ -103,29 +104,41 @@ import json
 
 import simplify
 
+# set the computational backend to pyhf and load LH
 pyhf.set_backend(pyhf.tensorlib, "minuit")
 spec = json.load(open("likelihood.json", "r"))
 
-ws = pyhf.Workspace(spec) # ws from full LH
+# ws from full LH
+ws = pyhf.Workspace(spec)
 
 # get model and data for each ws we just created
-model = ws.model(modifier_settings = {"normsys": {"interpcode": "code4"},"histosys": {"interpcode": "code4p"},})
+# use polynomial interpolation and exponential extrapolation
+# for nuisance params
+model = ws.model(
+    modifier_settings = {
+        "normsys": {"interpcode": "code4"}, 
+        "histosys": {"interpcode": "code4p"},
+    }
+)
 data = ws.data(model)
 
 # run fit
 fit_result = simplify.fitter.fit(ws)
 
+# plot the pulls
 plt = simplify.plot.pulls(
     fit_result,
     "plots/"
 )
 
+# plot correlation matrix
 plt = simplify.plot.correlation_matrix(
     fit_result,
     "plots/",
     pruning_threshold=0.1
 )
 
+# get a yieldstable in nice LaTeX format
 tables = simplify.plot.yieldsTable(
     ws,
     "plots/",
