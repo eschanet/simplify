@@ -60,7 +60,9 @@ def simplify() -> None:
 @click.option(
     '--dummy-signal/--no-dummy-signal',
     default=False,
-    help="Output simplified likelihood with or without dummy signal",
+    help="""Output simplified likelihood with or without dummy signal. \
+        In case you want to patch the JSON with a signal sample anyway, this allows \
+        to perform only 'replace' operations instead of having to 'add' or 'remove'.""",
 )
 @click.option(
     '--poi-name',
@@ -75,6 +77,19 @@ def convert(
     fixed_pars: Optional[List[str]] = None,
     exclude_process: Optional[List[str]] = None,
 ) -> None:
+    """Command to convert a likelihood into an approximated version.
+
+    Args:
+        workspace (str): Path to the workspace
+        dummy_signal (bool, optional): Put dummy signal sample into simplified likelihood. Defaults to False.
+        poi_name (str, optional): Name of POI. Defaults to "lumi".
+        output_file (Optional[str], optional): Name of output file. Defaults to None and prints to terminal.
+        fixed_pars (Optional[List[str]], optional): List of parameters to keep fixed at given value. Defaults to None.
+        exclude_process (Optional[List[str]], optional): Name of process to exclude. Defaults to None.
+
+    Raises:
+        exceptions.InvalidMeasurement: Raised if input likelihood is invalid.
+    """
 
     fixed_pars = fixed_pars or []
     exclude_process = exclude_process or []
@@ -99,7 +114,6 @@ def convert(
     init_pars = model.config.suggested_init()
     if not fixed_pars:
         fixed_pars = []
-
     for (param, init) in [
         (param.split(':')[0], float(param.split(':')[1])) for param in fixed_pars
     ]:
@@ -107,6 +121,7 @@ def convert(
         fixed_params[index] = True
         init_pars[index] = float(init)
 
+    # Fit the model to data 
     fit_result = fitter.fit(model, data, init_pars=init_pars, fixed_pars=fixed_params)
 
     # Get yields
