@@ -121,7 +121,7 @@ def convert(
         fixed_params[index] = True
         init_pars[index] = float(init)
 
-    # Fit the model to data 
+    # Fit the model to data
     fit_result = fitter.fit(model, data, init_pars=init_pars, fixed_pars=fixed_params)
 
     # Get yields

@@ -31,13 +31,11 @@ The approximation method put forward in [ATLAS PUB Note](https://cds.cern.ch/rec
 ## Installation
 
 Follow good practice and start by creating a virtual environment, e.g. using `venv`
-
 ```sh
 python3 -m venv simplify
 ```
 
 and then activating it
-
 ```sh
 source simplify/bin/activate
 ```
@@ -45,7 +43,6 @@ source simplify/bin/activate
 ### Default installation from pypi
 
 You can install `simplify` directly from pypi with
-
 ```sh
 python3 -m pip install simplify[contrib]
 ```
@@ -55,19 +52,17 @@ Notice that `simplify` is supported and tested for `python 3.7` and `python 3.8`
 ### Development installation
 
 If you want to contribute to `simplify`, install the development version of the package. Fork the repository, clone your fork, and then install from local resources with
-
 ```sh
 python3 -m pip install --ignore-installed -U -e .[complete]
 ```
+Note that you might have to wrap `.[complete]` into quotes depending on your shell. 
 
 Next, setup the git pre-commit hook for Black
-
 ```sh
 pre-commit install
 ```
 
 Now you should be able to run all the tests with
-
 ```sh
 python3 -m pytest
 ```
@@ -228,4 +223,4 @@ But this isn't worth anything if the approximation isn't a good one. So let's ha
 
 Given the two orders of magnitude we gain in computational speed, this small loss in statistical precision is impressive! Within the one standard deviation uncertainties, there is basically no difference at all in both contours!
 
-P.S. I skipped quite a few steps to get to this figure. All of the necessary tools and scripts are available (and sometimes described) in my [CERN GitLab](https://gitlab.cern.ch/eschanet/pyhf_conversions). 
+P.S. I skipped quite a few steps to get to this figure. All of the necessary tools and scripts are available (and sometimes described) in my [pyhf_inference_tools](https://github.com/eschanet/pyhf_inference_tools). 
