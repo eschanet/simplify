@@ -2,7 +2,6 @@
 # files produced by simplify
 *.pdf
 *.root
-*.png
 
 # reference for tests
 !tests/helpers/reference/*.pdf
@@ -136,5 +135,4 @@ venv.bak/
 dmypy.json
 
 # directories
-examples/
 test_stuff/
