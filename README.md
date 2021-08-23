@@ -7,9 +7,30 @@
 [![python version](https://img.shields.io/pypi/pyversions/simplify.svg)](https://pypi.org/project/simplify/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-A package that creates simplified likelihoods from full likelihoods. Currently, only one form of simplified likelihoods is implemented, but the idea is to implement additional versions of the simplified likelihoods, such that varying degrees of simplification can be supported.
 
-## Installation
+
+A package that creates simplified likelihoods from full likelihoods. Method documented in [ATLAS PUB Note](https://cds.cern.ch/record/2758958?) (internal access only currently). Currently, only one format is implemented for simplified likelihoods, but the idea is to support additional forms of (not so) simplified likelihoods. 
+
+# Table of contents
+
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [How To Run](#how-to-run)
+4. [Example Likelihood](#example-likelihood)
+
+
+# Introduction
+
+In high energy physics (HEP), searches for new physics are typically interested in making inferences about a probabilistic model given some observed collision data. This approach can be formalised using a *statistical model* <i>f(<b>x</b>&VerticalLine;<b>&phi;</b>)</i>, i.e. a parametric family of probability density functions (PDFs) describing the probability of observing data <i><b>x</b></i> given some model parameters <i><b>&phi;</b></i>. The *likelihood function* <i>L(<b>&phi;</b>)</i> then referrs to the value of *f* as a function of <i><b>&phi;</b></i> given fixed <i><b>x</b></i>.
+
+For binned data, the [HistFactory](https://cds.cern.ch/record/1456844?ln=de) template for building statistical models and likelihoods finds ample usage in HEP. 
+
+Although many searches for supersymmetry (SUSY) are sensitive to a variety of beyond the Standard Model (BSM) physics models, for reasons of computational cost and complexity they are often only interpreted in a limited set of *simplified models*. While statistical inference and interpretation of limits on individual SUSY production and decay topologies is straightforward and very convenient, their lack of model complexity leads to poor approximations to the true underlying constraints on the respective model parameters of a more complete SUSY model. In order to investigate realistic SUSY scenarios, large-scale re-interpretation efforts scanning a large number of dimensions is needed, resulting in a significant increase in computational cost for the statistical inference.
+
+The approximation method put forward in [ATLAS PUB Note](https://cds.cern.ch/record/2758958?) and implemented in this repository introduces the notion of *simplified likelihoods* that come with low computational cost but high statistical precision, therefore offering a viable solution for large-scale re-interpretation efforts over large model spaces.
+ 
+
+# Installation
 
 Follow good practice and start by creating a virtual environment
 
@@ -23,17 +44,19 @@ and then activating it
 source simplify/bin/activate
 ```
 
-### Default install
+### Default installation from pip
 
-Install the package with pip
+You can install `simplify` directly from pip with
 
 ```sh
 python3 -m pip install simplify[contrib]
 ```
 
-### Development install
+Notice that `simplify` is supported and tested for `python 3.7` and `python 3.8`.
 
-If you want to contribute to `simplify`, install the development version of the package. Fork the repository, clone the fork, and then install
+### Development installation
+
+If you want to contribute to `simplify`, install the development version of the package. Fork the repository, clone your fork, and then install from local resources with
 
 ```sh
 python3 -m pip install --ignore-installed -U -e .[complete]
@@ -45,14 +68,15 @@ Next, setup the git pre-commit hook for Black
 pre-commit install
 ```
 
-You can run all the tests with
+Now you should be able to run all the tests with
 
 ```sh
 python3 -m pytest
 ```
 
-## How to run
+# How to run
 
+You can use `simplify` either through your command line, or integrate it directly into your scripts.
 ### CLI
 
 Run with e.g.
@@ -68,6 +92,8 @@ curl http://foo/likelihood.json | simplify convert
 ```
 
 where `fullLH.json` is the full likelihood you want to convert into a simplified likelihood. Simplify is able to read/write from/to stdin/stdout.
+
+Hit `simplify --help` for detailled information on the CLI.
 
 ### In python script
 
@@ -109,22 +135,86 @@ tables = simplify.plot.yieldsTable(
 )
 ```
 
-<!-- ## Real-life example
+# Example Likelihood
 
-Using the [ATLAS search for electroweakinos in final states with one lepton](https://link.springer.com/article/10.1140/epjc/s10052-020-8050-3), one can download the full analysis likelihood from [HEPData](https://www.hepdata.net/record/ins1755298)
+Let's go through an example likelihood. We'll use the full likelihood of an ATLAS search for direct production of electroweakinos in final states with one lepton and a Higgs boson ([10.1140/epjc/s10052-020-8050-3](https://arxiv.org/abs/1909.09226)). The full likelihood in `JSON` format as specified by [ATL-PHYS-PUB-2019-029](https://cds.cern.ch/record/2684863) is publicly available to download from [doi.org/10.17182](https://www.hepdata.net/record/resource/1408476?view=true). It contains the full statistical model of the original analysis given the full observed dataset from Run-2 of the LHC.
 
-```
+You can either download the likelihood by hand from [HEPData](https://www.hepdata.net/record/resource/1408476?view=true), or just let `pyhf` do the work for you by using
+```sh
 pyhf contrib download https://doi.org/10.17182/hepdata.90607.v3/r3 1Lbb-likelihoods && cd 1Lbb-likelihoods
 ```
 
-Then, produce a simplified version of the full likelihood
-
+From there, provided you have already setup `simplify` previously (which also sets up `pyhf`), you can produce a simplified likelihood of this analysis with
+```sh
+simplify convert < BkgOnly.json > simplify_BkgOnly.json
 ```
-simplify convert < BkgOnly.json > simplified_likelihood.json
+
+And you're done. Well, at least you've got yourself a simplified version of that likelihood, which approximates the total background using a single background sample that is set to the post-fit total background determined from the full likelihood. The uncertainties (the expensive part) are approximated using only the final uncertainty on the background estimate in each bin of the analysis. 
+
+If you think about it, this gives you quite a simple likelihood function. Let's compare them quickly. For the full likelihood, we can inspect the full likelihood with `pyhf` (and only look at the first 17 lines containing summary of what `pyhf` spits out):
+```sh 
+pyhf inspect BkgOnly.json | head -n 17
 ```
 
-Using this simplified likelihood and the provided signal patchset file, the full analysis contour can be reproduced: -->
+This should give you
+```sh
+       Summary
+  ------------------
+    channels  8
+     samples  9
+  parameters  115
+   modifiers  115
 
-## Dependencies
+    channels  nbins
+  ----------  -----
+ SRHMEM_mct2    3
+ SRLMEM_mct2    3
+ SRMMEM_mct2    3
+ STCREM_cuts    1
+ TRHMEM_cuts    1
+ TRLMEM_cuts    1
+ TRMMEM_cuts    1
+   WREM_cuts    1
+```
 
-Naturally relies heavily on `pyhf`. Part of the code for plotting and validating results is inspired by Alexander Held's [`cabinetry`](https://github.com/alexander-held/cabinetry/).
+Think about this for a second. You've got 8 channels with a total of 14 bins. Each bin contains information about 9 samples, and each event rate for each sample is subject to a total of 115 additional parameters (the uncertainties of the model). This makes for quite a complicated likelihood function.
+
+On to the simplified one then. 
+```sh
+pyhf inspect simplify_BkgOnly.json | head -n 17
+```
+gives us
+```sh
+       Summary
+  ------------------
+    channels  8
+     samples  1
+  parameters  1
+   modifiers  1
+
+    channels  nbins
+  ----------  -----
+ SRHMEM_mct2    3
+ SRLMEM_mct2    3
+ SRMMEM_mct2    3
+ STCREM_cuts    1
+ TRHMEM_cuts    1
+ TRLMEM_cuts    1
+ TRMMEM_cuts    1
+   WREM_cuts    1
+```
+i.e, we still have the original number of bins and samples (this is what drives our sensitivity, so we don't want to compromise here), but we end up with only one sample and one uncertainty per bin.
+
+It's not surprising to see then, that the computational performance of both is quite different. Let's have a look at a benchmark for this specific analysis:
+
+![Benchmark of ANA-SUSY-2019-08](examples/ANA-SUSY-2019-08/benchmark_1Lbb.png "Benchmark of ANA-SUSY-2019-08")
+
+Ignore the green bars for now and focus on the orange and blue ones instead. The orange (blue) ones show the wall times in seconds for the full (simplified) likelihood. In their fastest configurations, the simplified likelihood obviously is two orders of magnitude faster than the full likelihood.
+
+But this isn't worth anything if the approximation isn't a good one. So let's have a look at how it performs. All the original signal models investigated by the analysis are contained in the `1Lbb-likelihoods` as a `JSON` patch file. Just patch each one onto the full and simplified likelihood, perform statistical inference using `pyhf` and then plot the results:
+
+![Performance of ANA-SUSY-2019-08](examples/ANA-SUSY-2019-08/exclusion_1Lbb_noLabel.png "PErformance of ANA-SUSY-2019-08")
+
+Given the two orders of magnitude we gain in computational speed, this small loss in statistical precision is impressive! Within the one standard deviation uncertainties, there is basically no difference at all in both contours!
+
+P.S. I skipped quite a few steps to get to this figure. All of the necessary tools and scripts are available (and sometimes described) in my [CERN GitLab](https://gitlab.cern.ch/eschanet/pyhf_conversions). 
