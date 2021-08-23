@@ -1,17 +1,15 @@
 # simplify
 
 [![CI status](https://github.com/eschanet/simplify/workflows/CI/badge.svg)](https://github.com/eschanet/simplify/actions?query=workflow%3ACI)
-[![Documentation Status](https://readthedocs.org/projects/simplify/badge/?version=latest)](https://simplify.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://codecov.io/gh/eschanet/simplify/branch/master/graph/badge.svg)](https://codecov.io/gh/eschanet/simplify)
 [![PyPI version](https://badge.fury.io/py/simplify.svg)](https://badge.fury.io/py/simplify)
 [![python version](https://img.shields.io/pypi/pyversions/simplify.svg)](https://pypi.org/project/simplify/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-
 A package that creates simplified likelihoods from full likelihoods. Method documented in [ATLAS PUB Note](https://cds.cern.ch/record/2758958?) (currently internal access) and in [chapter 10 of my PhD thesis](https://cds.cern.ch/record/2774438/files/CERN-THESIS-2021-077.pdf). Currently, only one format is implemented for simplified likelihoods, but the idea is to support additional forms of (not so) simplified likelihoods. 
 
-# Table of contents
+## Table of contents
 
 1. [Introduction](#introduction)
 2. [Installation](#installation)
@@ -19,7 +17,7 @@ A package that creates simplified likelihoods from full likelihoods. Method docu
 4. [Example Likelihood](#example-likelihood)
 
 
-# Introduction
+## Introduction
 
 In high energy physics (HEP), searches for new physics are typically interested in making inferences about a probabilistic model given some observed collision data. This approach can be formalised using a *statistical model* <i>f(<b>x</b>&VerticalLine;<b>&phi;</b>)</i>, i.e. a parametric family of probability density functions (PDFs) describing the probability of observing data <i><b>x</b></i> given some model parameters <i><b>&phi;</b></i>. The *likelihood function* <i>L(<b>&phi;</b>)</i> then referrs to the value of *f* as a function of <i><b>&phi;</b></i> given fixed <i><b>x</b></i>.
 
@@ -30,7 +28,7 @@ Although many searches for supersymmetry (SUSY) are sensitive to a variety of be
 The approximation method put forward in [ATLAS PUB Note](https://cds.cern.ch/record/2758958?) and implemented in this repository introduces the notion of *simplified likelihoods* that come with low computational cost but high statistical precision, therefore offering a viable solution for large-scale re-interpretation efforts over large model spaces.
  
 
-# Installation
+## Installation
 
 Follow good practice and start by creating a virtual environment
 
@@ -74,7 +72,7 @@ Now you should be able to run all the tests with
 python3 -m pytest
 ```
 
-# How to run
+## How to run
 
 You can use `simplify` either through your command line, or integrate it directly into your scripts.
 ### CLI
@@ -135,7 +133,7 @@ tables = simplify.plot.yieldsTable(
 )
 ```
 
-# Example Likelihood
+## Example Likelihood
 
 Let's go through an example likelihood. We'll use the full likelihood of an ATLAS search for direct production of electroweakinos in final states with one lepton and a Higgs boson ([10.1140/epjc/s10052-020-8050-3](https://arxiv.org/abs/1909.09226)). The full likelihood in `JSON` format as specified by [ATL-PHYS-PUB-2019-029](https://cds.cern.ch/record/2684863) is publicly available to download from [doi.org/10.17182](https://www.hepdata.net/record/resource/1408476?view=true). It contains the full statistical model of the original analysis given the full observed dataset from Run-2 of the LHC.
 
