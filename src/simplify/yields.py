@@ -139,7 +139,7 @@ def _get_data_yield_uncertainties(
     )  # data just indexed by channel
 
     # calculate the total standard deviation of the model prediction, index: channel
-    total_stdev_model = model_tools.calculate_std(
+    total_std_model = model_tools.calculate_std(
         model, param_values, param_uncertainty, corr_mat
     )
 
@@ -156,7 +156,7 @@ def _get_data_yield_uncertainties(
         for i_yields, channel in enumerate(model.config.channels)
     }
     uncertainties = {
-        channel: total_stdev_model[i_unc]
+        channel: total_std_model[i_unc]
         for i_unc, channel in enumerate(model.config.channels)
     }
     data = {

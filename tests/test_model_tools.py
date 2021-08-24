@@ -91,19 +91,19 @@ def test_calculate_std(example_spec, example_spec_multibin):
     uncertainty = np.asarray([0.1, 0.1])
     corr_mat = np.asarray([[1.0, 0.2], [0.2, 1.0]])
 
-    total_stdev = model_tools.calculate_std(model, parameters, uncertainty, corr_mat)
-    expected_stdev = [[17.4320561320614]]
-    assert np.allclose(ak.to_list(total_stdev), expected_stdev)
+    total_std = model_tools.calculate_std(model, parameters, uncertainty, corr_mat)
+    expected_std = [[17.4320561320614]]
+    assert np.allclose(ak.to_list(total_std), expected_std)
 
     # pre-fit
     parameters = np.asarray([1.0, 1.0])
     uncertainty = np.asarray([0.0495665682, 0.0])
     diag_corr_mat = np.diag([1.0, 1.0])
-    total_stdev = model_tools.calculate_std(
+    total_std = model_tools.calculate_std(
         model, parameters, uncertainty, diag_corr_mat
     )
-    expected_stdev = [[5.572758655480406]]  # the staterror
-    assert np.allclose(ak.to_list(total_stdev), expected_stdev)
+    expected_std = [[5.572758655480406]]  # the staterror
+    assert np.allclose(ak.to_list(total_std), expected_std)
 
     # multiple channels, bins, staterrors
     model = pyhf.Workspace(example_spec_multibin).model()
@@ -117,7 +117,7 @@ def test_calculate_std(example_spec, example_spec_multibin):
             [0.1, 0.3, 0.3, 1.0],
         ]
     )
-    total_stdev = model_tools.calculate_std(model, parameters, uncertainty, corr_mat)
-    expected_stdev = [[12.889685799118613, 2.6730057987217317], [3.469221814759039]]
+    total_std = model_tools.calculate_std(model, parameters, uncertainty, corr_mat)
+    expected_std = [[12.889685799118613, 2.6730057987217317], [3.469221814759039]]
     for i_reg in range(2):
-        assert np.allclose(ak.to_list(total_stdev[i_reg]), expected_stdev[i_reg])
+        assert np.allclose(ak.to_list(total_std[i_reg]), expected_std[i_reg])

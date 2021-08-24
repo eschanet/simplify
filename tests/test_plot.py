@@ -58,7 +58,7 @@ def test__get_binning():
     return_value=([1.0, 1.0]),
 )
 def test_data_MC(
-    mock_asimov, mock_unc, mock_stdev, mock_dict, mock_bins, mock_draw, example_spec
+    mock_asimov, mock_unc, mock_std, mock_dict, mock_bins, mock_draw, example_spec
 ):
     config = {}
     figure_folder = "tmp"
@@ -72,17 +72,17 @@ def test_data_MC(
     assert mock_unc.call_count == 1
     assert mock_unc.call_args_list[0][0][0].spec == model_spec
 
-    # call to stdev calculation
-    assert mock_stdev.call_count == 1
-    assert mock_stdev.call_args_list[0][0][0].spec == model_spec
-    assert np.allclose(mock_stdev.call_args_list[0][0][1], [1.0, 1.0])
+    # call to std calculation
+    assert mock_std.call_count == 1
+    assert mock_std.call_args_list[0][0][0].spec == model_spec
+    assert np.allclose(mock_std.call_args_list[0][0][1], [1.0, 1.0])
     assert np.allclose(
-        ak.to_numpy(mock_stdev.call_args_list[0][0][2]), [0.04956657, 0.0]
+        ak.to_numpy(mock_std.call_args_list[0][0][2]), [0.04956657, 0.0]
     )
     assert np.allclose(
-        mock_stdev.call_args_list[0][0][3], np.asarray([[1.0, 0.0], [0.0, 1.0]])
+        mock_std.call_args_list[0][0][3], np.asarray([[1.0, 0.0], [0.0, 1.0]])
     )
-    assert mock_stdev.call_args_list[0][1] == {}
+    assert mock_std.call_args_list[0][1] == {}
 
     assert mock_dict.call_args_list == [[(config, "SR"), {}]]
     assert mock_bins.call_args_list == [[({"Name": "region", "Variable": "x"},), {}]]
@@ -128,15 +128,15 @@ def test_data_MC(
 
     assert mock_asimov.call_count == 1  # no new call
 
-    # call to stdev calculation
-    assert mock_stdev.call_count == 2
-    assert mock_stdev.call_args_list[1][0][0].spec == model_spec
-    assert np.allclose(mock_stdev.call_args_list[1][0][1], [1.01, 1.1])
-    assert np.allclose(mock_stdev.call_args_list[1][0][2], [0.03, 0.1])
+    # call to std calculation
+    assert mock_std.call_count == 2
+    assert mock_std.call_args_list[1][0][0].spec == model_spec
+    assert np.allclose(mock_std.call_args_list[1][0][1], [1.01, 1.1])
+    assert np.allclose(mock_std.call_args_list[1][0][2], [0.03, 0.1])
     assert np.allclose(
-        mock_stdev.call_args_list[1][0][3], np.asarray([[1.0, 0.2], [0.2, 1.0]])
+        mock_std.call_args_list[1][0][3], np.asarray([[1.0, 0.2], [0.2, 1.0]])
     )
-    assert mock_stdev.call_args_list[1][1] == {}
+    assert mock_std.call_args_list[1][1] == {}
 
     assert mock_draw.call_count == 2
     # yield at best-fit point is different from pre-fit

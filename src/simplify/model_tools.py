@@ -89,28 +89,32 @@ def get_parameter_types(model: pyhf.pdf.Model) -> List[str]:
 
 
 def get_prefit_uncertainties(model: pyhf.pdf.Model) -> np.ndarray:
-    """Returns list of before-fit parameter uncertainties
+    """Gets the before-fit parameter uncertainties
 
     Args:
         model (pyhf.pdf.Model): pyhf model from which to extract the parameters
 
     Returns:
-        np.ndarray: before fit uncertainties
+        np.ndarray: before-fit uncertainties
     """
 
-    pre_fit_unc = []
+    prefit_unc = []
     for parameter in model.config.par_order:
         if (
             model.config.param_set(parameter).constrained
             and not model.config.param_set(parameter).suggested_fixed
         ):
-            pre_fit_unc += model.config.param_set(parameter).width()
+            # constrained and/or non-fixed parameter
+            prefit_unc += model.config.param_set(parameter).width()
         else:
             if model.config.param_set(parameter).n_parameters == 1:
-                pre_fit_unc.append(0.0)
-            else:  # shapefactor
-                pre_fit_unc += [0.0] * model.config.param_set(parameter).n_parameters
-    return np.asarray(pre_fit_unc)
+                # unconstrained normalisation factor or a fixed parameter
+                # -> no uncertainty
+                prefit_unc.append(0.0)
+            else:
+                # shapefactor
+                prefit_unc += [0.0] * model.config.param_set(parameter).n_parameters
+    return np.asarray(prefit_unc)
 
 
 def get_asimov_data(model: pyhf.Model, with_aux: bool = True) -> List[float]:
@@ -173,7 +177,9 @@ def _get_channel_bounds_indices(model: pyhf.pdf.Model) -> List[int]:
         List[int]: list of channel bound indices
     """
 
+    # number of bins per channel
     bins_per_channel = [model.config.channel_nbins[ch] for ch in model.config.channels]
+    # indices where a new channel starts
     channel_start = [sum(bins_per_channel[:i]) for i in range(1, len(bins_per_channel))]
     return channel_start
 
@@ -193,10 +199,12 @@ def calculate_std(
         corr_mat (np.ndarray): correlations between parameters
 
     Returns:
-        ak.highlevel.Array: awkward array containing channel arrays. Each array 
+        ak.highlevel.Array: awkward array containing channel arrays. Each array
         contains the stds for each bin in the respective channel
     """
 
+    # indices at which regions start so we know
+    # where to start and end new regions
     region_split_indices = _get_channel_bounds_indices(model)
 
     # these lists will contain the distributions with all params varied
@@ -223,44 +231,50 @@ def calculate_std(
         down_yields = np.split(down_combined, region_split_indices)
         down_variations.append(down_yields)
 
-    # convert to awkward arrays for further processing
+    # convert into awkward arrays
     up_variations = ak.from_iter(up_variations)
     down_variations = ak.from_iter(down_variations)
 
-    # total variance, indices are: channel, bin
-    total_variance_list = [
-        np.zeros(shape=(model.config.channel_nbins[ch])) for ch in model.config.channels
-    ]  # list of arrays, each array has as many entries as there are bins
-    total_variance = ak.from_iter(total_variance_list)
+    # total variance with indices being channels and bins
+    total_variance = ak.from_iter(
+        [
+            np.zeros(shape=(model.config.channel_nbins[ch]))
+            for ch in model.config.channels
+        ]
+    )
 
     # loop over parameters to sum up total variance
-    # first do the diagonal of the correlation matrix
+    # start with diagonal of correlation matrix
     for i_par in range(model.config.npars):
-        symmetric_uncertainty = (up_variations[i_par] - down_variations[i_par]) / 2
-        total_variance = total_variance + symmetric_uncertainty ** 2
+        # add square of symmetric uncertainty to variance
+        total_variance = (
+            total_variance + ((up_variations[i_par] - down_variations[i_par]) / 2) ** 2
+        )
 
+    # on to the off-diagonal elements of the correlation matrix
     labels = get_parameter_names(model)
-    # continue with off-diagonal contributions if there are any
     if np.count_nonzero(corr_mat - np.diag(np.ones_like(parameters))) > 0:
-        # loop over pairs of parameters
         for i_par in range(model.config.npars):
             for j_par in range(model.config.npars):
+                # only need to loop over one half of the matrix (it's symmetric)
+                # we'll add a factor 2 below to consider the second half
                 if j_par >= i_par:
-                    continue  # only loop over the half the matrix due to symmetry
-                corr = corr_mat[i_par, j_par]
-                # an approximate calculation could be done here by requiring
-                # e.g. abs(corr) > 1e-5 to continue
+                    continue
+
+                # we could go for an approximate calculation here
+                # e.g. only picking elements in the correlation matrix greater than 1e-05
                 if (
                     labels[i_par][0:10] == "staterror_"
                     and labels[j_par][0:10] == "staterror_"
                 ):
-                    continue  # two different staterrors are orthogonal, no contribution
+                    # statistical uncertainties are pair-wise orthogonal
+                    continue
                 sym_unc_i = (up_variations[i_par] - down_variations[i_par]) / 2
                 sym_unc_j = (up_variations[j_par] - down_variations[j_par]) / 2
-                # factor of two below is there since loop is only over half the matrix
-                total_variance = total_variance + 2 * (corr * sym_unc_i * sym_unc_j)
+                total_variance = total_variance + 2 * (
+                    corr_mat[i_par, j_par] * sym_unc_i * sym_unc_j
+                )
 
-    # convert to standard deviation
-    total_stdev = np.sqrt(total_variance)
-    log.debug(f"total stdev is {total_stdev}")
-    return total_stdev
+    # return standard deviation
+    log.debug(f"total std is {np.sqrt(total_variance)}")
+    return np.sqrt(total_variance)

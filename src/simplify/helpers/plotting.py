@@ -140,7 +140,7 @@ def data_MC(
     for h in histogram_dict_list:
         if h["isData"]:
             data_histogram_yields = h["yields"]
-            data_histogram_stdev = np.sqrt(data_histogram_yields)
+            data_histogram_std = np.sqrt(data_histogram_yields)
             data_label = h["label"]
         else:
             mc_histograms_yields.append(h["yields"])
@@ -205,7 +205,7 @@ def data_MC(
     data_container = ax1.errorbar(
         bin_centers,
         data_histogram_yields,
-        yerr=data_histogram_stdev,
+        yerr=data_histogram_std,
         fmt="o",
         color="k",
     )
@@ -234,7 +234,7 @@ def data_MC(
 
     # data in ratio plot
     data_model_ratio = data_histogram_yields / total_yield
-    data_model_ratio_unc = data_histogram_stdev / total_yield
+    data_model_ratio_unc = data_histogram_std / total_yield
     ax2.errorbar(
         bin_centers, data_model_ratio, yerr=data_model_ratio_unc, fmt="o", color="k"
     )
