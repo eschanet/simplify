@@ -64,13 +64,13 @@ def test_get_prefit_uncertainties(
     assert np.allclose(uncertainties, [0.0, 0.0, 0.0])
 
 
-def test__get_channel_boundary_indices(example_spec, example_spec_multibin):
+def test__get_channel_bounds_indices(example_spec, example_spec_multibin):
     model = pyhf.Workspace(example_spec).model()
-    indices = model_tools._get_channel_boundary_indices(model)
+    indices = model_tools._get_channel_bounds_indices(model)
     assert indices == []
 
     model = pyhf.Workspace(example_spec_multibin).model()
-    indices = model_tools._get_channel_boundary_indices(model)
+    indices = model_tools._get_channel_bounds_indices(model)
     assert indices == [2]
 
     # add extra channel to model to test three channels (two indices needed)
@@ -81,17 +81,17 @@ def test__get_channel_boundary_indices(example_spec, example_spec_multibin):
     three_channel_model["channels"].append(extra_channel)
     three_channel_model["observations"].append({"data": [35, 8], "name": "region_3"})
     model = pyhf.Workspace(three_channel_model).model()
-    indices = model_tools._get_channel_boundary_indices(model)
+    indices = model_tools._get_channel_bounds_indices(model)
     assert indices == [2, 3]
 
 
-def test_calculate_stdev(example_spec, example_spec_multibin):
+def test_calculate_std(example_spec, example_spec_multibin):
     model = pyhf.Workspace(example_spec).model()
     parameters = np.asarray([1.05, 0.95])
     uncertainty = np.asarray([0.1, 0.1])
     corr_mat = np.asarray([[1.0, 0.2], [0.2, 1.0]])
 
-    total_stdev = model_tools.calculate_stdev(model, parameters, uncertainty, corr_mat)
+    total_stdev = model_tools.calculate_std(model, parameters, uncertainty, corr_mat)
     expected_stdev = [[17.4320561320614]]
     assert np.allclose(ak.to_list(total_stdev), expected_stdev)
 
@@ -99,7 +99,7 @@ def test_calculate_stdev(example_spec, example_spec_multibin):
     parameters = np.asarray([1.0, 1.0])
     uncertainty = np.asarray([0.0495665682, 0.0])
     diag_corr_mat = np.diag([1.0, 1.0])
-    total_stdev = model_tools.calculate_stdev(
+    total_stdev = model_tools.calculate_std(
         model, parameters, uncertainty, diag_corr_mat
     )
     expected_stdev = [[5.572758655480406]]  # the staterror
@@ -117,7 +117,7 @@ def test_calculate_stdev(example_spec, example_spec_multibin):
             [0.1, 0.3, 0.3, 1.0],
         ]
     )
-    total_stdev = model_tools.calculate_stdev(model, parameters, uncertainty, corr_mat)
+    total_stdev = model_tools.calculate_std(model, parameters, uncertainty, corr_mat)
     expected_stdev = [[12.889685799118613, 2.6730057987217317], [3.469221814759039]]
     for i_reg in range(2):
         assert np.allclose(ak.to_list(total_stdev[i_reg]), expected_stdev[i_reg])

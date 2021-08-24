@@ -48,7 +48,7 @@ def test__get_binning():
     "simplify.configuration.get_region_dict",
     return_value={"Name": "region", "Variable": "x"},
 )
-@mock.patch("simplify.model_tools.calculate_stdev", return_value=ak.from_iter([[0.3]]))
+@mock.patch("simplify.model_tools.calculate_std", return_value=ak.from_iter([[0.3]]))
 @mock.patch(
     "simplify.model_tools.get_prefit_uncertainties",
     return_value=(ak.from_iter([0.04956657, 0.0])),
