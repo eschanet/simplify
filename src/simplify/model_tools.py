@@ -29,7 +29,7 @@ def model_and_data(
             - data associated to the likelihood
     """
 
-    workspace = pyhf.Workspace(spec) if isinstance(spec, dict) else spec
+    workspace = pyhf.Workspace(spec) if not isinstance(spec, pyhf.Workspace) else spec
     model = workspace.model(
         modifier_settings={
             "normsys": {"interpcode": "code4"},

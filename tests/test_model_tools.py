@@ -17,10 +17,13 @@ def test_model_and_data(example_spec):
     assert data == [691, 1.0]
 
     # requesting Asimov dataset
-    # TODO: request asimov dataset by setting asimove=True
-    # TODO: should return [112.429786, 1.0]
-
-    # TODO: Need to test overloaded method as well
+    model, data = model_tools.model_and_data(pyhf.Workspace(example_spec), asimov=True)
+    assert model.spec["channels"] == example_spec["channels"]
+    assert model.config.modifier_settings == {
+        "normsys": {"interpcode": "code4"},
+        "histosys": {"interpcode": "code4p"},
+    }
+    assert data == [112.429786, 1.0]
 
     # test handing a workspace instead of JSON
     model, data = model_tools.model_and_data(pyhf.Workspace(example_spec))
