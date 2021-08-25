@@ -1,3 +1,4 @@
+import json
 import pytest
 
 
@@ -201,3 +202,12 @@ def example_spec_with_background():
         "version": "1.0.0",
     }
     return spec
+
+
+@pytest.fixture
+def example_full_analysis_likelihood():
+    return json.load(open('tests/helpers/reference/BkgOnly.json'))
+
+@pytest.fixture
+def example_simplified_analysis_likelihood():
+    return json.load(open('tests/helpers/reference/simplified_BkgOnly.json'))
