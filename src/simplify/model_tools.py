@@ -147,7 +147,7 @@ def get_asimov_parameters(model: pyhf.pdf.Model) -> np.ndarray:
     auxdata_params = [
         p
         for p in model.config.auxdata_order
-        for _ in model.config.param_set(p).n_parameters
+        for _ in range(model.config.param_set(p).n_parameters)
     ]
 
     asimov_parameters = []
