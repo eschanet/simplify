@@ -8,6 +8,7 @@ import pytest
 
 from simplify import fitter
 from simplify import plot
+from simplify import yields
 
 
 @pytest.mark.parametrize(
@@ -40,6 +41,59 @@ def test__get_binning():
     np.testing.assert_equal(plot._get_binning({"Binning": [1, 2, 3]}), [1, 2, 3])
     with pytest.raises(NotImplementedError, match="cannot determine binning"):
         plot._get_binning({})
+
+
+@mock.patch("simplify.helpers.plotting.yieldsTable")
+@mock.patch(
+    "simplify.yields._get_data_yield_uncertainties",
+    return_value=yields.Yields(
+        regions=['SR'],
+        samples=['signal'],
+        yields={'SR': np.asarray([[690.99844911]])},
+        uncertainties={'SR': ak.from_iter([26.3])},
+        data={'SR': np.asarray([691])},
+    ),
+)
+def test__yieldsTable(mock_unc, mock_draw, example_spec):
+    model_spec = pyhf.Workspace(example_spec).model().spec
+    table_folder = "tmp"
+    fit_results = fitter.FitResults(
+        np.asarray([1.1, 5.58731303]),
+        np.asarray([0.0, 0.21248646]),
+        ['staterror_SR', 'mu_Sig'],
+        ['constrained', 'unconstrained'],
+        np.asarray([[0.0, 0.0], [0.0, 0.04517808]]),
+        np.asarray([[0.0, 0.0], [0.0, 1.0]]),
+        6.850287450660111,
+    )
+    
+    plot.yieldsTable(example_spec, table_folder=table_folder, fit_results=fit_results)
+
+    # prefit uncertainties
+    assert mock_unc.call_count == 1
+
+    # create actual yieldstable
+    expected_yieldstable = [
+        {
+            "label": "signal",
+            "isData": False,
+            "yields": np.asarray([112.429786]),
+            "variable": "x",
+        },
+        {
+            "label": "Data",
+            "isData": True,
+            "yields": np.asarray([691]),
+            "variable": "x",
+        },
+    ]
+    assert mock_draw.call_count == 1
+    assert mock_draw.call_args_list[0][0][1] == 1
+    assert mock_draw.call_args_list[0][0][2] == ['signal']
+    assert np.allclose(mock_draw.call_args_list[0][0][3], np.asarray([691]))
+    assert np.allclose(mock_draw.call_args_list[0][0][4], np.asarray([[690.99844911]]))
+    assert np.allclose(np.asarray(mock_draw.call_args_list[0][0][5]), np.asarray([26.3]))
+    assert mock_draw.call_args_list[0][0][6] == pathlib.Path("tmp/SR_postfit.tex")
 
 
 @mock.patch("simplify.helpers.plotting.data_MC")
@@ -76,9 +130,7 @@ def test_data_MC(
     assert mock_std.call_count == 1
     assert mock_std.call_args_list[0][0][0].spec == model_spec
     assert np.allclose(mock_std.call_args_list[0][0][1], [1.0, 1.0])
-    assert np.allclose(
-        ak.to_numpy(mock_std.call_args_list[0][0][2]), [0.04956657, 0.0]
-    )
+    assert np.allclose(ak.to_numpy(mock_std.call_args_list[0][0][2]), [0.04956657, 0.0])
     assert np.allclose(
         mock_std.call_args_list[0][0][3], np.asarray([[1.0, 0.0], [0.0, 1.0]])
     )
