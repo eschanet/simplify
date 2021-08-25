@@ -10,7 +10,7 @@ from .. import fitter
 from .. import model_tools
 from .. import simplified
 from .. import yields
-from ..version import __version__
+from .._version import version as __version__
 
 pyhf.set_backend(pyhf.tensorlib, "minuit")
 
