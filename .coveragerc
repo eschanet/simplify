@@ -1,0 +1,7 @@
+[run]
+omit =
+    src/simplify/_version.py
+    src/simplify/__init__.py
+    src/simplify/benchmark.py
+    src/simplify/exceptions.py
+    src/simplify/cli/__init__.py
