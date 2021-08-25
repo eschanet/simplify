@@ -46,9 +46,9 @@ def yieldsTable(
 
     region_name = region_name.replace('_', r'\_')
     column_names = region_name
-    if nbins > 0:
-        for i_bin in range(nbins):
-            column_names += r' & %s\_bin%i' % (region_name, i_bin)
+
+    for i_bin in range(nbins):
+        column_names += r' & %s\_bin%i' % (region_name, i_bin)
 
     if signal_name:
         # signal_index = samples.index(signal_name)
@@ -69,7 +69,7 @@ def yieldsTable(
     # in total uncertainty, which is not right!!!!
     # get total region first, then do the bins
     data_line = "Observed events & ${}$".format(np.sum(data))
-    total_sm = r'Fitted bkg events & ${:8.3f} \pm {:8.3f}'.format(
+    total_sm = r'Fitted bkg events & ${:8.3f} \pm {:8.3f}$'.format(
         np.sum(bkgOnly_yields), np.sqrt(np.sum(uncertainties ** 2))
     )
 

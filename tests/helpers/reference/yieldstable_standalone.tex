@@ -1,0 +1,28 @@
+%
+\documentclass{standalone}
+\usepackage{longtable}
+\usepackage{booktabs}
+\newcommand\MyHead[2]{%
+\multicolumn{1}{l}{\parbox{#1}{\centering #2}}
+}
+\begin{document}
+
+\begin{tabular}{lccc}
+\toprule
+SR\_A & SR\_A\_bin0 & SR\_A\_bin1 \\
+\midrule
+Observed events & $25$ & $15$ & $10$\\
+
+\midrule
+Fitted bkg events & $  10.000 \pm    3.847$ & $   7.000 \pm    1.800$ & $   3.000 \pm    3.400$\\
+
+\midrule
+Fitted bkg\_1 events & $   6.000$ & $   4.500$ & $   1.500$\\
+Fitted bkg\_2 events & $   4.000$ & $   2.500$ & $   1.500$\\
+Fitted signal events & $  14.000$ & $   8.000$ & $   6.000$\\
+
+\bottomrule
+\end{tabular}
+
+\end{document}
+
