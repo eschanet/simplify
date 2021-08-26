@@ -77,15 +77,20 @@ def convert(
     fixed_pars: Optional[List[str]] = None,
     exclude_process: Optional[List[str]] = None,
 ) -> None:
-    """Command to convert a likelihood into an approximated version.
+    """Converting likelihoods into the simplified
+    likelihood format as specified in https://cds.cern.ch/record/2758958?
 
     Args:
         workspace (str): Path to the workspace
-        dummy_signal (bool, optional): Put dummy signal sample into simplified likelihood. Defaults to False.
+        dummy_signal (bool, optional): Put dummy signal sample
+        into simplified likelihood. Defaults to False.
         poi_name (str, optional): Name of POI. Defaults to "lumi".
-        output_file (Optional[str], optional): Name of output file. Defaults to None and prints to terminal.
-        fixed_pars (Optional[List[str]], optional): List of parameters to keep fixed at given value. Defaults to None.
-        exclude_process (Optional[List[str]], optional): Name of process to exclude. Defaults to None.
+        output_file (Optional[str], optional): Name of output file.
+        Defaults to None and prints to terminal.
+        fixed_pars (Optional[List[str]], optional): List of parameters to
+        keep fixed at given value. Defaults to None.
+        exclude_process (Optional[List[str]], optional): Name of process to exclude.
+        Defaults to None.
 
     Raises:
         exceptions.InvalidMeasurement: Raised if input likelihood is invalid.
