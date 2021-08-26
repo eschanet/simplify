@@ -41,7 +41,6 @@ def print_results(
 
 
 def fit(
-    # spec: Dict[str, Any],
     model: pyhf.pdf.Model,
     data: List[float],
     init_pars: Optional[List[float]] = None,
@@ -54,7 +53,6 @@ def fit(
     data.
 
     Args:
-        spec (Dict[str, Any]): [description]
         model (pyhf.pdf.Model): Model to be used in the fit.
         data (List[float]): Data to fit the model to.
         init_pars (Optional[List[float]], optional): Initial parameter settings.
@@ -69,8 +67,6 @@ def fit(
     """
 
     log.info("performing maximum likelihood fit")
-
-    # model, data = model_tools.model_and_data(spec, asimov=asimov)
 
     pyhf.set_backend("numpy", pyhf.optimize.minuit_optimizer(verbose=minuit_verbose))
 
@@ -90,14 +86,6 @@ def fit(
     corr_mat = result_obj.minuit.np_matrix(correlation=True, skip_fixed=False)
     cov_mat = result_obj.hess_inv
     best_twice_nll = float(result_obj.fun)
-
-    # ordering things
-    # _order = np.argsort(labels)
-    # bestfit = bestfit[_order]
-    # uncertainty = uncertainty[_order]
-    # labels = labels[_order]
-    # types = types[_order]
-    # # corr_mat = corr_mat[_order]
 
     fit_result = FitResults(
         bestfit, uncertainty, labels, types, cov_mat, corr_mat, best_twice_nll
