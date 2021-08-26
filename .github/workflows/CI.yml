@@ -28,7 +28,7 @@ jobs:
           python -m pip install .[test]
       - name: Test with pytest and generate coverage report
         run: |
-          pytest --cov-report=xml
+          python -m pytest -r sx
       - name: Upload coverage to codecov
         if: matrix.python-version == 3.7
         uses: codecov/codecov-action@v1
