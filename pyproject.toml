@@ -16,6 +16,14 @@ ignore = [
     'CONTRIBUTING.md',
 ]
 
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--ignore=setup.py --ignore=examples/ --cov=simplify --cov-report=term-missing --cov-config=.coveragerc --cov-report xml"
+testpaths = [
+    "src",
+    "tests",
+]
+
 [tool.black]
 line-length = 88
 target-version = ['py37', 'py38']
