@@ -10,8 +10,8 @@ exclude_lines =
     if __name__ == .__main__.:
 ignore_errors = True
 omit =
-    src/simplify/_version.py
-    src/simplify/__init__.py
-    src/simplify/benchmark.py
-    src/simplify/exceptions.py
-    src/simplify/cli/__init__.py
+    */src/simplify/_version.py
+    */src/simplify/__init__.py
+    */src/simplify/benchmark.py
+    */src/simplify/exceptions.py
+    */src/simplify/cli/__init__.py
