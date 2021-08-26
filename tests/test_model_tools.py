@@ -102,9 +102,7 @@ def test_calculate_std(example_spec, example_spec_multibin):
     parameters = np.asarray([1.0, 1.0])
     uncertainty = np.asarray([0.0495665682, 0.0])
     diag_corr_mat = np.diag([1.0, 1.0])
-    total_std = model_tools.calculate_std(
-        model, parameters, uncertainty, diag_corr_mat
-    )
+    total_std = model_tools.calculate_std(model, parameters, uncertainty, diag_corr_mat)
     expected_std = [[5.572758655480406]]  # the staterror
     assert np.allclose(ak.to_list(total_std), expected_std)
 

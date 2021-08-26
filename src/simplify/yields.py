@@ -163,7 +163,7 @@ def _get_data_yield_uncertainties(
         channel: data_vals[i_data]
         for i_data, channel in enumerate(model.config.channels)
     }
-    
+
     return Yields(
         model.config.channels,
         list(np.array(model.config.samples)[include_samples]),

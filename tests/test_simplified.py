@@ -4,7 +4,9 @@ import numpy as np
 from simplify import simplified, yields
 
 
-def test_get_simplified_spec(example_full_analysis_likelihood, example_simplified_analysis_likelihood):
+def test_get_simplified_spec(
+    example_full_analysis_likelihood, example_simplified_analysis_likelihood
+):
 
     ylds = yields.Yields(
         regions=['SRLMEM_mct2'],

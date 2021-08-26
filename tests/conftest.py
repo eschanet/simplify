@@ -208,6 +208,7 @@ def example_spec_with_background():
 def example_full_analysis_likelihood():
     return json.load(open('tests/helpers/reference/BkgOnly.json'))
 
+
 @pytest.fixture
 def example_simplified_analysis_likelihood():
     return json.load(open('tests/helpers/reference/simplified_BkgOnly.json'))

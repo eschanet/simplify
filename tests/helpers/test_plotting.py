@@ -17,7 +17,7 @@ def test_yieldsTable(tmp_path):
     data = np.asarray([15, 10])
     yields = np.asarray([[4.5, 1.5], [2.5, 1.5], [8.0, 6.0]])
     uncertainties = np.asarray([1.8, 3.4])
-    
+
     # standalone with signal specified
     plotting.yieldsTable(
         region_name,
@@ -31,9 +31,10 @@ def test_yieldsTable(tmp_path):
         standalone=True,
     )
 
-    assert [row.strip() for row in open("tests/helpers/reference/yieldstable_standalone.tex")] == [
-        row.strip() for row in open(fname)
-    ]
+    assert [
+        row.strip()
+        for row in open("tests/helpers/reference/yieldstable_standalone.tex")
+    ] == [row.strip() for row in open(fname)]
 
     region_name = "SR_A"
     nbins = 1
@@ -58,6 +59,7 @@ def test_yieldsTable(tmp_path):
     assert [row.strip() for row in open("tests/helpers/reference/yieldstable.tex")] == [
         row.strip() for row in open(fname)
     ]
+
 
 def test_correlation_matrix(tmp_path):
     fname = pathlib.Path(tmp_path / "fig.pdf")

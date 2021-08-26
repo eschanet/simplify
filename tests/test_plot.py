@@ -66,7 +66,7 @@ def test__yieldsTable(mock_unc, mock_draw, example_spec):
         np.asarray([[0.0, 0.0], [0.0, 1.0]]),
         6.850287450660111,
     )
-    
+
     plot.yieldsTable(example_spec, table_folder=table_folder, fit_results=fit_results)
 
     # prefit uncertainties
@@ -92,7 +92,9 @@ def test__yieldsTable(mock_unc, mock_draw, example_spec):
     assert mock_draw.call_args_list[0][0][2] == ['signal']
     assert np.allclose(mock_draw.call_args_list[0][0][3], np.asarray([691]))
     assert np.allclose(mock_draw.call_args_list[0][0][4], np.asarray([[690.99844911]]))
-    assert np.allclose(np.asarray(mock_draw.call_args_list[0][0][5]), np.asarray([26.3]))
+    assert np.allclose(
+        np.asarray(mock_draw.call_args_list[0][0][5]), np.asarray([26.3])
+    )
     assert mock_draw.call_args_list[0][0][6] == pathlib.Path("tmp/SR_postfit.tex")
 
 
