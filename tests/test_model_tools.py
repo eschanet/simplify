@@ -35,7 +35,7 @@ def test_model_and_data(example_spec):
     assert data == [691, 1.0]
 
     # without auxdata
-    model, data = model_tools.model_and_data(example_spec, with_aux=False)
+    model, data = model_tools.model_and_data(example_spec, include_auxdata=False)
     assert data == [691]
 
 
