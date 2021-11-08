@@ -13,7 +13,7 @@ def model_and_data(
     spec: Union[Dict[str, Any], pyhf.Workspace],
     poi_name: Optional[str] = None,
     asimov: bool = False,
-    with_aux: bool = True,
+    include_auxdata: bool = True,
 ) -> Tuple[pyhf.pdf.Model, List[float]]:
     """Returns model and data for a pyhf workspace spec in str or workspace format.
 
@@ -21,7 +21,7 @@ def model_and_data(
         spec (Union[Dict[str, Any], pyhf.Workspace]): a pyhf workspace specification
         poi_name (Optional[str], optional): name of the POI. Defaults to None.
         asimov (bool, optional): whether to return Asimov data instead. Defaults to False.
-        with_aux (bool, optional): whether auxiliary data should be returned. Defaults to True.
+        include_auxdata (bool, optional): whether auxiliary data should be returned. Defaults to True.
 
     Returns:
         Tuple[pyhf.pdf.Model, List[float]]:
@@ -38,9 +38,9 @@ def model_and_data(
         poi_name=poi_name,
     )
     if not asimov:
-        data = workspace.data(model, with_aux=with_aux)
+        data = workspace.data(model, include_auxdata=include_auxdata)
     else:
-        data = get_asimov_data(model, with_aux=with_aux)
+        data = get_asimov_data(model, include_auxdata=include_auxdata)
     return model, data
 
 
@@ -117,19 +117,19 @@ def get_prefit_uncertainties(model: pyhf.pdf.Model) -> np.ndarray:
     return np.asarray(prefit_unc)
 
 
-def get_asimov_data(model: pyhf.Model, with_aux: bool = True) -> List[float]:
+def get_asimov_data(model: pyhf.Model, include_auxdata: bool = True) -> List[float]:
     """Gets the asimov dataset for a model
 
     Args:
         model (pyhf.Model): the model for which to construct the asimov data
-        with_aux (bool, optional): with or without auxdata. Defaults to True.
+        include_auxdata (bool, optional): with or without auxdata. Defaults to True.
 
     Returns:
         List[float]: asimov dataset
     """
 
     asimov_data = model.expected_data(
-        get_asimov_parameters(model), include_auxdata=with_aux
+        get_asimov_parameters(model), include_auxdata=include_auxdata
     ).tolist()
     return asimov_data
 

@@ -110,7 +110,7 @@ def data_MC(
         it automatically determines what to use.
     """
 
-    model, _ = model_tools.model_and_data(spec, with_aux=False)
+    model, _ = model_tools.model_and_data(spec, include_auxdata=False)
     ylds = yields._get_data_yield_uncertainties(spec, fit_results)
 
     if fit_results is not None:

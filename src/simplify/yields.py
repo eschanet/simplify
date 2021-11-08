@@ -112,7 +112,7 @@ def _get_data_yield_uncertainties(
 
     """
 
-    model, data_combined = model_tools.model_and_data(spec, with_aux=False)
+    model, data_combined = model_tools.model_and_data(spec, include_auxdata=False)
 
     if fit_results is not None:
         param_values = fit_results.bestfit
