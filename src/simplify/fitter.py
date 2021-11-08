@@ -83,7 +83,7 @@ def fit(
     uncertainty = result[:, 1]
     labels = model_tools.get_parameter_names(model)
     types = model_tools.get_parameter_types(model)
-    corr_mat = result_obj.minuit.np_matrix(correlation=True, skip_fixed=False)
+    corr_mat = result_obj.corr
     cov_mat = result_obj.hess_inv
     best_twice_nll = float(result_obj.fun)
 
