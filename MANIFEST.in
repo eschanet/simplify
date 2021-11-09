@@ -1,6 +1,12 @@
-prune *
+prune **
 graft src
+graft tests
+
+include setup.py
+include setup.cfg
 include LICENSE
-include CONTRIBUTING.md
+include README.md
+include pyproject.toml
+include MANIFEST.in
 
 global-exclude __pycache__ *.py[cod] .* *.ipynb
