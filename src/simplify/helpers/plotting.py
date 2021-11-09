@@ -68,7 +68,7 @@ def yieldsTable(
     # FIXME: this still has signal uncertainties
     # in total uncertainty, which is not right!!!!
     # get total region first, then do the bins
-    data_line = "Observed events & ${}$".format(np.sum(data))
+    data_line = f"Observed events & ${np.sum(data)}$"
     total_sm = r'Fitted bkg events & ${:8.3f} \pm {:8.3f}$'.format(
         np.sum(bkgOnly_yields), np.sqrt(np.sum(uncertainties ** 2))
     )
@@ -76,7 +76,7 @@ def yieldsTable(
     # FIXME: same as above, dooh...
     if nbins > 1:
         for i_bin in range(nbins):
-            data_line += " & ${}$".format(data[i_bin])
+            data_line += f" & ${data[i_bin]}$"
             total_sm += r' & ${:8.3f} \pm {:8.3f}$'.format(
                 np.sum(bkgOnly_yields[:, i_bin]), uncertainties[i_bin]
             )
@@ -93,7 +93,7 @@ def yieldsTable(
         )
         if nbins > 1:
             for i_bin in range(nbins):
-                main += " & ${:8.3f}$".format(yields[i_sample, i_bin])
+                main += f" & ${yields[i_sample, i_bin]:8.3f}$"
 
         main += r'''\\
 '''

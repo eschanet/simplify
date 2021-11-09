@@ -32,7 +32,7 @@ def print_results(
     fit_result : FitResults
         Results of the fit to be printed.
     """
-    max_label_length = max([len(label) for label in fit_result.labels])
+    max_label_length = max(len(label) for label in fit_result.labels)
     for i, label in enumerate(fit_result.labels):
         log.info(
             f"{label.ljust(max_label_length)}: {fit_result.bestfit[i]: .6f} +/- "

@@ -43,6 +43,5 @@ def test_get_simplified_spec(
     spec = simplified.get_simplified_spec(
         example_full_analysis_likelihood, ylds, allowed_modifiers=[], prune_channels=[]
     )
-    print(spec)
 
     assert spec == example_simplified_analysis_likelihood
