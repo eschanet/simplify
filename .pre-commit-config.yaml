@@ -28,3 +28,4 @@ repos:
     hooks:
     -   id: mypy
         files: src/simplify
+        additional_dependencies: [types-PyYAML==6.0.0]
