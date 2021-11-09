@@ -55,7 +55,7 @@ def test__get_binning():
     ),
 )
 def test__yieldsTable(mock_unc, mock_draw, example_spec):
-    model_spec = pyhf.Workspace(example_spec).model().spec
+    model_spec = pyhf.Workspace(example_spec).model().spec  # noqa: F841
     table_folder = "tmp"
     fit_results = fitter.FitResults(
         np.asarray([1.1, 5.58731303]),
@@ -73,7 +73,7 @@ def test__yieldsTable(mock_unc, mock_draw, example_spec):
     assert mock_unc.call_count == 1
 
     # create actual yieldstable
-    expected_yieldstable = [
+    expected_yieldstable = [  # noqa: F841
         {
             "label": "signal",
             "isData": False,
