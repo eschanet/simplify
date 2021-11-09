@@ -2,7 +2,7 @@ import copy
 import logging
 from typing import Any, Dict, List
 
-import awkward1 as ak
+import awkward as ak
 import pyhf
 
 from . import yields
