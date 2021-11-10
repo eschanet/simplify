@@ -19,7 +19,7 @@ A python package that creates simplified likelihoods from full likelihoods. The 
 
 ## Introduction
 
-In high energy physics (HEP), searches for new physics are typically interested in making inferences about a probabilistic model given some observed collision data. This approach can be formalised using a *statistical model* <i>f(<b>x</b>&VerticalLine;<b>&phi;</b>)</i>, i.e. a parametric family of probability density functions (PDFs) describing the probability of observing data <i><b>x</b></i> given some model parameters <i><b>&phi;</b></i>. The *likelihood function* <i>L(<b>&phi;</b>)</i> then referrs to the value of *f* as a function of <i><b>&phi;</b></i> given fixed <i><b>x</b></i>.
+In high energy physics (HEP), searches for new physics are typically interested in making inferences about a probabilistic model given some observed collision data. This approach can be formalised using a *statistical model* <i>f(<b>x</b>&VerticalLine;<b>&phi;</b>)</i>, i.e. a parametric family of probability density functions (PDFs) describing the probability of observing data <i><b>x</b></i> given some model parameters <i><b>&phi;</b></i>. The *likelihood function* <i>L(<b>&phi;</b>)</i> then refers to the value of *f* as a function of <i><b>&phi;</b></i> given fixed <i><b>x</b></i>.
 
 For binned data, the [HistFactory](https://cds.cern.ch/record/1456844?ln=de) template for building statistical models and likelihoods finds ample usage in HEP.
 
