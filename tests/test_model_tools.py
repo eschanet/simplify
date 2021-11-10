@@ -1,6 +1,6 @@
 import copy
 
-import awkward1 as ak
+import awkward as ak
 import numpy as np
 import pyhf
 
