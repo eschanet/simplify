@@ -25,7 +25,7 @@ For binned data, the [HistFactory](https://cds.cern.ch/record/1456844?ln=de) tem
 
 Although many searches for supersymmetry (SUSY) are sensitive to a variety of beyond the Standard Model (BSM) physics models, for reasons of computational cost and complexity they are often only interpreted in a limited set of *simplified models*. While statistical inference and interpretation of limits on individual SUSY production and decay topologies is straightforward and very convenient, their lack of model complexity leads to poor approximations to the true underlying constraints on the respective model parameters of a more complete SUSY model. In order to investigate realistic SUSY scenarios, large-scale re-interpretation efforts scanning a large number of dimensions is needed, resulting in a significant increase in computational cost for the statistical inference.
 
-The approximation method put forward in [ATLAS PUB Note](https://cds.cern.ch/record/2758958?) and implemented in this repository introduces the notion of *simplified likelihoods* that come with low computational cost but high statistical precision, therefore offering a viable solution for large-scale re-interpretation efforts over large model spaces.
+The approximation method put forward in the ATLAS PUB note [Implementation of simplified likelihoods in HistFactory for searches for supersymmetry](https://cds.cern.ch/record/2782654) and implemented in this repository introduces the notion of *simplified likelihoods* that come with low computational cost but high statistical precision, therefore offering a viable solution for large-scale re-interpretation efforts over large model spaces.
 
 
 ## Installation
