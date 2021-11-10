@@ -31,19 +31,20 @@ The approximation method put forward in the ATLAS PUB note [Implementation of si
 ## Installation
 
 Follow good practice and start by creating a virtual environment, e.g. using `venv`
-```sh
+
+```console
 python3 -m venv simplify
 ```
 
 and then activating it
-```sh
+```console
 source simplify/bin/activate
 ```
 
 ### Default installation from pypi
 
 You can install `simplify` directly from pypi with
-```sh
+```console
 python3 -m pip install simplify[contrib]
 ```
 
@@ -52,18 +53,18 @@ Notice that `simplify` is supported and tested for `python 3.7` and `python 3.8`
 ### Development installation
 
 If you want to contribute to `simplify`, install the development version of the package. Fork the repository, clone your fork, and then install from local resources with
-```sh
+```console
 python3 -m pip install --ignore-installed -U -e .[complete]
 ```
 Note that you might have to wrap `.[complete]` into quotes depending on your shell.
 
 Next, setup the git pre-commit hook for Black
-```sh
+```console
 pre-commit install
 ```
 
 Now you should be able to run all the tests with
-```sh
+```console
 python3 -m pytest
 ```
 
@@ -75,13 +76,13 @@ You can use `simplify` either through your command line, or integrate it directl
 
 Run with e.g.
 
-```sh
+```console
 simplify convert < fullLH.json > simplifiedLH.json
 ```
 
 or e.g.
 
-```sh
+```console
 curl http://foo/likelihood.json | simplify convert
 ```
 
@@ -146,24 +147,24 @@ tables = simplify.plot.yieldsTable(
 Let's go through an example likelihood. We'll use the full likelihood of an ATLAS search for direct production of electroweakinos in final states with one lepton and a Higgs boson ([10.1140/epjc/s10052-020-8050-3](https://arxiv.org/abs/1909.09226)). The full likelihood in `JSON` format as specified by [ATL-PHYS-PUB-2019-029](https://cds.cern.ch/record/2684863) is publicly available to download from [doi.org/10.17182](https://www.hepdata.net/record/resource/1408476?view=true). It contains the full statistical model of the original analysis given the full observed dataset from Run-2 of the LHC.
 
 You can either download the likelihood by hand from [HEPData](https://www.hepdata.net/record/resource/1408476?view=true), or just let `pyhf` do the work for you by using
-```sh
+```console
 pyhf contrib download https://doi.org/10.17182/hepdata.90607.v3/r3 1Lbb-likelihoods && cd 1Lbb-likelihoods
 ```
 
 From there, provided you have already setup `simplify` previously (which also sets up `pyhf`), you can produce a simplified likelihood of this analysis with
-```sh
+```console
 simplify convert < BkgOnly.json > simplify_BkgOnly.json
 ```
 
 And you're done. Well, at least you've got yourself a simplified version of that likelihood, which approximates the total background using a single background sample that is set to the post-fit total background determined from the full likelihood. The uncertainties (the expensive part) are approximated using only the final uncertainty on the background estimate in each bin of the analysis.
 
 If you think about it, this gives you quite a simple likelihood function. Let's compare them quickly. For the full likelihood, we can inspect the full likelihood with `pyhf` (and only look at the first 17 lines containing summary of what `pyhf` spits out):
-```sh
+```console
 pyhf inspect BkgOnly.json | head -n 17
 ```
 
 This should give you
-```sh
+```console
        Summary
   ------------------
     channels  8
@@ -186,11 +187,11 @@ This should give you
 Think about this for a second. You've got 8 channels with a total of 14 bins. Each bin contains information about 9 samples, and each event rate for each sample is subject to a total of 115 additional parameters (the uncertainties of the model). This makes for quite a complicated likelihood function.
 
 On to the simplified one then.
-```sh
+```console
 pyhf inspect simplify_BkgOnly.json | head -n 17
 ```
 gives us
-```sh
+```console
        Summary
   ------------------
     channels  8
