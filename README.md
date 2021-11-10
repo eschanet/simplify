@@ -88,11 +88,11 @@ curl http://foo/likelihood.json | simplify convert
 
 where `fullLH.json` is the full likelihood you want to convert into a simplified likelihood. Simplify is able to read/write from/to stdin/stdout.
 
-Hit `simplify --help` for detailled information on the CLI.
+Hit `simplify --help` for detailed information on the CLI.
 
-### In python script
+### In Python script
 
-You can also use `simplify` in a python script, e.g. to create some validation and cross-check plots and tables.
+You can also use `simplify` in a Python script, e.g. to create some validation and cross-check plots and tables.
 
 ```py
 import pyhf
