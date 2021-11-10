@@ -41,9 +41,9 @@ and then activating it
 source simplify/bin/activate
 ```
 
-### Default installation from pypi
+### Default installation from PyPI
 
-You can install `simplify` directly from pypi with
+You can install `simplify` directly from PyPI with
 ```console
 python3 -m pip install simplify[contrib]
 ```
