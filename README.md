@@ -48,7 +48,7 @@ You can install `simplify` directly from PyPI with
 python3 -m pip install simplify[contrib]
 ```
 
-Notice that `simplify` is supported and tested for `python 3.7` and `python 3.8`.
+Notice that `simplify` is supported and tested for Python 3.7, Python 3.8, and Python 3.9.
 
 ### Development installation
 
